@@ -1,0 +1,37 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "properties": {
+        "repos": {
+            "type": "array",
+            "contains": {
+                "type": "object",
+                "required": ["repo", "rev", "hooks"],
+                "properties": {
+                    "repo": {
+                        "const": "https://github.com/pre-commit/mirrors-prettier"
+                    },
+                    "rev": {
+                        "type": "string",
+                        "pattern": "^v\\d+\\.\\d+\\.\\d+$"
+                    },
+                    "hooks": {
+                        "type": "array",
+                        "contains": {
+                            "type": "object",
+                            "required": ["id", "types_or", "additional_dependencies"],
+                            "id": {
+                                "const": "prettier",
+                            },
+                            "types_or": {
+                                "const": ["toml", "css"]
+                            },
+                            "additional_dependencies": {
+                                "const": ["prettier", "prettier-plugin-toml"]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
