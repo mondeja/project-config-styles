@@ -1,0 +1,30 @@
+{
+  rules: [
+    {
+      // Use prettier to format TOML files
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        [
+          "repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].id",
+          "prettier",
+        ],
+        [
+          // Format TOML files
+          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].types_or, 'toml')",
+          true,
+        ],
+        [
+          // The prettier dependency must have to be specified explicitly
+          // because we are overwriting the 'additional_dependencies' array
+          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].additional_dependencies, 'prettier')",
+          true,
+        ],
+        [
+          // Add 'prettier-plugin-toml' to format TOML files
+          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].additional_dependencies, 'prettier-plugin-toml')",
+          true,
+        ],
+      ],
+    },
+  ],
+}

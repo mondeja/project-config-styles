@@ -1,0 +1,57 @@
+{
+  rules: [
+    {
+      files: {
+        not: {
+          ".yamllint": "Store the yamllint configuration inside a .yamllint.yaml file for better support of YAML files syntax highlighting by editors when the extension is specified.",
+        },
+      },
+    },
+    {
+      // Projects using yamllint must follow the next formatting config
+      // for YAML files
+      files: [".yamllint.yaml"],
+      JMESPathsMatch: [
+        ["rules.\"comments-indentation\"", "enable"],
+        ["rules.\"key-duplicates\"", "enable"],
+        ["rules.\"trailing-spaces\"", "enable"],
+        ["rules.truthy", "disable"],
+        ["rules.\"empty-lines\".max", 1],
+        ["rules.hyphens.\"max-spaces-after\"", 1],
+        ["rules.\"new-lines\".type", "unix"],
+
+        ["rules.braces.forbid", true],
+        ["rules.brackets.forbid", true],
+        ["rules.colons.\"max-spaces-after\"", 1],
+        ["rules.colons.\"max-spaces-before\"", 0],
+        ["rules.comments.\"ignore-shebangs\"", true],
+        ["rules.comments.\"min-spaces-from-content\"", 2],
+        ["rules.comments.\"require-starting-space\"", true],
+
+        ["rules.indentation.\"check-multi-line-strings\"", true],
+        ["rules.indentation.\"indent-sequences\"", true],
+        ["rules.indentation.spaces", "consistent"],
+        // TODO: add this if .github folder exists:
+        //   ["contains(rules.indentation.ignore, '.github')", true],
+
+        ["rules.\"line-length\".\"allow-non-breakable-words\"", true],
+        ["rules.\"line-length\".max", 180],
+
+        ["rules.\"octal-values\".\"forbid-explicit-octal\"", true],
+        ["rules.\"octal-values\".\"forbid-implicit-octal\"", true],
+
+        [
+          /**
+           * Dependabot does not parse unquoted hours as strings:
+           * https://github.com/mondeja/latex-ji18n/runs/1459035577
+           * https://github.community/t/dependabot-parser-treat-hours-as-integers/145596
+           **/
+          "contains(rules.\"quoted-strings\".\"extra-required\", '\\d\\d:\\d\\d')",
+          true,
+        ],
+        ["rules.\"quoted-strings\".\"quote-type\"", "single"],
+        ["rules.\"quoted-strings\".required", "only-when-needed"],
+      ]
+    }
+  ],
+}

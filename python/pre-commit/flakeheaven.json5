@@ -1,0 +1,64 @@
+{
+  rules: [
+    {
+      // Python projects must use flakeheaven via pre-commit
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        [
+          "length(repos[?repo=='https://github.com/flakeheaven/flakeheaven'])",
+          1,
+        ],
+        [
+          // the 'rev' key must match the X.Y.Z regex pattern
+          "regex_match('^\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].rev)",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[*].id, 'flakeheaven')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-builtins')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-comprehensions')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-docstrings')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-executable')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-implicit-str-concat')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-print')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-printf-formatting')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-pytest-style')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'pysetenv')",
+          true,
+        ],
+        [
+          // Ensure that the output is consistent by disabling cache
+          "repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].entry",
+          "pysetenv FLAKEHEAVEN_CACHE_TIMEOUT=0 flakeheaven lint",
+        ],
+      ]
+    }
+  ]
+}

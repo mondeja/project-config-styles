@@ -1,0 +1,8 @@
+{
+  rules: [
+    // Basic files must exist
+    {
+      files: [".gitignore", "README.md", "LICENSE"],
+    },
+  ],
+}

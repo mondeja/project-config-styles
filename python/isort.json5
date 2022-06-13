@@ -1,0 +1,6 @@
+{
+  extends: [
+    "pyproject/isort.json5",
+    "pre-commit/isort.json5",
+  ],
+}

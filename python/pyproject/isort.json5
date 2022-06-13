@@ -1,0 +1,23 @@
+{
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        ["contains(keys(@), 'tool')", true],
+        ["contains(keys(tool), 'isort')", true],
+
+        ["tool.isort.lines_after_imports", 2],
+        ["tool.isort.multi_line_output", 3],
+        ["tool.isort.use_parentheses", true],
+        ["tool.isort.combine_as_imports", true],
+        ["tool.isort.include_trailing_comma", true],
+        ["tool.isort.known_tests", "tests"],
+        ["contains(tool.isort.sections, 'STDLIB')", true],
+        ["contains(tool.isort.sections, 'THIRDPARTY')", true],
+        ["contains(tool.isort.sections, 'FIRSTPARTY')", true],
+        ["contains(tool.isort.sections, 'TESTS')", true],
+        ["contains(tool.isort.sections, 'LOCALFOLDER')", true],
+      ]
+    },
+  ],
+}

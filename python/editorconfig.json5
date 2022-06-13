@@ -1,0 +1,9 @@
+{
+  extends: ["../base/editorconfig.json5"],
+  rules: [
+    {
+      files: [".editorconfig"],
+      JMESPathsMatch: [['"*.toml".indent_size', 2]],
+    },
+  ],
+}

@@ -1,0 +1,123 @@
+{
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        // Use tuples for pytest parametrizations values
+        // TODO: in the future, use dashes instead of underscores, see
+        //       https://github.com/flakeheaven/flakeheaven/issues/105
+        ["tool.flakeheaven.pytest_parametrize_values_type", "tuple"],
+
+        // Enable all flake8 plugins and rules, disabling
+        // after it some rules for each plugin, if needed
+
+        // pycodestyle
+        ["contains(keys(tool.flakeheaven.plugins), 'pycodestyle')", true],
+        ["tool.flakeheaven.plugins.pycodestyle[0]", "+*"],
+        //   Binary operators after line breaks because are more readable
+        //   when there are a lot of them in a condicitional
+        ["contains(tool.flakeheaven.plugins.pycodestyle, '-W503')", true],
+
+        // pyflakes
+        ["contains(keys(tool.flakeheaven.plugins), 'pyflakes')", true],
+        ["tool.flakeheaven.plugins.pyflakes[0]", "+*"],
+
+        // pylint
+        ["contains(keys(tool.flakeheaven.plugins), 'pylint')", true],
+        ["tool.flakeheaven.plugins.pylint[0]", "+*"],
+
+        // flake8-builtins
+        ["contains(keys(tool.flakeheaven.plugins), 'flake8-builtins')", true],
+        ['tool.flakeheaven.plugins."flake8-builtins"[0]', "+*"],
+
+        // flake8-comprehensions
+        ["contains(keys(tool.flakeheaven.plugins), 'flake8-comprehensions')", true],
+        ['tool.flakeheaven.plugins."flake8-comprehensions"[0]', "+*"],
+
+        // flake8-docstrings
+        ["contains(keys(tool.flakeheaven.plugins), 'flake8-docstrings')", true],
+        ['tool.flakeheaven.plugins."flake8-docstrings"[0]', "+*"],
+
+        // flake8-executable
+        ["contains(keys(tool.flakeheaven.plugins), 'flake8-executable')", true],
+        ['tool.flakeheaven.plugins."flake8-executable"[0]', "+*"],
+
+        // flake8-implicit-str-concat
+        [
+          "contains(keys(tool.flakeheaven.plugins), 'flake8-implicit-str-concat')",
+          true,
+        ],
+        ['tool.flakeheaven.plugins."flake8-implicit-str-concat"[0]', "+*"],
+
+        // flake8-print
+        ["contains(keys(tool.flakeheaven.plugins), 'flake8-print')", true],
+        ['tool.flakeheaven.plugins."flake8-print"[0]', "+*"],
+
+        // flake8-printf-formatting
+        [
+          "contains(keys(tool.flakeheaven.plugins), 'flake8-printf-formatting')",
+          true,
+        ],
+        ['tool.flakeheaven.plugins."flake8-printf-formatting"[0]', "+*"],
+
+        // flake8-pytest-style
+        ["contains(keys(tool.flakeheaven.plugins), 'flake8-pytest-style')", true],
+        ['tool.flakeheaven.plugins."flake8-pytest-style"[0]', "+*"],
+
+        // --- Exceptions to rules ---
+        ["contains(keys(tool.flakeheaven.exceptions), 'tests/**')", true],
+
+        // flake8-docstrings
+        [
+          "contains(keys(tool.flakeheaven.exceptions.\"tests/**\"), 'flake8-docstrings')",
+          true,
+        ],
+        //   No docstrings needed in tests
+        [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D100\')',
+          true,
+        ],
+        [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D101\')',
+          true,
+        ],
+        [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D102\')',
+          true,
+        ],
+        [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D103\')',
+          true,
+        ],
+        [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D107\')',
+          true,
+        ],
+        [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D205\')',
+          true,
+        ],
+        [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D415\')',
+          true,
+        ],
+      ],
+    },
+  ],
+}
+
+/*
+TODO: rules for documentation (in separate style)
+
+["pyproject.toml".tool.flakeheaven.exceptions."docs/*.rst"]
+flake8-print = [
+  # We can use `print` in documentation blocks because is more readable
+  # for end user
+  "-T201",
+]
+flake8-docstrings = [
+  # FIXME (raised in mdpo):
+  #   docs/commands.rst:1:1: D100 Missing docstring in public module [flake8-docstrings]
+  "-D100",
+]
+*/

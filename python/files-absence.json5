@@ -1,0 +1,15 @@
+{
+  rules: [
+    {
+      files: {
+        not: {
+          // The next files must not exist in Python projects
+          "requirements.txt": "Use pyproject.toml or setup.cfg to define dependencies",
+          ".isort.cfg": "Move values to pyproject.toml (section [tool.isort]) or setup.cfg (section [isort])",
+          "Pipfile": "Use pyproject.toml instead",
+          "Pipfile.lock": "Use pyproject.toml instead",
+        },
+      },
+    },
+  ],
+}

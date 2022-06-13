@@ -1,0 +1,14 @@
+{
+  extends: [
+    "../base/main.json5",
+    "gitattributes.json5",
+    "editorconfig.json5",
+    "pyproject/main.json5",
+    "pre-commit/main.json5",
+    "pre-commit/prettier-toml.json5",
+    "pre-commit/yamllint.json5",
+    "files-absence.json5",
+    "isort.json5",
+    "flakeheaven.json5",
+  ]
+}

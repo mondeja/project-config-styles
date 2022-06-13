@@ -1,0 +1,32 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        // All Python projects must use editorconfig checker pre-commit hook
+        // to follow editorconfig rules
+        [
+          "length(repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'])",
+          1,
+        ],
+        [
+          // the 'rev' key must match the X.Y.Z regex pattern
+          "regex_match('^\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'] | [0].rev)",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'] | [0].hooks[*].id, 'editorconfig-checker')",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'] | [0].hooks[?id=='editorconfig-checker'] | [0].name",
+          "editorconfig-checker",
+        ],
+        [
+          "repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'] | [0].hooks[?id=='editorconfig-checker'] | [0].alias",
+          "ec",
+        ],
+      ]
+    }
+  ]
+}

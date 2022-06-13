@@ -1,0 +1,55 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        // All Python projects must use some pre-commit hooks provided by
+        // pre-commit itself
+        [
+          "length(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'])",
+          1,
+        ],
+        [
+          // the 'rev' key must match the vX.Y.Z regex pattern
+          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].rev)",
+          true,
+        ],
+
+        // Remove trailing whitespaces from files in Python projects
+        // using pre-commit directly
+        [
+          "contains(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[*].id, 'trailing-whitespace')",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='trailing-whitespace'] | [0].name",
+          "trailing-whitespace",
+        ],
+
+        // Fix end of files (text files must end with a single empty line)
+        [
+          "contains(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[*].id, 'end-of-file-fixer')",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='end-of-file-fixer'] | [0].name",
+          "end-of-file-fixer",
+        ],
+
+        // Python projects must use the debug statements hook:
+        // https://github.com/pre-commit/pre-commit-hooks#debug-statements
+        [
+          "contains(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[*].id, 'debug-statements')",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='debug-statements'] | [0].name",
+          "debug-statements",
+        ],
+
+        // TODO: All Python projects must use project-config itself via
+        //       pre-commit hook
+      ]
+    }
+  ]
+}

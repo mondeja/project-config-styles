@@ -1,0 +1,45 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        // Python projects must use autoflake to remove unused imports
+        [
+          "length(repos[?repo=='https://github.com/myint/autoflake'])",
+          1,
+        ],
+        [
+          // the 'rev' key must match the X.Y(.Z)? regex pattern
+          "regex_match('^v\\d+\\.\\d+(\\.\\d+)?$', repos[?repo=='https://github.com/myint/autoflake'] | [0].rev)",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/myint/autoflake'] | [0].hooks[0].id",
+          "autoflake",
+        ],
+
+        // the arguments passed to the hook must contain the next ones:
+        [
+          "contains(repos[?repo=='https://github.com/myint/autoflake'] | [0].hooks[0].args, '--in-place')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/myint/autoflake'] | [0].hooks[0].args, '--remove-all-unused-imports')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/myint/autoflake'] | [0].hooks[0].args, '--remove-unused-variables')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/myint/autoflake'] | [0].hooks[0].args, '--remove-duplicate-keys')",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/myint/autoflake'] | [0].hooks[0].args, '--ignore-init-module-imports')",
+          true,
+        ]
+      ]
+    }
+  ]
+}

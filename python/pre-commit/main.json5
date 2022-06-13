@@ -1,0 +1,10 @@
+{
+  extends: [
+    "meta.json5",
+    "pyupgrade.json5",
+    "add-trailing-comma.json5",
+    "pre-commit-hooks.json5",
+    "editorconfig.json5",
+    "autoflake.json5",
+  ]
+}
