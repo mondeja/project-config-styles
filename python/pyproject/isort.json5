@@ -17,7 +17,7 @@
         ["contains(tool.isort.sections, 'FIRSTPARTY')", true],
         ["contains(tool.isort.sections, 'TESTS')", true],
         ["contains(tool.isort.sections, 'LOCALFOLDER')", true],
-      ]
+      ],
     },
   ],
 }

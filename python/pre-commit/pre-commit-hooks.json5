@@ -49,7 +49,7 @@
 
         // TODO: All Python projects must use project-config itself via
         //       pre-commit hook
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 }

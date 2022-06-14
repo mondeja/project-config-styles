@@ -22,7 +22,7 @@
           "repos[?repo=='https://github.com/asottile/add-trailing-comma'] | [0].hooks[?id=='add-trailing-comma'] | [0].name",
           "add-trailing-comma",
         ],
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 }

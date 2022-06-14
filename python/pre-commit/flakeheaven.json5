@@ -58,7 +58,7 @@
           "repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].entry",
           "pysetenv FLAKEHEAVEN_CACHE_TIMEOUT=0 flakeheaven lint",
         ],
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 }

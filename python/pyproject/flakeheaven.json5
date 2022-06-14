@@ -31,7 +31,10 @@
         ['tool.flakeheaven.plugins."flake8-builtins"[0]', "+*"],
 
         // flake8-comprehensions
-        ["contains(keys(tool.flakeheaven.plugins), 'flake8-comprehensions')", true],
+        [
+          "contains(keys(tool.flakeheaven.plugins), 'flake8-comprehensions')",
+          true,
+        ],
         ['tool.flakeheaven.plugins."flake8-comprehensions"[0]', "+*"],
 
         // flake8-docstrings
@@ -61,7 +64,10 @@
         ['tool.flakeheaven.plugins."flake8-printf-formatting"[0]', "+*"],
 
         // flake8-pytest-style
-        ["contains(keys(tool.flakeheaven.plugins), 'flake8-pytest-style')", true],
+        [
+          "contains(keys(tool.flakeheaven.plugins), 'flake8-pytest-style')",
+          true,
+        ],
         ['tool.flakeheaven.plugins."flake8-pytest-style"[0]', "+*"],
 
         // --- Exceptions to rules ---

@@ -19,8 +19,8 @@
           // is 'pyupgrade' by default
           "repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0].name",
           null,
-        ]
-      ]
-    }
-  ]
+        ],
+      ],
+    },
+  ],
 }

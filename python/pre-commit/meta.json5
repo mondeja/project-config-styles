@@ -29,8 +29,8 @@
           "repos[?repo=='meta'] | [0].hooks[?id=='check-useless-excludes'] | [0].name",
           "check-useless-excludes",
         ],
-      ]
-    }
+      ],
+    },
   ],
 }
 

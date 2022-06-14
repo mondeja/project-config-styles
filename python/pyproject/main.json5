@@ -6,20 +6,161 @@
         // 'tool' object must exist
         ["contains(keys(@), 'tool')", true],
 
-        // poetry section
+        // poetry metadata
         //   'poetry' object must exist inside 'tool'
         ["contains(keys(tool), 'poetry')", true],
+        //   name
+        ["contains(keys(tool.poetry), 'name')", true],
+        ["type(tool.poetry.name)", "string"],
+        //   version
+        ["contains(keys(tool.poetry), 'version')", true],
+        ["type(tool.poetry.version)", "string"],
+        ["regex_match('^\\d+\\.\\d+\\.\\d+$', tool.poetry.version)", true],
+        //   description
+        ["contains(keys(tool.poetry), 'description')", true],
+        ["type(tool.poetry.description)", "string"],
+        //     must end in point
+        ["regex_match('.+\\.$', tool.poetry.description)", true],
+        //   readme
+        ["contains(keys(tool.poetry), 'readme')", true],
+        ["tool.poetry.readme", "README.md"],
+        //   license
+        ["contains(keys(tool.poetry), 'license')", true],
+        ["type(tool.poetry.license)", "string"],
+        //   authors
+        //     TODO: regular expression for authors
+        ["contains(keys(tool.poetry), 'authors')", true],
+        ["type(tool.poetry.authors)", "array"],
+        ["op(length(tool.poetry.authors), '>', `0`)", true],
+        //   repository
+        ["contains(keys(tool.poetry), 'repository')", true],
+        ["type(tool.poetry.repository)", "string"],
+        ["regex_match('^https://', tool.poetry.repository)", true],
+        //   documentation
+        ["contains(keys(tool.poetry), 'documentation')", true],
+        ["type(tool.poetry.documentation)", "string"],
+        ["regex_match('^https://', tool.poetry.documentation)", true],
 
-        // bump section
-        //   'bump' object must exist inside 'tool'
-        ["contains(keys(tool), 'bump')", true],
+        /**
+         * classifiers
+         *
+         * `tool.poetry.classifiers` must:        https://pypi.org/classifiers/
+         *   - contain:
+         *     - One of the next classifiers:
+         *       - "Development Status :: 2 - Pre-Alpha"
+         *       - "Development Status :: 3 - Alpha"
+         *       - "Development Status :: 4 - Beta"
+         *       - "Development Status :: 5 - Production/Stable"
+         *       - "Development Status :: 6 - Mature"
+         *     - A classifier starting with "Operating System :: "
+         *     - A classifier starting with "Topic :: "
+         *     - A classifier starting with "Intended Audience :: "
+         *   - not contain:
+         *     - A classifier starting with "License" because
+         *       poetry adds it based on the `license` field when building.
+         *       See `dist/*.tar.gz/PKG-INFO`.
+         *     - A classifier starting with "Programming Language :: Python ::"
+         *       poetry adds it based on the version defined in
+         *       `tool.poetry.dependencies.python`.
+         * TODO: if `tool.poetry.scripts` has items, add 'Environment:: Console'
+         *   classifier
+         **/
+        ["contains(keys(tool.poetry), 'classifiers')", true],
+        ["op(length(tool.poetry.classifiers), '>=', `4`)", true],
+        [
+          'contains(`["Development Status :: 2 - Pre-Alpha", "Development Status :: 3 - Alpha", "Development Status :: 4 - Beta", "Development Status :: 5 - Production/Stable", "Development Status :: 6 - Mature"]`, tool.poetry.classifiers[0])',
+          true,
+        ],
+        [
+          "regex_match('^Operating System :: ', tool.poetry.classifiers[1])",
+          true,
+        ],
+        [
+          "regex_match('^Intended Audience :: ', tool.poetry.classifiers[2])",
+          true,
+        ],
+        ["regex_match('^Topic :: ', tool.poetry.classifiers[3])", true],
+        [
+          "tool.poetry.classifiers | length([?regex_match('^[Ll]icense', @)])",
+          0,
+        ],
+        [
+          "tool.poetry.classifiers | length([?regex_match('^Programming Language :: Python', @)])",
+          0,
+        ],
 
-        // poetry-exec-plugin section
-        //   'poetry-exec-plugin' object must exist inside 'tool'
+        /**
+         * urls
+         *
+         * - Must not allow "Documentation", "Docs", "Repository",
+         *   "Repo" or other variants, these must be moved to
+         *   `tool.poetry.documentation` and `tool.poetry.repository`.
+         * - A "Bug tracker" url is mandatory.
+         **/
+        ["contains(keys(tool.poetry), 'urls')", true],
+        ["contains(keys(tool.poetry.urls), 'Bug tracker')", true],
+        ["regex_match('^https://', tool.poetry.urls.\"Bug tracker\")", true],
+        ["contains(keys(tool.poetry.urls), 'Documentation')", false],
+        ["contains(keys(tool.poetry.urls), 'documentation')", false],
+        ["contains(keys(tool.poetry.urls), 'Docs')", false],
+        ["contains(keys(tool.poetry.urls), 'docs')", false],
+        ["contains(keys(tool.poetry.urls), 'Doc')", false],
+        ["contains(keys(tool.poetry.urls), 'doc')", false],
+        ["contains(keys(tool.poetry.urls), 'Repository')", false],
+        ["contains(keys(tool.poetry.urls), 'repository')", false],
+        ["contains(keys(tool.poetry.urls), 'Repo')", false],
+        ["contains(keys(tool.poetry.urls), 'repo')", false],
+
+        //   dependencies
+        /**
+         * - Forbid the definition of a dependencies group
+         *   named `docs`, must be named `doc` instead.
+         *   The same applies to the testing one: `tests`
+         *   must be renamed by `test`.
+         * - The development dependencies group (`dev`) is
+         *   mandatory.
+         **/
+        ["contains(keys(tool.poetry), 'dependencies')", true],
+        //     specify python version
+        ["contains(keys(tool.poetry.dependencies), 'python')", true],
+        //   dependencies groups
+        ["contains(keys(tool.poetry), 'group')", true],
+        ["contains(keys(tool.poetry.group), 'dev')", true],
+        ["contains(keys(tool.poetry.group.dev), 'dependencies')", true],
+        ["contains(keys(tool.poetry.group), 'docs')", false],
+        ["contains(keys(tool.poetry.group), 'tests')", false],
+
+        /**
+         * development dependencies
+         *
+         * - pre-commit must a dependency specified in the development group.
+         **/
+        [
+          "contains(keys(tool.poetry.group.dev.dependencies), 'pre-commit')",
+          true,
+        ],
+
+        // bump version tool
+        //   'mondeja-bump' must be a development dependency
+        [
+          "contains(keys(tool.poetry.group.dev.dependencies), 'mondeja-bump')",
+          true,
+        ],
+        //   whatever version, we don't care
+        ['tool.poetry.group.dev.dependencies."mondeja-bump"', "*"],
+
+        /**
+         * poetry-exec-plugin
+         *
+         * A linting command must be added to
+         * `tool.poetry-exec-plugin.commands` named `lint` that
+         * will execute pre-commit.
+         **/
         ["contains(keys(tool), 'poetry-exec-plugin')", true],
+        ["contains(keys(tool.\"poetry-exec-plugin\"), 'commands')", true],
+        ['tool."poetry-exec-plugin".commands.lint', "pre-commit run -a"],
 
-        // project-config section
-        //   'project-config' object must exist inside 'tool'
+        // project-config
         ["contains(keys(tool), 'project-config')", true],
         //   configure style explicitly as an array
         ["contains(keys(tool.\"project-config\"), 'style')", true],
@@ -28,7 +169,7 @@
         ['is_empty(tool."project-config".style)', false],
         //     all styles must be fetched online
         [
-          'regex_matchall(\'^(gh)|(https)|(py)://\', tool."project-config".style)',
+          "regex_matchall('^(gh)|(https)|(py)://', tool.\"project-config\".style)",
           true,
         ],
         //   configure cache explicitly

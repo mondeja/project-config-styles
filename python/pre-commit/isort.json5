@@ -3,10 +3,7 @@
     {
       files: [".pre-commit-config.yaml"],
       JMESPathsMatch: [
-        [
-          "length(repos[?repo=='https://github.com/PyCQA/isort'])",
-          1,
-        ],
+        ["length(repos[?repo=='https://github.com/PyCQA/isort'])", 1],
         [
           // the 'rev' key must match the X.Y.Z regex pattern
           "regex_match('^\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/PyCQA/isort'] | [0].rev)",
@@ -16,7 +13,7 @@
           "contains(repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[*].id, 'isort')",
           true,
         ],
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 }

@@ -1,0 +1,28 @@
+/**
+ * Base styles for all minimum Python version required checks.
+ **/
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        [
+          "contains(keys(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0]), 'args')",
+          true,
+        ],
+        [
+          "contains(keys(repos[?repo=='https://github.com/asottile/add-trailing-comma'] | [0].hooks[0]), 'args')",
+          true,
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        ["contains(keys(tool), 'isort')", true],
+        ["contains(keys(tool.isort), 'py_version')", true],
+        ["contains(keys(tool.isort), 'extra_standard_library')", true],
+      ],
+    },
+  ],
+}

@@ -6,5 +6,5 @@
     "pre-commit-hooks.json5",
     "editorconfig.json5",
     "autoflake.json5",
-  ]
+  ],
 }
