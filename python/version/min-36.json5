@@ -15,6 +15,10 @@
 
         // add-trailing-comma pre-commit hook must use correct argument
         [
+          "contains(keys(repos[?repo=='https://github.com/asottile/add-trailing-comma'] | [0].hooks[0]), 'args')",
+          true,
+        ],
+        [
           "contains(repos[?repo=='https://github.com/asottile/add-trailing-comma'] | [0].hooks[0].args, '--py36-plus')",
           true,
         ],

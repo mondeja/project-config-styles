@@ -1,0 +1,85 @@
+{
+  rules: [
+    {
+      files: [".github/workflows/pre-commit-autoupdate.yml"],
+      JMESPathsMatch: [
+        // name
+        ["contains(keys(@), 'name')", true],
+        ["name", "pre-commit autoupdate"],
+
+        // on
+        ["contains(keys(@), 'on')", true],
+        ["contains(keys(on), 'workflow_dispatch')", true],
+        ["on.workflow_dispatch", null],
+        ["contains(keys(on), 'schedule')", true],
+        ["type(on.schedule)", "array"],
+        ["length(on.schedule)", 1],
+        ["length(keys(on.schedule[0]))", 1],
+        ["contains(keys(on.schedule[0]), 'cron')", true],
+        ["on.schedule[0].cron", "0 3 1 1/6 *"],
+
+        // jobs
+        ["contains(keys(@), 'jobs')", true],
+        ["length(keys(jobs))", 1],
+        ["contains(keys(jobs), 'autoupdate')", true],
+        ["contains(keys(jobs.autoupdate), 'runs-on')", true],
+        ['jobs.autoupdate."runs-on"', "ubuntu-latest"],
+        ["contains(keys(jobs.autoupdate), 'steps')", true],
+        //   steps
+        ["length(jobs.autoupdate.steps)", 5],
+        //     [0]
+        ["length(keys(jobs.autoupdate.steps[0]))", 1],
+        [
+          "regex_match('^actions/checkout@v\\d+$', jobs.autoupdate.steps[0].uses)",
+          true,
+        ],
+        //     [1]
+        ["length(keys(jobs.autoupdate.steps[1]))", 3],
+        [
+          "regex_match('^actions/setup-python@v\\d+$', jobs.autoupdate.steps[1].uses)",
+          true,
+        ],
+        ["jobs.autoupdate.steps[1].name", "Set up Python"],
+        ['jobs.autoupdate.steps[1].with."python-version"', "3.x"],
+        //     [2]
+        ["jobs.autoupdate.steps[2].name", "Install pre-commit"],
+        ["jobs.autoupdate.steps[2].run", "pip install pre-commit"],
+        //     [3]
+        ["jobs.autoupdate.steps[3].name", "Run pre-commit autoupdate"],
+        ["jobs.autoupdate.steps[3].run", "pre-commit autoupdate"],
+        //     [4]
+        ["jobs.autoupdate.steps[4].name", "Open pull request"],
+        ["contains(keys(jobs.autoupdate.steps[4]), 'with')", true],
+        ["length(keys(jobs.autoupdate.steps[4].with))", 7],
+        [
+          "jobs.autoupdate.steps[4].with.token",
+          "${{ secrets.PRECOMMIT_AUTOUPDATE_TOKEN }}",
+        ],
+        ["jobs.autoupdate.steps[4].with.branch", "pre-commit-autoupdate"],
+        [
+          "jobs.autoupdate.steps[4].with.title",
+          "Upgrade pre-commit hooks revisions",
+        ],
+        [
+          'jobs.autoupdate.steps[4].with."commit-message"',
+          "Upgrade pre-commit hooks revisions",
+        ],
+        [
+          "jobs.autoupdate.steps[4].with.body",
+          "Upgrades revisions of pre-commit hooks tools to latest versions :hammer_and_wrench:",
+        ],
+        ["jobs.autoupdate.steps[4].with.labels", "dependencies"],
+        ['jobs.autoupdate.steps[4].with."delete-branch"', true],
+      ],
+    },
+  ],
+}
+/*
+          token: ${{ secrets.PRECOMMIT_AUTOUPDATE_TOKEN }}
+          branch: pre-commit-autoupdate
+          title: Upgrade pre-commit hooks revisions
+          commit-message: Upgrade pre-commit hooks revisions
+          body: 'Upgrades revisions of pre-commit hooks tools to latest versions :hammer_and_wrench:'
+          labels: dependencies
+          delete-branch: true
+*/

@@ -1,0 +1,12 @@
+{
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        ["contains(keys(@), 'tool')", true],
+        ["contains(keys(tool), 'flakeheaven')", true],
+        ["tool.flakeheaven.docstring_convention", "google"],
+      ],
+    },
+  ],
+}

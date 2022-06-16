@@ -1,0 +1,65 @@
+{
+  rules: [
+    {
+      files: {
+        not: {
+          // Use the correct file name. This is included here
+          // because I've used an unoptimal file name in old projects:
+          ".github/workflows/update-copyright-years-in-license-file.yml": "Rename to .github/workflows/update-copyright-years.yml",
+        },
+      },
+    },
+    {
+      // If the license is BSD-3-Clause, the copyright years must be
+      // updated once a year using Github workflows
+      ifIncludeLines: {
+        LICENSE: ["BSD 3-Clause License"],
+      },
+      files: [".github/workflows/update-copyright-years.yml"],
+      JMESPathsMatch: [
+        // name
+        ["contains(keys(@), 'name')", true],
+        ["name", "Update copyright years"],
+
+        // on
+        ["contains(keys(@), 'on')", true],
+        ["contains(keys(on), 'workflow_dispatch')", true],
+        ["on.workflow_dispatch", null],
+        ["contains(keys(on), 'schedule')", true],
+        ["type(on.schedule)", "array"],
+        ["length(on.schedule)", 1],
+        ["contains(keys(on.schedule[0]), 'cron')", true],
+        ["on.schedule[0].cron", "0 3 2 1 *"],
+
+        // jobs
+        ["contains(keys(@), 'jobs')", true],
+        ["contains(keys(jobs), 'update-license-year')", true],
+        ["length(keys(jobs))", 1],
+        ["contains(keys(jobs.\"update-license-year\"), 'runs-on')", true],
+        ['jobs."update-license-year"."runs-on"', "ubuntu-latest"],
+        //   steps
+        ["contains(keys(jobs.\"update-license-year\"), 'steps')", true],
+        ['length(jobs."update-license-year".steps)', 2],
+        //     [0]
+        ["contains(keys(jobs.\"update-license-year\".steps[0]), 'uses')", true],
+        [
+          "regex_match('^actions/checkout@v\\d+$', jobs.\"update-license-year\".steps[0].uses)",
+          true,
+        ],
+        ["contains(keys(jobs.\"update-license-year\".steps[0]), 'with')", true],
+        ['jobs."update-license-year".steps[0].with."fetch-depth"', 0],
+        //     [1]
+        ["contains(keys(jobs.\"update-license-year\".steps[1]), 'uses')", true],
+        [
+          "regex_match('^FantasticFiasco/action-update-license-year@v\\d+$', jobs.\"update-license-year\".steps[1].uses)",
+          true,
+        ],
+        ["contains(keys(jobs.\"update-license-year\".steps[1]), 'with')", true],
+        [
+          'jobs."update-license-year".steps[1].with.token',
+          "${{ secrets.GITHUB_TOKEN }}",
+        ],
+      ],
+    },
+  ],
+}

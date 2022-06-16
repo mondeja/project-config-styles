@@ -3,11 +3,12 @@
 ## Python (`python/`)
 
 - `base.json5`: Base styles for Python. Include it at start.
-- `single-quotes.json5`: Single quotes for strings.
+- `single-quotes.json5`: Single quotes for strings. Use [autopep8] and [add-trailing-comma] for formatting.
+- `double-quotes.json5`: Double quotes for strings. Use [black] and [add-trailing-comma] for formatting.
 - `line-length-80.json5`: 80 characters as maximum line length.
 - `google-docstrings.json5`: Google docstrings convention.
-- `readthedocs.json5`: Documentation in ReadTheDocs.
 - `sphinx.json5`: Documentation using Sphinx.
+- `readthedocs.json5`: Documentation using ReadTheDocs theme for Sphinx.
 
 ### Minimum requirements
 
@@ -15,3 +16,6 @@
 - `version/min-37.json5`: Python 3.7 as the minimum required version.
 
 [project-config]: https://github.com/mondeja/project-config
+[autopep8]: https://pypi.org/project/autopep8/
+[add-trailing-comma]: https://pypi.org/project/add-trailing-comma/
+[black]: https://pypi.org/project/black/

@@ -1,0 +1,13 @@
+{
+  extends: ["pre-commit/black.json5"],
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        ["contains(keys(@), 'tool')", true],
+        ["contains(keys(tool), 'flakeheaven')", true],
+        ["tool.flakeheaven.inline_quotes", "double"],
+      ],
+    },
+  ],
+}

@@ -1,0 +1,3 @@
+{
+  extends: ["update-copyright-years.json5"],
+}

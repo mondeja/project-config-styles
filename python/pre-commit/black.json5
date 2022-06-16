@@ -1,0 +1,19 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        ["length(repos[?repo=='https://github.com/psf/black'])", 1],
+        [
+          // the 'rev' key must match the vX.Y.Z regex pattern
+          "regex_match('^\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/psf/black'] | [0].rev)",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/psf/black'] | [0].hooks[0].id",
+          "black",
+        ],
+      ],
+    },
+  ],
+}

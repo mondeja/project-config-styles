@@ -1,0 +1,59 @@
+{
+  rules: [
+    {
+      files: [".github/workflows/pre-commit.yml"],
+      JMESPathsMatch: [
+        // name
+        ["contains(keys(@), 'name')", true],
+        ["name", "pre-commit"],
+
+        // on
+        ["contains(keys(@), 'on')", true],
+        ["contains(keys(on), 'workflow_dispatch')", true],
+        ["on.workflow_dispatch", null],
+        ["contains(keys(on), 'pull_request')", true],
+        ["on.pull_request", null],
+        ["contains(keys(on), 'push')", true],
+        ["length(on.push.branches)", 1],
+        ["on.push.branches[0]", "master"],
+
+        // jobs
+        ["contains(keys(@), 'jobs')", true],
+        ["length(keys(jobs))", 1],
+        ["contains(keys(jobs), 'pre-commit')", true],
+        ["contains(keys(jobs.\"pre-commit\"), 'runs-on')", true],
+        ['jobs."pre-commit"."runs-on"', "ubuntu-latest"],
+        ["contains(keys(jobs.\"pre-commit\"), 'steps')", true],
+        //   steps
+        ['length(jobs."pre-commit".steps)', 3],
+        //     [0]
+        ['length(keys(jobs."pre-commit".steps[0]))', 1],
+        [
+          "regex_match('^actions/checkout@v\\d+$', jobs.\"pre-commit\".steps[0].uses)",
+          true,
+        ],
+        //     [1]
+        ['length(keys(jobs."pre-commit".steps[1]))', 3],
+        [
+          "regex_match('^actions/setup-python@v\\d+$', jobs.\"pre-commit\".steps[1].uses)",
+          true,
+        ],
+        ['jobs."pre-commit".steps[1].name', "Set up Python"],
+        [
+          // '3.x' is the default value for 'python-version' input, but
+          // we must define it to avoid a breakage on an hipotetical Python
+          // major version bump
+          'jobs."pre-commit".steps[1].with."python-version"',
+          "3.x",
+        ],
+        //     [2]
+        ['length(keys(jobs."pre-commit".steps[2]))', 2],
+        [
+          "regex_match('^pre-commit/action@v\\d+\\.\\d+\\.\\d+$', jobs.\"pre-commit\".steps[2].uses)",
+          true,
+        ],
+        ['jobs."pre-commit".steps[2].name', "Run pre-commit"],
+      ],
+    },
+  ],
+}

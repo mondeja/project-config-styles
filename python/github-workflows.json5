@@ -1,0 +1,7 @@
+{
+  extends: [
+    "../base/.github/workflows/main.json5",
+    "../base/.github/workflows/pre-commit.json5",
+    "../base/.github/workflows/pre-commit-autoupdate.json5",
+  ],
+}

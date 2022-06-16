@@ -10,10 +10,6 @@
           "contains(keys(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0]), 'args')",
           true,
         ],
-        [
-          "contains(keys(repos[?repo=='https://github.com/asottile/add-trailing-comma'] | [0].hooks[0]), 'args')",
-          true,
-        ],
       ],
     },
     {

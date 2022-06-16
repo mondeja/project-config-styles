@@ -1,0 +1,130 @@
+{
+  rules: [
+    {
+      files: [
+        "docs/conf.py",
+        "docs/Makefile",
+        "docs/make.bat",
+        "docs/index.rst",
+      ],
+    },
+    {
+      files: {
+        not: {
+          "docs/index.md": "The documentation, when using Sphinx, must be in RestructuredText format, if you want to write it with Markdown use Mkdocs instead. Rename 'docs/index.md' by 'docs/index.rst'.",
+          "mkdocs.yml": "Don't mix Sphinx with Mkdocs. Remove the mkdocs.yml file.",
+        },
+      },
+    },
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        ["contains(keys(@), 'tool')", true],
+        ["contains(keys(tool), 'poetry-exec-plugin')", true],
+        ["contains(keys(tool.\"poetry-exec-plugin\"), 'commands')", true],
+
+        // rename 'docs' or 'documentation' commands by 'doc'
+        ["contains(keys(tool.\"poetry-exec-plugin\".commands), 'docs')", false],
+        [
+          "contains(keys(tool.\"poetry-exec-plugin\".commands), 'docs:show')",
+          false,
+        ],
+        [
+          "contains(keys(tool.\"poetry-exec-plugin\".commands), 'documentation')",
+          false,
+        ],
+        [
+          "contains(keys(tool.\"poetry-exec-plugin\".commands), 'documentation:show')",
+          false,
+        ],
+
+        // add documentation commands to poetry-exec-plugin
+        [
+          'tool."poetry-exec-plugin".commands.doc',
+          "python -m sphinx -n -T -E -W docs docs/_build/html",
+        ],
+        [
+          'tool."poetry-exec-plugin".commands."doc:show"',
+          "python -m sphinx -n -T -E -W docs docs/_build/html &&\npython -c 'import webbrowser as w;w.open(\"http://127.0.0.1:8080\")' &&\npython -m http.server 8080 -b localhost -d docs/_build/html",
+        ],
+
+        // add documentation dependencies group
+        ["contains(keys(tool.poetry.group), 'doc')", true],
+        ["contains(keys(tool.poetry.group), 'docs')", false],
+        ["contains(keys(tool.poetry.group), 'documentation')", false],
+        ["contains(keys(tool.poetry.group.doc), 'dependencies')", true],
+        //   add Sphinx to documentation dependencies
+        ["contains(keys(tool.poetry.group.doc.dependencies), 'Sphinx')", true],
+        //     pin using major version only
+        [
+          "regex_match('^\\^\\d+$', tool.poetry.group.doc.dependencies.Sphinx)",
+          true,
+        ],
+      ],
+    },
+    {
+      files: [".editorconfig"],
+      JMESPathsMatch: [
+        // With documentation, our project will include CSS files, so
+        // configure them properly with .editorconfig
+        ["contains(keys(@), '*.css')", true],
+        ["contains(keys(\"*.css\"), 'indent_size')", true],
+        ['"*.css".indent_size', 2],
+      ],
+    },
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        // Configure prettier to format CSS files
+        [
+          "repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].id",
+          "prettier",
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].types_or, 'css')",
+          true,
+        ],
+      ],
+    },
+
+    {
+      files: ["docs/conf.py"],
+      JMESPathsMatch: [
+        // TODO: create a new verb for jmespath plugin named JMESPathsCrossMatch
+        //   to match results of JMESPaths against the results of other files,
+        //   which would allow us to check that the configuration is in sync
+        //   with package metadata
+
+        // Check the metadata required by Sphinx
+        ["contains(keys(@), 'project')", true],
+        ["contains(keys(@), 'author')", true],
+        ["contains(keys(@), 'project_copyright')", true],
+        ["regex_match('^\\d+\\-?\\d*, .+$', project_copyright)", true],
+
+        ["contains(keys(@), 'release')", true],
+        ["contains(keys(@), 'version')", true],
+        ["regex_match('^\\d+\\.\\d+\\.\\d+$', release)", true],
+        ["regex_match('^\\d+\\.\\d+$', version)", true],
+
+        // Check other config fields required by Sphinx
+        //   templates_path
+        ["contains(keys(@), 'templates_path')", true],
+        ["type(templates_path)", "array"],
+        ["length(templates_path)", 1],
+        ["templates_path[0]", "_templates"],
+        //   exclude_patterns
+        ["type(exclude_patterns)", "array"],
+        ["contains(exclude_patterns, '_build')", true],
+        ["contains(exclude_patterns, 'Thumbs.db')", true],
+        ["contains(exclude_patterns, '.DS_Store')", true],
+        //   html_theme
+        ["contains(keys(@), 'html_theme')", true],
+        //   html_static_path
+        ["contains(keys(@), 'html_static_path')", true],
+        ["type(html_static_path)", "array"],
+        ["length(html_static_path)", 1],
+        ["html_static_path[0]", "_static"],
+      ],
+    },
+  ],
+}

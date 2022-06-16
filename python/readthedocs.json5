@@ -1,0 +1,22 @@
+{
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        // Add sphinx-rtd-theme to documentation dependencies
+        [
+          "contains(keys(tool.poetry.group.doc.dependencies), 'sphinx-rtd-theme')",
+          true,
+        ],
+      ],
+    },
+    {
+      files: ["docs/conf.py"],
+      JMESPathsMatch: [
+        // Configure Readthedocs theme in Sphinx configuration
+        ["contains(keys(@), 'html_theme')", true],
+        ["html_theme", "sphinx_rtd_theme"],
+      ],
+    },
+  ],
+}
