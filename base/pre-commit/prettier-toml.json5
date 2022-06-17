@@ -14,6 +14,11 @@
           true,
         ],
         [
+          // types_or requires pre-commit >= 2.9.0
+          "repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].minimum_pre_commit_version",
+          "2.9.0",
+        ],
+        [
           // The prettier dependency must have to be specified explicitly
           // because we are overwriting the 'additional_dependencies' array
           "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].additional_dependencies, 'prettier')",

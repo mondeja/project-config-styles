@@ -1,0 +1,17 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        [
+          "length(repos[?repo=='https://github.com/pre-commit/mirrors-autopep8'])",
+          1,
+        ],
+        [
+          "repos[?repo=='https://github.com/pre-commit/mirrors-autopep8'] | [0].hooks[0].id",
+          "autopep8",
+        ],
+      ],
+    },
+  ],
+}

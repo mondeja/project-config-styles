@@ -166,7 +166,7 @@
         ["contains(keys(tool.\"project-config\"), 'style')", true],
         ['type(tool."project-config".style)', "array"],
         //     at least one style configured
-        ['is_empty(tool."project-config".style)', false],
+        ["op(length(tool.\"project-config\".style), '>', `0`)", true],
         //     all styles must be fetched online
         [
           "regex_matchall('^(gh)|(https)|(py)://', tool.\"project-config\".style)",

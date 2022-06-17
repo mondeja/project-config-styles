@@ -1,0 +1,28 @@
+{
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        // isort
+        ["tool.isort.line_length", 79],
+
+        // flakeheaven
+        ["tool.flakeheaven.max_line_length", 80],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        // if pyproject.toml is specifying double quotes for flake8,
+        // the formatting must be black
+        "pyproject.toml": [["tool.flakeheaven.inline_quotes", "double"]],
+      },
+      JMESPathsMatch: [
+        ["contains(keys(@), 'tool')", true],
+        ["contains(keys(tool), 'black')", true],
+        ["contains(keys(tool.black), 'line-length')", true],
+        ['tool.black."line-length"', 80],
+      ],
+    },
+  ],
+}

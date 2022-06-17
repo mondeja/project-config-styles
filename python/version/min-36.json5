@@ -66,5 +66,22 @@
         ["contains(tool.isort.extra_standard_library, 'wsgiref.types')", true],
       ],
     },
+    {
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        // if pyproject.toml is specifying double quotes for flake8,
+        // the formatting is black so we must specify the target version
+        // in his configuration
+        "pyproject.toml": [["tool.flakeheaven.inline_quotes", "double"]],
+      },
+      JMESPathsMatch: [
+        ["contains(keys(@), 'tool')", true],
+        ["contains(keys(tool), 'black')", true],
+        ["contains(keys(tool.black), 'target-version')", true],
+        ['type(tool.black."target-version")', "array"],
+        ['length(tool.black."target-version")', 1],
+        ['tool.black."target-version"[0]', "py36"],
+      ],
+    },
   ],
 }

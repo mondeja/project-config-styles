@@ -7,6 +7,9 @@
         // TODO: in the future, use dashes instead of underscores, see
         //       https://github.com/flakeheaven/flakeheaven/issues/105
         ["tool.flakeheaven.pytest_parametrize_values_type", "tuple"],
+        // Don't need parentheses in fixtures decorators without kwargs,
+        // see: https://github.com/m-burst/flake8-pytest-style/blob/master/docs/rules/PT001.md
+        ["tool.flakeheaven.pytest_fixture_no_parentheses", true],
 
         // Enable all flake8 plugins and rules, disabling
         // after it some rules for each plugin, if needed
@@ -40,6 +43,19 @@
         // flake8-docstrings
         ["contains(keys(tool.flakeheaven.plugins), 'flake8-docstrings')", true],
         ['tool.flakeheaven.plugins."flake8-docstrings"[0]', "+*"],
+        //   Allow `__init__` method without doctrings. Class constructors must
+        //     be documented in class docstrings. Is really overkill to add docstrings
+        //     in ``__init__`` to tiny classes like exceptions.
+        [
+          "contains(tool.flakeheaven.plugins.\"flake8-docstrings\", '-D107')",
+          true,
+        ],
+        //   Allow magic methods without docstrings. Magic methods must be self explicative
+        //   in their context.
+        [
+          "contains(tool.flakeheaven.plugins.\"flake8-docstrings\", '-D105')",
+          true,
+        ],
 
         // flake8-executable
         ["contains(keys(tool.flakeheaven.plugins), 'flake8-executable')", true],
