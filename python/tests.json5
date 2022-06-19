@@ -1,0 +1,66 @@
+{
+  // Python tests with pytest
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        // Tests dependencies group must exist
+        ["contains(keys(@), 'tool')", true],
+        ["contains(keys(tool), 'poetry')", true],
+        ["contains(keys(tool.poetry), 'group')", true],
+        ["contains(keys(tool.poetry.group), 'test')", true],
+        ["contains(keys(tool.poetry.group.test), 'dependencies')", true],
+
+        // Tests group should not be named 'tests' nor 'testing'
+        ["contains(keys(tool.poetry.group), 'tests')", false],
+        ["contains(keys(tool.poetry.group), 'testing')", false],
+
+        // pytest must be a testing dependency
+        ["contains(keys(tool.poetry.group.test.dependencies), 'pytest')", true],
+        //   always using a major version dependency range
+        [
+          "regex_match('^\\^\\d+$', tool.poetry.group.test.dependencies.pytest)",
+          true,
+        ],
+
+        /**
+         * Since we are testing, we should be coveraging the code, so
+         * the coverage tool must be present
+         **/
+        ["contains(keys(tool), 'coverage')", true],
+        ["contains(keys(tool.coverage), 'report')", true],
+        /**
+         * Always include the `tool.coverage.report` object with
+         * a string "pragma: no cover" as the first argument of
+         * `exclude_lines` configuration. The rationale behind this
+         * is that when using the `exclude_lines` option in a
+         * configuration file, we are taking control of the entire
+         * list of regexes for lines to be excluded, see
+         * https://coverage.rtfd.io/en/latest/excluding.html#advanced-exclusion
+         **/
+        [
+          "contains(tool.coverage.report.exclude_lines, 'pragma: no cover')",
+          true,
+        ],
+        /**
+         * If there are scripts in `tool.poetry.scripts`, it means that the package
+         * has a CLI, so exclude `if __name__ == '__main__':` branches from coverage
+         * reports.
+         *
+         * XNOR gate with `not (a ^ b)`, only is `true` if both values are the same:
+         *   a = length(scripts) > 0
+         *   b = exclusion line present
+         *   result = (a ^ b) is true = not (a ^ b)
+         **/
+        [
+          "op(op(op(length(keys(tool.poetry.scripts)), '>', `0`), '^', contains(tool.coverage.report.exclude_lines, 'if __name__ == [\"\\']__main__[\"\\']:')), 'is', `false`)",
+          true,
+        ],
+      ],
+    },
+    {
+      // The `tests/` folder must be named `test/`
+      files: { not: { "test/": "Rename the test/ folder to tests/" } },
+    },
+  ],
+}
