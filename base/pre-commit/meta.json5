@@ -33,17 +33,3 @@
     },
   ],
 }
-
-/*
-# All Python projects must install meta hooks
-[[".pre-commit-config.yaml".repos]]
-repo = "meta"
-
-[[".pre-commit-config.yaml".repos.hooks]]
-id = "check-hooks-apply"
-name = "check-hooks-apply"
-
-[[".pre-commit-config.yaml".repos.hooks]]
-id = "check-useless-excludes"
-name = "check-useless-excludes"
-*/
