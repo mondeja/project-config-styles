@@ -42,19 +42,24 @@
           "contains(tool.coverage.report.exclude_lines, 'pragma: no cover')",
           true,
         ],
-        /**
-         * If there are scripts in `tool.poetry.scripts`, it means that the package
-         * has a CLI, so exclude `if __name__ == '__main__':` branches from coverage
-         * reports.
-         *
-         * XNOR gate with `not (a ^ b)`, only is `true` if both values are the same:
-         *   a = length(scripts) > 0
-         *   b = exclusion line present
-         *   result = (a ^ b) is false = not (a ^ b)
-         **/
+      ],
+    },
+    {
+      /**
+       * If there are scripts in `tool.poetry.scripts`, it means that the package
+       * has a CLI, so exclude `if __name__ == '__main__':` branches from coverage
+       * reports.
+       **/
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["op(length(keys(tool.poetry.scripts)), '>', `0`)", true],
+        ],
+      },
+      JMESPathsMatch: [
         [
-          "op(op(length(keys(tool.poetry.scripts)), '>', `0`), '^', contains(tool.coverage.report.exclude_lines, 'if __name__ == [\"\\']__main__[\"\\']:'))",
-          false,
+          "contains(tool.coverage.report.exclude_lines, 'if __name__ == [\"\\']__main__[\"\\']:')",
+          true,
         ],
       ],
     },

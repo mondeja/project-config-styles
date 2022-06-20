@@ -131,25 +131,6 @@
         ["contains(keys(tool.poetry.group), 'tests')", false],
 
         /**
-         * If tool.poetry.scripts contains properties (means that the package
-         * have CLI scripts), dependencies must include
-         * `importlib-metadata-argparse-version` as a dependency.
-         *
-         * Rationale: using a CLI utility, which must declare a version in
-         *   the CLI, wich must be lazily evaluated (see the library for a
-         *   detailed explanation).
-         *
-         * XNOR gate with `not (a ^ b)`, only is `true` if both values are the same:
-         *   a = length(scripts) > 0
-         *   b = dependency added
-         *   result = (a ^ b) is false = not (a ^ b)
-         **/
-        [
-          "op(op(length(keys(tool.poetry.scripts)), '>', `0`), '^', contains(keys(tool.poetry.dependencies), 'importlib-metadata-argparse-version'))",
-          false,
-        ],
-
-        /**
          * development dependencies
          *
          * - pre-commit must a dependency specified in the development group.
@@ -195,6 +176,29 @@
         ["contains(keys(tool.\"project-config\"), 'cache')", true],
         [
           "regex_match('^(\\d+ ((seconds?)|(minutes?)|(hours?)|(days?)|(weeks?)))|(never)', tool.\"project-config\".cache)",
+          true,
+        ],
+      ],
+    },
+    {
+      /**
+       * If tool.poetry.scripts contains properties (means that the package
+       * have CLI scripts), dependencies must include
+       * `importlib-metadata-argparse-version` as a dependency.
+       *
+       * Rationale: using a CLI utility, which must declare a version in
+       *   the CLI, wich must be lazily evaluated (see the library for a
+       *   detailed explanation).
+       **/
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["op(length(keys(tool.poetry.scripts)), '>', `0`)", true],
+        ],
+      },
+      JMESPathsMatch: [
+        [
+          "contains(keys(tool.poetry.dependencies), 'importlib-metadata-argparse-version')",
           true,
         ],
       ],
