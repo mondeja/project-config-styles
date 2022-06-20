@@ -72,13 +72,6 @@
         ["contains(keys(@), '*.css')", true],
         ["contains(keys(\"*.css\"), 'indent_size')", true],
         ['"*.css".indent_size', 2],
-
-        // With Sphinx documentation, the project will include a .bat
-        // file used as the Makefile in Windows that should maintain
-        // Windows-like end of line characters
-        ["contains(keys(@), '*.bat')", true],
-        ["contains(keys(\"*.bat\"), 'end_of_line')", true],
-        ['"*.bat".end_of_line', "crlf"],
       ],
     },
     {
