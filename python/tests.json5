@@ -50,11 +50,11 @@
          * XNOR gate with `not (a ^ b)`, only is `true` if both values are the same:
          *   a = length(scripts) > 0
          *   b = exclusion line present
-         *   result = (a ^ b) is true = not (a ^ b)
+         *   result = (a ^ b) is false = not (a ^ b)
          **/
         [
-          "op(op(op(length(keys(tool.poetry.scripts)), '>', `0`), '^', contains(tool.coverage.report.exclude_lines, 'if __name__ == [\"\\']__main__[\"\\']:')), 'is', `false`)",
-          true,
+          "op(op(length(keys(tool.poetry.scripts)), '>', `0`), '^', contains(tool.coverage.report.exclude_lines, 'if __name__ == [\"\\']__main__[\"\\']:'))",
+          false,
         ],
       ],
     },
