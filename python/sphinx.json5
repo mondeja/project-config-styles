@@ -1,8 +1,8 @@
-// TODO: serve Sphinx documentation in Github Pages
 {
   rules: [
     {
       files: [
+        "docs/",
         "docs/conf.py",
         "docs/Makefile",
         "docs/make.bat",
@@ -12,6 +12,7 @@
     {
       files: {
         not: {
+          "doc/": "Rename the documentation 'doc/' folder to 'docs/'.",
           "docs/index.md": "The documentation, when using Sphinx, must be in RestructuredText format, if you want to write it with Markdown use Mkdocs instead. Rename 'docs/index.md' by 'docs/index.rst'.",
           "mkdocs.yml": "Don't mix Sphinx with Mkdocs. Remove the mkdocs.yml file.",
         },
