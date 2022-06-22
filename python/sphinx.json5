@@ -67,12 +67,30 @@
     {
       files: [".editorconfig"],
       JMESPathsMatch: [
-        // With documentation, our project will include CSS files, so
+        // With documentation, the project will include CSS files, so
         // configure them properly with .editorconfig
         ["contains(keys(@), '*.css')", true],
         ["contains(keys(\"*.css\"), 'indent_size')", true],
         ['"*.css".indent_size', 2],
       ],
+    },
+    {
+      /**
+       * With documentation, Sphinx creates a .bat file with crlf line
+       * endings that will not pass '.editorconfig' checks.
+       *
+       * We can't define a '*.bat' section in .editorconfig with
+       * 'end_of_line = crlf' because when GIT does checkouts, the
+       * end of line characters are replaced with lf.
+       *
+       * The next configuration in .gitattributes forces that when GIT
+       * does checkouts, the '.bat' files line ends are normalized to lf.
+       * Keep in mind that this will only take effect at checkout,
+       * but when the file is created with `sphinx-quickstart` the
+       * original crlf line endings are still there, even in Linux.
+       **/
+      files: [".gitattributes"],
+      includeLines: ["*.bat text eol=lf"],
     },
     {
       files: [".pre-commit-config.yaml"],
@@ -85,6 +103,24 @@
         [
           "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].types_or, 'css')",
           true,
+        ],
+
+        // BAT files must have lf line endings
+        [
+          "contains(repos[?repo=='https://github.com/Lucas-C/pre-commit-hooks'] | [0].hooks[*].id, 'remove-crlf')",
+          true,
+        ],
+        [
+          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/Lucas-C/pre-commit-hooks'] | [0].rev)",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/Lucas-C/pre-commit-hooks'] | [0].hooks[?id=='remove-crlf'] | [0].files",
+          "\\.bat$",
+        ],
+        [
+          "repos[?repo=='https://github.com/Lucas-C/pre-commit-hooks'] | [0].hooks[?id=='remove-crlf'] | [0].name",
+          "*.bat end of lines",
         ],
       ],
     },

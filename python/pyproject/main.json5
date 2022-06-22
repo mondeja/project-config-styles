@@ -130,16 +130,6 @@
         ["contains(keys(tool.poetry.group), 'docs')", false],
         ["contains(keys(tool.poetry.group), 'tests')", false],
 
-        /**
-         * development dependencies
-         *
-         * - pre-commit must a dependency specified in the development group.
-         **/
-        [
-          "contains(keys(tool.poetry.group.dev.dependencies), 'pre-commit')",
-          true,
-        ],
-
         // bump version tool
         //   'mondeja-bump' must be a development dependency
         [
