@@ -25,7 +25,7 @@
         ['jobs."pre-commit"."runs-on"', "ubuntu-latest"],
         ["contains(keys(jobs.\"pre-commit\"), 'steps')", true],
         //   steps
-        ['length(jobs."pre-commit".steps)', 3],
+        ['length(jobs."pre-commit".steps)', 4],
         //     [0]
         ['length(keys(jobs."pre-commit".steps[0]))', 1],
         [
@@ -47,12 +47,11 @@
           "3.x",
         ],
         //     [2]
-        ['length(keys(jobs."pre-commit".steps[2]))', 2],
-        [
-          "regex_match('^pre-commit/action@v\\d+\\.\\d+\\.\\d+$', jobs.\"pre-commit\".steps[2].uses)",
-          true,
-        ],
-        ['jobs."pre-commit".steps[2].name', "Run pre-commit"],
+        ['length(keys(jobs."pre-commit".steps[2]))', 1],
+        ['jobs."pre-commit".steps[2].run', "pip install pre-commit"],
+        //     [3]
+        ['length(keys(jobs."pre-commit".steps[3]))', 1],
+        ['jobs."pre-commit".steps[3].run', "pre-commit run -a"],
       ],
     },
   ],
