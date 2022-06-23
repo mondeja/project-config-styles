@@ -112,6 +112,10 @@
           true,
         ],
         [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D104\')',
+          true,
+        ],
+        [
           'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D107\')',
           true,
         ],
@@ -127,19 +131,3 @@
     },
   ],
 }
-
-/*
-TODO: rules for documentation (in separate style)
-
-["pyproject.toml".tool.flakeheaven.exceptions."docs/*.rst"]
-flake8-print = [
-  # We can use `print` in documentation blocks because is more readable
-  # for end user
-  "-T201",
-]
-flake8-docstrings = [
-  # FIXME (raised in mdpo):
-  #   docs/commands.rst:1:1: D100 Missing docstring in public module [flake8-docstrings]
-  "-D100",
-]
-*/
