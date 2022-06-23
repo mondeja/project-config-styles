@@ -88,8 +88,8 @@
       // configure mypy
       ifJMESPathsMatch: {
         "pyproject.toml": [
-          ["contains(keys(@))", "tool"],
-          ["contains(keys(tool))", "mypy"],
+          ["contains(keys(@), 'tool')", true],
+          ["contains(keys(tool), 'mypy')", true],
         ],
       },
       JMESPathsMatch: [["tool.mypy.python_version", "3.6"]],
