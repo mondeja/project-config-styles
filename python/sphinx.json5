@@ -75,6 +75,16 @@
           true,
         ],
         [
+          // Allow public classes without docstrings as are just examples
+          'contains(tool.flakeheaven.exceptions."docs/**/*.rst"."flake8-docstrings", \'-D101\')',
+          true,
+        ],
+        [
+          // Allow public methods without docstrings as are just examples
+          'contains(tool.flakeheaven.exceptions."docs/**/*.rst"."flake8-docstrings", \'-D102\')',
+          true,
+        ],
+        [
           "contains(keys(tool.flakeheaven.exceptions.\"docs/**/*.rst\"), 'flake8-print')",
           true,
         ],
