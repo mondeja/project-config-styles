@@ -57,5 +57,16 @@
         ['tool.black."target-version"[0]', "py37"],
       ],
     },
+    {
+      files: ["pyproject.toml"],
+      // configure mypy
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["contains(keys(@))", "tool"],
+          ["contains(keys(tool))", "mypy"],
+        ],
+      },
+      JMESPathsMatch: [["tool.mypy.python_version", "3.7"]],
+    },
   ],
 }

@@ -1,0 +1,23 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        // Mypy executed using pre-commit
+        [
+          "length(repos[?repo=='https://github.com/pre-commit/mirrors-mypy'])",
+          1,
+        ],
+        [
+          // the 'rev' key must match the vX.Y regex pattern
+          "regex_match('^v\\d+\\.\\d+$', repos[?repo=='https://github.com/pre-commit/mirrors-mypy'] | [0].rev)",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/pre-commit/mirrors-mypy'] | [0].hooks[0].id",
+          "mypy",
+        ],
+      ],
+    },
+  ],
+}

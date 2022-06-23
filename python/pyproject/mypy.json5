@@ -1,0 +1,12 @@
+{
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        ["contains(keys(@), 'tool')", true],
+        ["contains(keys(tool), 'mypy')", true],
+        ["tool.mypy.strict", true],
+      ],
+    },
+  ],
+}
