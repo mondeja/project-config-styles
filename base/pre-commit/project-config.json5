@@ -1,0 +1,17 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        [
+          "length(repos[?repo=='https://github.com/mondeja/project-config'])",
+          1,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/mondeja/project-config'] | [0].hooks[*].id, 'project-config')",
+          true,
+        ],
+      ],
+    },
+  ],
+}

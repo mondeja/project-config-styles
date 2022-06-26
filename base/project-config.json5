@@ -1,0 +1,6 @@
+{
+  extends: [
+    "pyproject/project-config.json5",
+    "pre-commit/project-config.json5",
+  ],
+}

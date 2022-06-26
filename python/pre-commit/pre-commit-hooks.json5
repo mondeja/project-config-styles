@@ -46,9 +46,6 @@
           "repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='debug-statements'] | [0].name",
           "debug-statements",
         ],
-
-        // TODO: All Python projects must use project-config itself via
-        //       pre-commit hook
       ],
     },
   ],

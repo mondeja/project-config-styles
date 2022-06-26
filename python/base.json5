@@ -1,6 +1,7 @@
 {
   extends: [
     "../base/main.json5",
+    "../base/project-config.json5",
     "gitattributes.json5",
     "editorconfig.json5",
     "pyproject/main.json5",
