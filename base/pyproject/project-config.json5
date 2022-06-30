@@ -22,7 +22,7 @@
       hint: "The styles for project-config must be fetched from online sources",
       JMESPathsMatch: [
         [
-          "regex_matchall('^(gh)|(https)|(py)://', tool.\"project-config\".style)",
+          "op(length(tool.\"project-config\".style[?regex_match('^(gh)|(https)|(py)://', @)]), '==', length(tool.\"project-config\".style))",
           true,
         ],
       ],
