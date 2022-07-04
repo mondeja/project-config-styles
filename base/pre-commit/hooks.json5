@@ -1,0 +1,21 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-hooks.yaml"],
+      ifFilesExist: [".pre-commit-hooks.yaml"],
+      JMESPathsMatch: [
+        ["type(@)", "array"],
+        ["op(length(@), '>', `0`)", true],
+
+        // All hooks must be objects
+        ["op(length([?type(@) == 'object']), '==', length(@))", true],
+
+        // All hooks must have defined required fields
+        ["length([?id == null])", 0],
+        ["length([?name == null])", 0],
+        ["length([?entry == null])", 0],
+        ["length([?language == null])", 0],
+      ],
+    },
+  ],
+}

@@ -1,0 +1,21 @@
+{
+  extends: ["../../base/pre-commit/hooks.json5"],
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      ifFilesExist: [".pre-commit-hooks.yaml"],
+      crossJMESPathsMatch: [
+        [
+          "keys(tool.poetry.scripts)",
+          [
+            ".pre-commit-hooks.yaml",
+            "[?language == 'python'].entry[].[shlex_split(@)[0]][]",
+          ],
+          "op([0], '>=', [1])",
+          true,
+        ],
+      ],
+      hint: "Pre-commit hooks scripts must be defined inside 'tool.poetry.scripts'",
+    },
+  ],
+}
