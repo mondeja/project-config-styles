@@ -174,5 +174,25 @@
         ],
       ],
     },
+    {
+      files: ["pyproject.toml"],
+      hint: "'tool.poetry.license' must be a valid OSI approved SPDX license",
+      crossJMESPathsMatch: [
+        /**
+         * license
+         *
+         *   - Must be a valid OSI approved SPDX license identifier.
+         **/
+        [
+          "tool.poetry.license",
+          [
+            "gh://spdx/license-list-data@v3.17/json/licenses.json",
+            "licenses[?isOsiApproved] | [?isDeprecatedLicenseId == `false`].licenseId",
+          ],
+          "contains([1], [0])",
+          true,
+        ],
+      ],
+    },
   ],
 }
