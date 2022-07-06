@@ -160,11 +160,6 @@
     {
       files: ["docs/conf.py"],
       JMESPathsMatch: [
-        // TODO: create a new verb for jmespath plugin named JMESPathsCrossMatch
-        //   to match results of JMESPaths against the results of other files,
-        //   which would allow us to check that the configuration is in sync
-        //   with package metadata
-
         // Check the metadata required by Sphinx
         ["contains(keys(@), 'project')", true],
         ["contains(keys(@), 'author')", true],
@@ -195,6 +190,15 @@
         ["length(html_static_path)", 1],
         ["html_static_path[0]", "_static"],
       ],
+    },
+
+    {
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["tool.flakeheaven.docstring_convention", "google"]],
+      },
+      files: ["docs/conf.py"],
+      JMESPathsMatch: [["contains(extensions, 'sphinx.ext.napoleon')", true]],
+      hint: "When using Google docstrings convention, the extension 'sphinx.ext.napoleon' must be added to 'extensions'",
     },
   ],
 }
