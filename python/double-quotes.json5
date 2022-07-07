@@ -12,7 +12,7 @@
         // https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#slices
         ["contains(keys(tool.flakeheaven), 'plugins')", true],
         ["contains(keys(tool.flakeheaven.plugins), 'pycodestyle')", true],
-        ["contains(keys(tool.flakeheaven.plugins.pycodestyle), '-E203')", true],
+        ["contains(tool.flakeheaven.plugins.pycodestyle, '-E203')", true],
       ],
     },
   ],

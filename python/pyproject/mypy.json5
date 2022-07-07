@@ -11,6 +11,9 @@
     {
       files: ["pyproject.toml"],
       JMESPathsMatch: [["regex_match('^\\.\\.', tool.mypy.mypy_path)", false]],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["contains(keys(tool.mypy), 'mypy_path')", true]],
+      },
       hint: "When developing local stubs, don't forget to restore 'mypy_path' to a relative path of the project root",
     },
   ],
