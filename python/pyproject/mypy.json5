@@ -8,5 +8,10 @@
         ["tool.mypy.strict", true],
       ],
     },
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [["regex_match('^\\.\\.', tool.mypy.mypy_path)", false]],
+      hint: "When developing local stubs, don't forget to restore 'mypy_path' to a relative path of the project root",
+    },
   ],
 }
