@@ -7,6 +7,12 @@
         ["contains(keys(@), 'tool')", true],
         ["contains(keys(tool), 'flakeheaven')", true],
         ["tool.flakeheaven.inline_quotes", "double"],
+
+        // whitespaces before ':' are not PEP-8 compliant, see:
+        // https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#slices
+        ["contains(keys(tool.flakeheaven), 'plugins')", true],
+        ["contains(keys(tool.flakeheaven.plugins), 'pycodestyle')", true],
+        ["contains(keys(tool.flakeheaven.plugins.pycodestyle), '-E203')", true],
       ],
     },
   ],
