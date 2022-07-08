@@ -17,6 +17,48 @@
           "repos[?repo=='https://github.com/pre-commit/mirrors-mypy'] | [0].hooks[0].id",
           "mypy",
         ],
+
+        /**
+         * When we are writing types, we must ensure that isort is executed
+         * differently for 'tests/' and for 'src/'.
+         *
+         * In 'src/' we must add `from __future__ import annotations` to all
+         * files, but not in 'tests/'. This is not currently possible in a
+         * single run with default isort options, so the run must be executed
+         * twice, one for 'src/' and 'tests/'. See:
+         * https://github.com/PyCQA/isort/issues/1951
+         **/
+        // isort-src
+        [
+          "contains(repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[*].name, 'isort-src')",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-src'] | [0].alias",
+          "isort-src",
+        ],
+        [
+          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-src'] | [0].files",
+          "^src",
+        ],
+        [
+          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-src'] | [0].args[:2]",
+          ["--add-import", "from __future__ import annotations"],
+        ],
+
+        // isort-tests
+        [
+          "contains(repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[*].name, 'isort-tests')",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-tests'] | [0].alias",
+          "isort-tests",
+        ],
+        [
+          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-tests'] | [0].files",
+          "^tests",
+        ],
       ],
     },
   ],

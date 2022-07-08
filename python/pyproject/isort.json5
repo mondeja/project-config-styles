@@ -12,6 +12,13 @@
         ["tool.isort.combine_as_imports", true],
         ["tool.isort.include_trailing_comma", true],
         ["tool.isort.known_tests", "tests"],
+        ["tool.isort.remove_redundant_aliases", true],
+
+        // future imports must be the first section or the
+        // next SyntaxError will be raised at runtime:
+        // SyntaxError: from __future__ imports must occur at the beginning of the file
+        ["tool.isort.sections[0]", "FUTURE"],
+
         ["contains(tool.isort.sections, 'STDLIB')", true],
         ["contains(tool.isort.sections, 'THIRDPARTY')", true],
         ["contains(tool.isort.sections, 'FIRSTPARTY')", true],
