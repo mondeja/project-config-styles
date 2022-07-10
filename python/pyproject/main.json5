@@ -12,6 +12,7 @@
         //   name
         ["contains(keys(tool.poetry), 'name')", true],
         ["type(tool.poetry.name)", "string"],
+        ["regex_match('[a-z0-9-]+$', tool.poetry.name)", true],
         //   version
         ["contains(keys(tool.poetry), 'version')", true],
         ["type(tool.poetry.version)", "string"],
