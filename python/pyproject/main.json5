@@ -96,11 +96,20 @@
          * - Must not allow "Documentation", "Docs", "Repository",
          *   "Repo" or other variants, these must be moved to
          *   `tool.poetry.documentation` and `tool.poetry.repository`.
-         * - A "Bug tracker" url is mandatory.
+         * - A "Bug tracker"  url pointing to GH issues is mandatory.
+         * - A "Changelog" url pointing to GH releases is mandatory.
          **/
         ["contains(keys(tool.poetry), 'urls')", true],
         ["contains(keys(tool.poetry.urls), 'Bug tracker')", true],
-        ["regex_match('^https://', tool.poetry.urls.\"Bug tracker\")", true],
+        [
+          "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/issues', tool.poetry.urls.\"Bug tracker\")",
+          true,
+        ],
+        ["contains(keys(tool.poetry.urls), 'Changelog')", true],
+        [
+          "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/releases', tool.poetry.urls.Changelog)",
+          true,
+        ],
         ["contains(keys(tool.poetry.urls), 'Documentation')", false],
         ["contains(keys(tool.poetry.urls), 'documentation')", false],
         ["contains(keys(tool.poetry.urls), 'Docs')", false],
