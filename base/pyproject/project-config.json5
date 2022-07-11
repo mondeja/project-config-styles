@@ -12,7 +12,7 @@
         //   configure cache explicitly
         ["contains(keys(tool.\"project-config\"), 'cache')", true],
         [
-          "regex_match('^(\\d+ ((seconds?)|(minutes?)|(hours?)|(days?)|(weeks?)))|(never)', tool.\"project-config\".cache)",
+          "regex_match('(\\d+ ((seconds?)|(minutes?)|(hours?)|(days?)|(weeks?)))|(never)$', tool.\"project-config\".cache)",
           true,
         ],
       ],

@@ -2,6 +2,9 @@
   rules: [
     {
       files: ["pyproject.toml"],
+      crossJMESPathsMatch: [
+        ["null", ["pyproject.toml?text", "[0]"], "[1]", "[tool.poetry]"],
+      ],
       JMESPathsMatch: [
         // 'tool' object must exist
         ["contains(keys(@), 'tool')", true],
