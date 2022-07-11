@@ -12,10 +12,16 @@
         // poetry metadata
         //   'poetry' object must exist inside 'tool'
         ["contains(keys(tool), 'poetry')", true],
-        //   name
+        /**
+         *  name
+         *
+         * Must be a valid regex for a project, the same that the project
+         *   root directory name.
+         **/
         ["contains(keys(tool.poetry), 'name')", true],
         ["type(tool.poetry.name)", "string"],
         ["regex_match('[a-z0-9-]+$', tool.poetry.name)", true],
+        ["op(tool.poetry.name, '==', rootdir_name())", true],
         //   version
         ["contains(keys(tool.poetry), 'version')", true],
         ["type(tool.poetry.version)", "string"],
