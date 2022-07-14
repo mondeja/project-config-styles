@@ -15,7 +15,7 @@
         // after it some rules for each plugin, if needed
 
         // pycodestyle
-        ["contains(keys(tool.flakeheaven.plugins), 'pycodestyle')", true],
+        ["type(tool.flakeheaven.plugins.pycodestyle)", "array"],
         ["tool.flakeheaven.plugins.pycodestyle[0]", "+*"],
         //   Binary operators after line breaks because are more readable
         //   when there are a lot of them in a condicitional

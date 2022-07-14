@@ -46,18 +46,18 @@
           ["--add-import", "from __future__ import annotations"],
         ],
 
-        // isort-tests
+        // isort-meta
         [
-          "contains(repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[*].name, 'isort-tests')",
+          "contains(repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[*].name, 'isort-meta')",
           true,
         ],
         [
-          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-tests'] | [0].alias",
-          "isort-tests",
+          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-meta'] | [0].alias",
+          "isort-meta",
         ],
         [
-          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-tests'] | [0].files",
-          "^tests",
+          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-meta'] | [0].files",
+          "^(docs|tests)",
         ],
       ],
     },

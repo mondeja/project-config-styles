@@ -3,17 +3,23 @@
     {
       files: ["pyproject.toml"],
       JMESPathsMatch: [
-        ["contains(keys(tool), 'project-config')", true],
-        //   configure style explicitly as an array
-        ["contains(keys(tool.\"project-config\"), 'style')", true],
+        ["type(tool)", "object"],
+        ['type(tool."project-config")', "object"],
         ['type(tool."project-config".style)', "array"],
-        //     at least one style configured
-        ["op(length(tool.\"project-config\".style), '>', `0`)", true],
-        //   configure cache explicitly
-        ["contains(keys(tool.\"project-config\"), 'cache')", true],
+        [
+          "op(length(tool.\"project-config\".style), '>', `0`)",
+          true,
+          "set(@, 'tool', set(tool, 'project-config', set(tool.\"project-config\", 'style', ['style.json5'])))",
+        ],
+        [
+          'type(tool."project-config".cache)',
+          "string",
+          "set(@, 'tool', set(tool, 'project-config', set(tool.\"project-config\", 'cache', '5 minutes')))",
+        ],
         [
           "regex_match('(\\d+ ((seconds?)|(minutes?)|(hours?)|(days?)|(weeks?)))|(never)$', tool.\"project-config\".cache)",
           true,
+          "5 minutes",
         ],
       ],
     },
