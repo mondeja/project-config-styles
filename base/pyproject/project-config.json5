@@ -33,5 +33,15 @@
         ],
       ],
     },
+    {
+      files: ["pyproject.toml"],
+      hint: "All base style files must be written in JSON5 format",
+      JMESPathsMatch: [
+        [
+          "op(length(map(&regex_search('\\.json5$', @), tool.\"project-config\".style)), '==', length(tool.\"project-config\".style))",
+          true,
+        ],
+      ],
+    },
   ],
 }

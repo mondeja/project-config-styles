@@ -202,9 +202,10 @@
       hint: "When using Google docstrings convention, the extension 'sphinx.ext.napoleon' must be added to 'extensions'",
     },
 
+    // docs/conf.py metadata must match with pyproject.toml metadata
     {
-      // docs/conf.py metadata must match with pyproject.toml metadata
       files: ["docs/conf.py"],
+      hint: "pyproject.toml[tool.poetry.name] must be equal to docs/conf.py::project",
       crossJMESPathsMatch: [
         [
           "project",
@@ -212,18 +213,36 @@
           "op([0], '==', [1])",
           true,
         ],
+      ],
+    },
+    {
+      files: ["docs/conf.py"],
+      hint: "The name of the first author at pyproject.toml[tool.poetry.authors] must be equal to docs/conf.py::author",
+      crossJMESPathsMatch: [
         [
           "author",
           ["pyproject.toml", "strip(split(tool.poetry.authors[0], '<')[0])"],
           "op([0], '==', [1])",
           true,
         ],
+      ],
+    },
+    {
+      files: ["docs/conf.py"],
+      hint: "pyproject.toml[tool.poetry.version] must be equal to docs/conf.py::release (`poetry install` usually solves this)",
+      crossJMESPathsMatch: [
         [
           "release",
           ["pyproject.toml", "tool.poetry.version"],
           "op([0], '==', [1])",
           true,
         ],
+      ],
+    },
+    {
+      files: ["docs/conf.py"],
+      hint: "The minor version at pyproject.toml[tool.poetry.name] must be equal to docs/conf.py::version",
+      crossJMESPathsMatch: [
         [
           "version",
           ["pyproject.toml", "join('.', split(tool.poetry.version, '.')[0:2])"],
