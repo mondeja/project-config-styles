@@ -62,29 +62,23 @@
         [
           "regex_match('^\\^\\d+$', tool.poetry.group.doc.dependencies.Sphinx)",
           true,
+          "deepmerge(@, {tool: {poetry: {group: {doc: {dependencies: {Sphinx: op('^', '+', gh_tags('sphinx-org', 'sphinx')[0])}}}}}})",
         ],
 
         // Flake8 exceptions in documentation pages (flakeheaven lints code blocks there)
-        ["contains(keys(tool.flakeheaven.exceptions), 'docs/**/*.rst')", true],
+        ['type(tool.flakeheaven.exceptions."docs/**/*.rst")', "object"],
         [
-          "contains(keys(tool.flakeheaven.exceptions.\"docs/**/*.rst\"), 'flake8-docstrings')",
-          true,
+          'type(tool.flakeheaven.exceptions."docs/**/*.rst"."flake8-docstrings")',
+          "array",
         ],
         [
           // Allow modules without docstrings as are just examples
-          'contains(tool.flakeheaven.exceptions."docs/**/*.rst"."flake8-docstrings", \'-D100\')',
-          true,
-        ],
-        [
           // Allow public classes without docstrings as are just examples
-          'contains(tool.flakeheaven.exceptions."docs/**/*.rst"."flake8-docstrings", \'-D101\')',
-          true,
-        ],
-        [
           // Allow public methods without docstrings as are just examples
-          'contains(tool.flakeheaven.exceptions."docs/**/*.rst"."flake8-docstrings", \'-D102\')',
+          "op(tool.flakeheaven.exceptions.\"docs/**/*.rst\".\"flake8-docstrings\", '<', ['-D100', '-D101', '-D102'])",
           true,
         ],
+
         [
           "contains(keys(tool.flakeheaven.exceptions.\"docs/**/*.rst\"), 'flake8-print')",
           true,

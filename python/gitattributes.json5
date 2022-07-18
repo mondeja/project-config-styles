@@ -15,6 +15,7 @@
         ".gitattributes export-ignore",
         ".github export-ignore",
       ],
+      excludeContent: [["* text=auto\n", "replace(@, '* text=auto\n', '')"]],
     },
   ],
 }

@@ -108,13 +108,13 @@
          * - A "Bug tracker"  url pointing to GH issues is mandatory.
          * - A "Changelog" url pointing to GH releases is mandatory.
          **/
-        ["contains(keys(tool.poetry), 'urls')", true],
-        ["contains(keys(tool.poetry.urls), 'Bug tracker')", true],
+        ["type(tool.poetry.urls)", "object"],
+        ['type(tool.poetry.urls."Bug tracker")', "string"],
         [
           "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/issues', tool.poetry.urls.\"Bug tracker\")",
           true,
         ],
-        ["contains(keys(tool.poetry.urls), 'Changelog')", true],
+        ["type(tool.poetry.urls.Changelog)", "string"],
         [
           "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/releases', tool.poetry.urls.Changelog)",
           true,

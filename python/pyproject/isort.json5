@@ -3,8 +3,8 @@
     {
       files: ["pyproject.toml"],
       JMESPathsMatch: [
-        ["contains(keys(@), 'tool')", true],
-        ["contains(keys(tool), 'isort')", true],
+        ["type(tool)", "object"],
+        ["type(tool.isort)", "object"],
 
         ["tool.isort.lines_after_imports", 2],
         ["tool.isort.multi_line_output", 3],
@@ -17,7 +17,11 @@
         // future imports must be the first section or the
         // next SyntaxError will be raised at runtime:
         // SyntaxError: from __future__ imports must occur at the beginning of the file
-        ["tool.isort.sections[0]", "FUTURE"],
+        [
+          "tool.isort.sections[0]",
+          "FUTURE",
+          "deepmerge(@, {tool: {isort: {sections: op(['FUTURE'], '+', op(tool.isort.sections, '|', `[]`))}}})",
+        ],
 
         [
           "op(tool.isort.sections, '>', ['STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'TESTS', 'LOCALFOLDER'])",
