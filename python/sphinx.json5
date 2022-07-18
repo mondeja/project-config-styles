@@ -75,7 +75,7 @@
           // Allow modules without docstrings as are just examples
           // Allow public classes without docstrings as are just examples
           // Allow public methods without docstrings as are just examples
-          "op(tool.flakeheaven.exceptions.\"docs/**/*.rst\".\"flake8-docstrings\", '<', ['-D100', '-D101', '-D102'])",
+          "op(tool.flakeheaven.exceptions.\"docs/**/*.rst\".\"flake8-docstrings\", '>', ['-D100', '-D101', '-D102'])",
           true,
         ],
 
