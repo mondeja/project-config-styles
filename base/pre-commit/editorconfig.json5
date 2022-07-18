@@ -2,17 +2,29 @@
   rules: [
     {
       files: [".pre-commit-config.yaml"],
+      ifJMESPathsMatch: {
+        ".pre-commit-config.yaml": [
+          ["type(@)", "object"],
+          ["type(repos)", "array"],
+        ],
+      },
       JMESPathsMatch: [
         // All Python projects must use editorconfig checker pre-commit hook
         // to follow editorconfig rules
         [
           "length(repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'])",
           1,
+          "set(@, 'repos', insert(repos, `-1`, {rev: gh_tags('editorconfig-checker', 'editorconfig-checker.python', True)[0], repo: 'https://github.com/editorconfig-checker/editorconfig-checker.python', hooks: [{id: 'editorconfig-checker', name: 'editorconfig-checker', alias: 'ec'}]}))",
         ],
         [
           // the 'rev' key must match the X.Y.Z regex pattern
           "regex_match('^\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'] | [0].rev)",
           true,
+        ],
+        [
+          // must contain hooks
+          "type(repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'] | [0].hooks)",
+          "array",
         ],
         [
           "contains(repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'] | [0].hooks[*].id, 'editorconfig-checker')",

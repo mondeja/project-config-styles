@@ -3,6 +3,7 @@
     {
       files: [".editorconfig"],
       JMESPathsMatch: [
+        ["type(@)", "object"],
         ['"".root', true],
         ['"*".end_of_line', "lf"],
         ['"*".indent_style', "space"],
