@@ -1,0 +1,168 @@
+{
+  rules: [
+    {
+      files: [".github/workflows/deploy-docs.yml"],
+      JMESPathsMatch: [
+        ["type(@)", "object"],
+
+        // name
+        ["name", "Deploy documentation"],
+
+        // permissions
+        ["type(permissions)", "object"],
+        ["permissions.contents", "write"],
+
+        // on
+        ["type(on)", "object"],
+        ["on.workflow_dispatch", null],
+        ["type(on.release)", "object"],
+        ["type(on.release.types)", "array"],
+        [
+          "contains(on.release.types, 'created')",
+          true,
+          "deepmerge(@, {on: {release: {types: ['created']}}})",
+        ],
+
+        // jobs
+        ["type(jobs)", "object"],
+
+        // jobs[0]
+        ["contains(keys(jobs), 'deploy-version-docs')", true],
+        ['jobs."deploy-version-docs"."runs-on"', "ubuntu-latest"],
+        ['type(jobs."deploy-version-docs".concurrency)', "object"],
+        [
+          'jobs."deploy-version-docs".concurrency.group',
+          "${{ github.workflow }}-${{ github.ref }}",
+        ],
+        ['type(jobs."deploy-version-docs".steps)', "array"],
+
+        // jobs[0].steps[0]
+        ['length(keys(jobs."deploy-version-docs".steps[0]))', 1],
+        [
+          "regex_match('actions/checkout@v\\d+', jobs.\"deploy-version-docs\".steps[0].uses)",
+          true,
+        ],
+
+        // jobs[0].steps[1]
+        ['jobs."deploy-version-docs".steps[1].name', "Install poetry"],
+        [
+          'jobs."deploy-version-docs".steps[1].run',
+          "curl -sSL https://install.python-poetry.org | python - --preview\npoetry self add poetry-exec-plugin\npoetry self show plugins\n",
+        ],
+
+        // jobs[0].steps[2]
+        ['jobs."deploy-version-docs".steps[2].name', "Set up Python v3"],
+        [
+          "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-version-docs\".steps[2].uses)",
+          true,
+        ],
+        [
+          'jobs."deploy-version-docs".steps[2].with',
+          { "python-version": "3.x" },
+        ],
+
+        // jobs[0].steps[3]
+        ['jobs."deploy-version-docs".steps[3].name', "Install dependencies"],
+        [
+          'jobs."deploy-version-docs".steps[3].run',
+          "poetry install --with doc\npoetry show\n",
+        ],
+
+        // jobs[0].steps[4]
+        ['jobs."deploy-version-docs".steps[4].name', "Build documentation"],
+        ['jobs."deploy-version-docs".steps[4].run', "poetry exec doc"],
+
+        // jobs[0].steps[5]
+        ['jobs."deploy-version-docs".steps[5].name', "Get version"],
+        ['jobs."deploy-version-docs".steps[5].id', "get-version"],
+        [
+          'jobs."deploy-version-docs".steps[5].run',
+          'echo "::set-output name=version::$(cat pyproject.toml | grep "version = " -m 1 | cut -d\' \' -f3 | cut -c 2- | rev | cut -c 2- | rev)"',
+        ],
+
+        // jobs[0].steps[6]
+        ['jobs."deploy-version-docs".steps[6].name', "Deploy documentation"],
+        [
+          "regex_match('peaceiris/actions-gh-pages@v\\d+', jobs.\"deploy-version-docs\".steps[6].uses)",
+          true,
+        ],
+        ['type(jobs."deploy-version-docs".steps[6].with)', "object"],
+        [
+          'jobs."deploy-version-docs".steps[6].with.github_token',
+          "${{ secrets.GITHUB_TOKEN }}",
+        ],
+        [
+          'jobs."deploy-version-docs".steps[6].with.publish_dir',
+          "./docs/_build/html",
+        ],
+        [
+          'jobs."deploy-version-docs".steps[6].with.destination_dir',
+          "${{ steps.get-version.outputs.version }}",
+        ],
+
+        // jobs[1]
+        ["contains(keys(jobs), 'deploy-latest-docs')", true],
+        ['jobs."deploy-latest-docs"."runs-on"', "ubuntu-latest"],
+        ['type(jobs."deploy-latest-docs".concurrency)', "object"],
+        [
+          'jobs."deploy-latest-docs".concurrency.group',
+          "${{ github.workflow }}-${{ github.ref }}",
+        ],
+        ['type(jobs."deploy-latest-docs".steps)', "array"],
+
+        // jobs[1].steps[0]
+        ['length(keys(jobs."deploy-latest-docs".steps[0]))', 1],
+        [
+          "regex_match('actions/checkout@v\\d+', jobs.\"deploy-latest-docs\".steps[0].uses)",
+          true,
+        ],
+
+        // jobs[1].steps[1]
+        ['jobs."deploy-latest-docs".steps[1].name', "Install poetry"],
+        [
+          'jobs."deploy-latest-docs".steps[1].run',
+          "curl -sSL https://install.python-poetry.org | python - --preview\npoetry self add poetry-exec-plugin\npoetry self show plugins\n",
+        ],
+
+        // jobs[1].steps[2]
+        ['jobs."deploy-latest-docs".steps[2].name', "Set up Python v3"],
+        [
+          "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-latest-docs\".steps[2].uses)",
+          true,
+        ],
+        [
+          'jobs."deploy-latest-docs".steps[2].with',
+          { "python-version": "3.x" },
+        ],
+
+        // jobs[1].steps[3]
+        ['jobs."deploy-latest-docs".steps[3].name', "Install dependencies"],
+        [
+          'jobs."deploy-latest-docs".steps[3].run',
+          "poetry install --with doc\npoetry show\n",
+        ],
+
+        // jobs[1].steps[4]
+        ['jobs."deploy-latest-docs".steps[4].name', "Build documentation"],
+        ['jobs."deploy-latest-docs".steps[4].run', "poetry exec doc"],
+
+        // jobs[1].steps[5]
+        ['jobs."deploy-latest-docs".steps[5].name', "Deploy documentation"],
+        [
+          "regex_match('peaceiris/actions-gh-pages@v\\d+', jobs.\"deploy-latest-docs\".steps[5].uses)",
+          true,
+        ],
+        ['type(jobs."deploy-latest-docs".steps[5].with)', "object"],
+        [
+          'jobs."deploy-latest-docs".steps[5].with.github_token',
+          "${{ secrets.GITHUB_TOKEN }}",
+        ],
+        [
+          'jobs."deploy-latest-docs".steps[5].with.publish_dir',
+          "./docs/_build/html",
+        ],
+        ['jobs."deploy-latest-docs".steps[5].with.destination_dir', "latest"],
+      ],
+    },
+  ],
+}

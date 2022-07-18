@@ -1,4 +1,5 @@
 {
+  extends: [".github/workflows/deploy-docs.json5"],
   rules: [
     {
       files: [
