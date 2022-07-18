@@ -46,10 +46,8 @@
          **/
         ["tool.isort.py_version", 36],
         // https://docs.python.org/3/whatsnew/3.7.html#new-modules
-        ["contains(tool.isort.extra_standard_library, 'contextvars')", true],
-        ["contains(tool.isort.extra_standard_library, 'dataclasses')", true],
         [
-          "contains(tool.isort.extra_standard_library, 'importlib.resources')",
+          "op(tool.isort.extra_standard_library, '>', ['contextvars', 'dataclasses', 'importlib.resources'])",
           true,
         ],
         // https://docs.python.org/3/whatsnew/3.8.html#new-modules
@@ -58,12 +56,16 @@
           true,
         ],
         // https://docs.python.org/3/whatsnew/3.9.html#new-modules
-        ["contains(tool.isort.extra_standard_library, 'zoneinfo')", true],
-        ["contains(tool.isort.extra_standard_library, 'graphlib')", true],
+        [
+          "op(tool.isort.extra_standard_library, '>', ['zoneinfo', 'graphlib'])",
+          true,
+        ],
         // 3.10 does not add new modules
         // https://docs.python.org/3.11/whatsnew/3.11.html#new-modules
-        ["contains(tool.isort.extra_standard_library, 'tomllib')", true],
-        ["contains(tool.isort.extra_standard_library, 'wsgiref.types')", true],
+        [
+          "op(tool.isort.extra_standard_library, '>', ['tomllib', 'wsgiref.types'])",
+          true,
+        ],
       ],
     },
     {

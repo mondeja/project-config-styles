@@ -16,8 +16,10 @@
       files: ["pyproject.toml"],
       JMESPathsMatch: [
         ["contains(keys(tool), 'isort')", true],
-        ["contains(keys(tool.isort), 'py_version')", true],
-        ["contains(keys(tool.isort), 'extra_standard_library')", true],
+        [
+          "op(keys(tool.isort), '>', ['py_version', 'extra_standard_library'])",
+          true,
+        ],
       ],
     },
   ],

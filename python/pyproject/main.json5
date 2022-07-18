@@ -119,16 +119,10 @@
           "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/releases', tool.poetry.urls.Changelog)",
           true,
         ],
-        ["contains(keys(tool.poetry.urls), 'Documentation')", false],
-        ["contains(keys(tool.poetry.urls), 'documentation')", false],
-        ["contains(keys(tool.poetry.urls), 'Docs')", false],
-        ["contains(keys(tool.poetry.urls), 'docs')", false],
-        ["contains(keys(tool.poetry.urls), 'Doc')", false],
-        ["contains(keys(tool.poetry.urls), 'doc')", false],
-        ["contains(keys(tool.poetry.urls), 'Repository')", false],
-        ["contains(keys(tool.poetry.urls), 'repository')", false],
-        ["contains(keys(tool.poetry.urls), 'Repo')", false],
-        ["contains(keys(tool.poetry.urls), 'repo')", false],
+        [
+          "length(op(keys(tool.poetry.urls), '&', ['Documentation', 'documentation', 'Docs', 'docs', 'Doc', 'doc', 'Repository', 'repository', 'Repo', 'repo']))",
+          0,
+        ],
 
         //   dependencies
         /**

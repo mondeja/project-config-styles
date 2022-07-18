@@ -96,35 +96,7 @@
         ],
         //   No docstrings needed in tests
         [
-          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D100\')',
-          true,
-        ],
-        [
-          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D101\')',
-          true,
-        ],
-        [
-          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D102\')',
-          true,
-        ],
-        [
-          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D103\')',
-          true,
-        ],
-        [
-          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D104\')',
-          true,
-        ],
-        [
-          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D107\')',
-          true,
-        ],
-        [
-          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D205\')',
-          true,
-        ],
-        [
-          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-docstrings", \'-D415\')',
+          "op(tool.flakeheaven.exceptions.\"tests/**\".\"flake8-docstrings\", '==', ['-D100', '-D101', '-D102', '-D103', '-D104', '-D107', '-D205', '-D415'])",
           true,
         ],
       ],

@@ -19,11 +19,10 @@
         // SyntaxError: from __future__ imports must occur at the beginning of the file
         ["tool.isort.sections[0]", "FUTURE"],
 
-        ["contains(tool.isort.sections, 'STDLIB')", true],
-        ["contains(tool.isort.sections, 'THIRDPARTY')", true],
-        ["contains(tool.isort.sections, 'FIRSTPARTY')", true],
-        ["contains(tool.isort.sections, 'TESTS')", true],
-        ["contains(tool.isort.sections, 'LOCALFOLDER')", true],
+        [
+          "op(tool.isort.sections, '>', ['STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'TESTS', 'LOCALFOLDER'])",
+          true,
+        ],
       ],
     },
   ],
