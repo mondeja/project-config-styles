@@ -200,5 +200,36 @@
       JMESPathsMatch: [["contains(extensions, 'sphinx.ext.napoleon')", true]],
       hint: "When using Google docstrings convention, the extension 'sphinx.ext.napoleon' must be added to 'extensions'",
     },
+
+    {
+      // docs/conf.py metadata must match with pyproject.toml metadata
+      files: ["docs/conf.py"],
+      crossJMESPathsMatch: [
+        [
+          "project",
+          ["pyproject.toml", "tool.poetry.name"],
+          "op([0], '==', [1])",
+          true,
+        ],
+        [
+          "author",
+          ["pyproject.toml", "strip(split(tool.poetry.authors[0], '<')[0])"],
+          "op([0], '==', [1])",
+          true,
+        ],
+        [
+          "release",
+          ["pyproject.toml", "tool.poetry.version"],
+          "op([0], '==', [1])",
+          true,
+        ],
+        [
+          "version",
+          ["pyproject.toml", "join('.', split(tool.poetry.version, '.')[0:2])"],
+          "op([0], '==', [1])",
+          true,
+        ],
+      ],
+    },
   ],
 }
