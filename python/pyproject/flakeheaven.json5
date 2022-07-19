@@ -7,9 +7,18 @@
         // TODO: in the future, use dashes instead of underscores, see
         //       https://github.com/flakeheaven/flakeheaven/issues/105
         ["tool.flakeheaven.pytest_parametrize_values_type", "tuple"],
+        [
+          "contains(keys(tool.flakeheaven), 'pytest-parametrize-values-type')",
+          false,
+        ],
+
         // Don't need parentheses in fixtures decorators without kwargs,
         // see: https://github.com/m-burst/flake8-pytest-style/blob/master/docs/rules/PT001.md
         ["tool.flakeheaven.pytest_fixture_no_parentheses", true],
+        [
+          "contains(keys(tool.flakeheaven), 'pytest-fixture-no-parentheses')",
+          false,
+        ],
 
         // Enable all flake8 plugins and rules, disabling
         // after it some rules for each plugin, if needed

@@ -10,6 +10,7 @@
         ["contains(keys(@), 'tool')", true],
         ["contains(keys(tool), 'flakeheaven')", true],
         ["tool.flakeheaven.inline_quotes", "single"],
+        ["contains(keys(tool.flakeheaven), 'inline-quotes')", false],
       ],
     },
   ],
