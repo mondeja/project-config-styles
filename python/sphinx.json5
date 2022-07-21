@@ -222,18 +222,6 @@
     },
     {
       files: ["docs/conf.py"],
-      hint: "pyproject.toml[tool.poetry.version] must be equal to docs/conf.py::release (`poetry install` usually solves this)",
-      crossJMESPathsMatch: [
-        [
-          "release",
-          ["pyproject.toml", "tool.poetry.version"],
-          "op([0], '==', [1])",
-          true,
-        ],
-      ],
-    },
-    {
-      files: ["docs/conf.py"],
       hint: "The minor version at pyproject.toml[tool.poetry.name] must be equal to docs/conf.py::version",
       crossJMESPathsMatch: [
         [

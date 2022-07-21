@@ -24,7 +24,7 @@
         ],
 
         [
-          "op(tool.isort.sections, '>', ['STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'TESTS', 'LOCALFOLDER'])",
+          "op(['STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'TESTS', 'LOCALFOLDER'], '<=', tool.isort.sections)",
           true,
         ],
       ],
