@@ -1,5 +1,8 @@
 {
-  extends: [".github/workflows/deploy-docs.json5"],
+  extends: [
+    ".github/workflows/deploy-docs.json5",
+    "pyproject/docs-gh-pages.json5",
+  ],
   rules: [
     {
       files: [
@@ -66,7 +69,6 @@
         ],
 
         // Flake8 exceptions in documentation pages (flakeheaven lints code blocks there)
-        ['type(tool.flakeheaven.exceptions."*.rst")', "object"],
         [
           'type(tool.flakeheaven.exceptions."*.rst"."flake8-docstrings")',
           "array",

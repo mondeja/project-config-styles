@@ -3,7 +3,6 @@
     {
       files: ["pyproject.toml"],
       JMESPathsMatch: [
-        ["type(tool)", "object"],
         ["type(tool.isort)", "object"],
 
         ["tool.isort.lines_after_imports", 2],

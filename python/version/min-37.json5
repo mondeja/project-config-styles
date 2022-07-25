@@ -53,7 +53,6 @@
         "pyproject.toml": [["tool.flakeheaven.inline_quotes", "double"]],
       },
       JMESPathsMatch: [
-        ["type(tool)", "object"],
         ["type(tool.black)", "object"],
         ['type(tool.black."target-version")', "array"],
         ['length(tool.black."target-version")', 1],
@@ -64,10 +63,7 @@
       files: ["pyproject.toml"],
       // configure mypy
       ifJMESPathsMatch: {
-        "pyproject.toml": [
-          ["type(tool)", "object"],
-          ["type(tool.mypy)", "object"],
-        ],
+        "pyproject.toml": [["type(tool.mypy)", "object"]],
       },
       JMESPathsMatch: [["tool.mypy.python_version", "3.7"]],
     },

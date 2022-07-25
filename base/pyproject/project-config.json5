@@ -3,7 +3,6 @@
     {
       files: ["pyproject.toml"],
       JMESPathsMatch: [
-        ["type(tool)", "object"],
         ['type(tool."project-config")', "object"],
         ['type(tool."project-config".style)', "array"],
         [
