@@ -10,6 +10,7 @@
 - `google-docstrings.json5`: Google docstrings convention.
 - `sphinx.json5`: Documentation using Sphinx.
 - `readthedocs.json5`: Documentation using ReadTheDocs theme for Sphinx.
+- `mdpo.json5`: Documentation with Markdown files, translations using [mdpo].
 - `mypy.json5`: Type checking using [mypy].
 
 ### Minimum requirements
@@ -22,4 +23,5 @@
 [add-trailing-comma]: https://pypi.org/project/add-trailing-comma/
 [black]: https://pypi.org/project/black/
 [pytest]: https://docs.pytest.org/en/latest/
+[mdpo]: https://mondeja.github.io/mdpo/
 [mypy]: https://mypy.readthedocs.io/en/latest/

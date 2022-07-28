@@ -1,0 +1,19 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        ["length(repos[?repo=='https://github.com/mondeja/mdpo'])", 1],
+        [
+          // the 'rev' key must match the vX.Y.Z regex pattern
+          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/mondeja/mdpo'] | [0].rev)",
+          true,
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/mondeja/mdpo'] | [0].hooks[*].id, 'md2po2md')",
+          true,
+        ],
+      ],
+    },
+  ],
+}
