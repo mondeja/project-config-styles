@@ -7,8 +7,7 @@
         ["tool.isort.line_length", 79],
 
         // flakeheaven
-        ["tool.flakeheaven.max_line_length", 80],
-        ["contains(keys(tool.flakeheaven), 'max-line-length')", false],
+        ['tool.flakeheaven."max-line-length"', 80],
       ],
     },
     {
@@ -16,7 +15,7 @@
       ifJMESPathsMatch: {
         // if pyproject.toml is specifying double quotes for flake8,
         // the formatting must be black
-        "pyproject.toml": [["tool.flakeheaven.inline_quotes", "double"]],
+        "pyproject.toml": [['tool.flakeheaven."inline-quotes"', "double"]],
       },
       JMESPathsMatch: [
         ["contains(keys(@), 'tool')", true],

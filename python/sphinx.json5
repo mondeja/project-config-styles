@@ -190,7 +190,9 @@
 
     {
       ifJMESPathsMatch: {
-        "pyproject.toml": [["tool.flakeheaven.docstring_convention", "google"]],
+        "pyproject.toml": [
+          ['tool.flakeheaven."docstring-convention"', "google"],
+        ],
       },
       files: ["docs/conf.py"],
       JMESPathsMatch: [["contains(extensions, 'sphinx.ext.napoleon')", true]],

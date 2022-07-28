@@ -50,7 +50,7 @@
         // if pyproject.toml is specifying double quotes for flake8,
         // the formatting is black so we must specify the target version
         // in his configuration
-        "pyproject.toml": [["tool.flakeheaven.inline_quotes", "double"]],
+        "pyproject.toml": [['tool.flakeheaven."inline-quotes"', "double"]],
       },
       JMESPathsMatch: [
         ["type(tool.black)", "object"],

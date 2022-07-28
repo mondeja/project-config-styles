@@ -5,7 +5,7 @@
       JMESPathsMatch: [
         ["contains(keys(@), 'tool')", true],
         ["contains(keys(tool), 'flakeheaven')", true],
-        ["tool.flakeheaven.docstring_convention", "google"],
+        ['tool.flakeheaven."docstring-convention"', "google"],
       ],
     },
   ],
