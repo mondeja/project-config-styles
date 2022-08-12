@@ -12,6 +12,7 @@
     "files-absence.json5",
     "isort.json5",
     "flakeheaven.json5",
+    "../base/pre-commit/markdown-link-check.json5",
     "github-workflows.json5",
   ],
 }

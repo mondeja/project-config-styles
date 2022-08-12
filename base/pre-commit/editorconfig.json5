@@ -9,8 +9,7 @@
         ],
       },
       JMESPathsMatch: [
-        // All Python projects must use editorconfig checker pre-commit hook
-        // to follow editorconfig rules
+        // Use editorconfig checker pre-commit hook to follow editorconfig rules
         [
           "length(repos[?repo=='https://github.com/editorconfig-checker/editorconfig-checker.python'])",
           1,

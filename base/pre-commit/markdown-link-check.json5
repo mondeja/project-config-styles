@@ -1,0 +1,34 @@
+{
+  rules: [
+    {
+      // Use markdown-link-check to check links in markdown files with
+      // https://github.com/tcort/markdown-link-check
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        [
+          "length(repos[?repo=='https://github.com/tcort/markdown-link-check'])",
+          1,
+          "set(@, 'repos', insert(repos, `-1`, {rev: gh_tags('tcort', 'markdown-link-check', True)[0], repo: 'https://github.com/tcort/markdown-link-check', hooks: [{id: 'markdown-link-check', name: 'markdown-link-check'}]}))",
+        ],
+        [
+          // the 'rev' key must match the vX.Y.Z regex pattern
+          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/tcort/markdown-link-check'] | [0].rev)",
+          true,
+        ],
+        [
+          // must contain hooks
+          "type(repos[?repo=='https://github.com/tcort/markdown-link-check'] | [0].hooks)",
+          "array",
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/tcort/markdown-link-check'] | [0].hooks[*].id, 'markdown-link-check')",
+          true,
+        ],
+        [
+          "repos[?repo=='https://github.com/tcort/markdown-link-check'] | [0].hooks[?id=='markdown-link-check'] | [0].name",
+          "markdown-link-check",
+        ],
+      ],
+    },
+  ],
+}
