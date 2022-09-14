@@ -21,6 +21,13 @@
         ["contains(keys(@), 'name')", true],
         ["name", "Update copyright years"],
 
+        // permissions
+        ["contains(keys(@), 'permissions')", true],
+        ["contains(keys(permissions), 'contents')", true],
+        ["permissions.contents", "write"],
+        ["contains(keys(permissions), 'pull-requests')", true],
+        ['permissions."pull-requests"', "write"],
+
         // on
         ["contains(keys(@), 'on')", true],
         ["contains(keys(on), 'workflow_dispatch')", true],
