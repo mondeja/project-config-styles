@@ -85,6 +85,11 @@
         ],
         ['tool.flakeheaven.plugins."flake8-pytest-style"[0]', "+*"],
 
+        // dlint
+        //   https://github.com/dlint-py/dlint
+        ["contains(keys(tool.flakeheaven.plugins), 'dlint')", true],
+        ["tool.flakeheaven.plugins.dlint[0]", "+*"],
+
         // --- Exceptions to rules ---
         ["contains(keys(tool.flakeheaven.exceptions), 'tests/**')", true],
 
