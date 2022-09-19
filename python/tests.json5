@@ -2,6 +2,10 @@
   // Python tests with pytest
   rules: [
     {
+      // The `test/` folder must be named `tests/`
+      files: { not: { "test/": "Rename the test/ folder to tests/" } },
+    },
+    {
       files: ["pyproject.toml"],
       JMESPathsMatch: [
         // Tests dependencies group must exist
@@ -79,8 +83,20 @@
       ],
     },
     {
-      // The `tests/` folder must be named `test/`
-      files: { not: { "test/": "Rename the test/ folder to tests/" } },
+      /**
+       * If mypy type checking is configured, exclude classes inherited
+       * from Protocol from coverage reports.
+       **/
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["contains(keys(tool), 'mypy')", true]],
+      },
+      JMESPathsMatch: [
+        [
+          "contains(tool.coverage.report.exclude_lines, 'class .*\\bProtocol\\):')",
+          true,
+        ],
+      ],
     },
   ],
 }
