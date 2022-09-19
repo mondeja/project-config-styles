@@ -1,5 +1,6 @@
 {
   extends: [
+    "../../base/pre-commit/main.json5",
     "../../base/pre-commit/meta.json5",
     "pyupgrade.json5",
     "add-trailing-comma.json5",
