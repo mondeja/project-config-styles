@@ -104,6 +104,13 @@
         ],
         ['tool.flakeheaven.plugins."flake8-absolute-import"[0]', "+*"],
 
+        // flake8-unused-arguments
+        [
+          "contains(keys(tool.flakeheaven.plugins), 'flake8-unused-arguments')",
+          true,
+        ],
+        ['tool.flakeheaven.plugins."flake8-unused-arguments"[0]', "+*"],
+
         // flake8-slots
         ["contains(keys(tool.flakeheaven.plugins), 'flake8-slots')", true],
         ['tool.flakeheaven.plugins."flake8-slots"[0]', "+*"],
