@@ -154,6 +154,11 @@
         ["contains(keys(tool.poetry.group), 'docs')", false],
         ["contains(keys(tool.poetry.group), 'tests')", false],
 
+        // packages
+        ["type(tool.poetry.packages)", "array"],
+        ["op(length(tool.poetry.packages), '>', `0`)", true],
+        ["tool.poetry.packages[0].from", "src"],
+
         // bump version tool
         //   'mondeja-bump' must be a development dependency
         [
