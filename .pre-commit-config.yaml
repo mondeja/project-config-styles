@@ -15,6 +15,11 @@ repos:
         types_or:
           - json5
           - markdown
+          - toml
         additional_dependencies:
           - prettier
           - prettier-plugin-toml
+  - repo: https://github.com/mondeja/project-config
+    rev: v0.7.5
+    hooks:
+      - id: project-config

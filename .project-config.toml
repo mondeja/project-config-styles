@@ -1,0 +1,5 @@
+cache = "2 days"
+style = [
+  "./base/.github/workflows/pre-commit.json5",
+  "./base/.github/workflows/pre-commit-autoupdate.json5",
+]
