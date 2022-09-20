@@ -10,6 +10,10 @@
         // see: https://github.com/m-burst/flake8-pytest-style/blob/master/docs/rules/PT001.md
         ['tool.flakeheaven."pytest-fixture-no-parentheses"', true],
 
+        // Abstract functions can define unused arguments,
+        // see: https://github.com/nhoad/flake8-unused-arguments
+        ['tool.flakeheaven."unused-arguments-ignore-abstract-functions"', true],
+
         // Enable all flake8 plugins and rules, disabling
         // after it some rules for each plugin, if needed
 
