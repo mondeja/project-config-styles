@@ -62,6 +62,10 @@
           true,
         ],
         [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-absolute-import')",
+          true,
+        ],
+        [
           "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'dlint')",
           true,
         ],

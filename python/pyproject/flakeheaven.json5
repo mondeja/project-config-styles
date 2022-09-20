@@ -93,9 +93,16 @@
         ["contains(keys(tool.flakeheaven.plugins), 'flake8-encodings')", true],
         ['tool.flakeheaven.plugins."flake8-encodings"[0]', "+*"],
 
-        // flake8-encodings
+        // flake8-no-pep420
         ["contains(keys(tool.flakeheaven.plugins), 'flake8-no-pep420')", true],
         ['tool.flakeheaven.plugins."flake8-no-pep420"[0]', "+*"],
+
+        // flake8-absolute-import
+        [
+          "contains(keys(tool.flakeheaven.plugins), 'flake8-absolute-import')",
+          true,
+        ],
+        ['tool.flakeheaven.plugins."flake8-absolute-import"[0]', "+*"],
 
         // dlint
         //   https://github.com/dlint-py/dlint
