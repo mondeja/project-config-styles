@@ -1,0 +1,17 @@
+{
+  rules: [
+    {
+      files: [".gitattributes"],
+      includeLines: [
+        "* text=auto eol=lf",
+
+        // Does not include git files when exporting the
+        // repository using the command 'git archive'
+        ".gitignore export-ignore",
+        ".gitattributes export-ignore",
+        ".github export-ignore",
+        ".gitkeep export-ignore",
+      ],
+    },
+  ],
+}

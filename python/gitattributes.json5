@@ -1,19 +1,11 @@
 {
+  extends: ["../base/gitattributes.json5"],
   rules: [
     {
       files: [".gitattributes"],
       includeLines: [
-        "* text=auto eol=lf",
-        // TODO: order would matters here, add a verb to project-config
-        //   named 'includeLinesInOrder' to preserve order
-
         // Does not include poetry lock file lines in diffs
         "poetry.lock -diff",
-        // Does not include git files when exporting the
-        // repository using the command 'git archive'
-        ".gitignore export-ignore",
-        ".gitattributes export-ignore",
-        ".github export-ignore",
       ],
     },
   ],
