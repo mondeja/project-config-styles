@@ -93,6 +93,28 @@
         ["contains(keys(tool.flakeheaven.plugins), 'flake8-encodings')", true],
         ['tool.flakeheaven.plugins."flake8-encodings"[0]', "+*"],
 
+        // flake8-no-pep420
+        ["contains(keys(tool.flakeheaven.plugins), 'flake8-no-pep420')", true],
+        ['tool.flakeheaven.plugins."flake8-no-pep420"[0]', "+*"],
+
+        // flake8-absolute-import
+        [
+          "contains(keys(tool.flakeheaven.plugins), 'flake8-absolute-import')",
+          true,
+        ],
+        ['tool.flakeheaven.plugins."flake8-absolute-import"[0]', "+*"],
+
+        // flake8-unused-arguments
+        [
+          "contains(keys(tool.flakeheaven.plugins), 'flake8-unused-arguments')",
+          true,
+        ],
+        ['tool.flakeheaven.plugins."flake8-unused-arguments"[0]', "+*"],
+
+        // flake8-slots
+        ["contains(keys(tool.flakeheaven.plugins), 'flake8-slots')", true],
+        ['tool.flakeheaven.plugins."flake8-slots"[0]', "+*"],
+
         // dlint
         //   https://github.com/dlint-py/dlint
         ["contains(keys(tool.flakeheaven.plugins), 'dlint')", true],
@@ -109,6 +131,17 @@
         //   No docstrings needed in tests
         [
           "op(tool.flakeheaven.exceptions.\"tests/**\".\"flake8-docstrings\", '==', ['-D100', '-D101', '-D102', '-D103', '-D104', '-D107', '-D205', '-D415'])",
+          true,
+        ],
+
+        // flake8-no-pep4020
+        [
+          "contains(keys(tool.flakeheaven.exceptions.\"tests/**\"), 'flake8-no-pep420')",
+          true,
+        ],
+        //   Tests have implicit namespace packages
+        [
+          'contains(tool.flakeheaven.exceptions."tests/**"."flake8-no-pep420", \'-INP001\')',
           true,
         ],
       ],
