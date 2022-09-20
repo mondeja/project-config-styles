@@ -101,8 +101,6 @@
           true,
         ],
         [
-          // Allow the usage `print` in documentation blocks because is more readable
-          // than `sys.stdout.write` for the user
           'contains(tool.flakeheaven.exceptions."docs/**"."flake8-no-pep420", \'-INP001\')',
           true,
         ],
