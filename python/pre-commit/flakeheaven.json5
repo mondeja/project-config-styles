@@ -58,6 +58,10 @@
           true,
         ],
         [
+          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-no-pep420')",
+          true,
+        ],
+        [
           "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'dlint')",
           true,
         ],

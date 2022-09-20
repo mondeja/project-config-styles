@@ -70,25 +70,40 @@
 
         // Flake8 exceptions in documentation pages (flakeheaven lints code blocks there)
         [
-          'type(tool.flakeheaven.exceptions."*.rst"."flake8-docstrings")',
+          'type(tool.flakeheaven.exceptions."docs/**"."flake8-docstrings")',
           "array",
         ],
         [
           // Allow modules without docstrings as are just examples
           // Allow public classes without docstrings as are just examples
           // Allow public methods without docstrings as are just examples
-          "op(tool.flakeheaven.exceptions.\"*.rst\".\"flake8-docstrings\", '>=', ['-D100', '-D101', '-D102'])",
+          "op(tool.flakeheaven.exceptions.\"docs/**\".\"flake8-docstrings\", '>=', ['-D100', '-D101', '-D102'])",
           true,
         ],
 
         [
-          "contains(keys(tool.flakeheaven.exceptions.\"*.rst\"), 'flake8-print')",
+          "contains(keys(tool.flakeheaven.exceptions.\"docs/**\"), 'flake8-print')",
           true,
         ],
         [
           // Allow the usage `print` in documentation blocks because is more readable
           // than `sys.stdout.write` for the user
-          'contains(tool.flakeheaven.exceptions."*.rst"."flake8-print", \'-T201\')',
+          'contains(tool.flakeheaven.exceptions."docs/**"."flake8-print", \'-T201\')',
+          true,
+        ],
+
+        [
+          // Allow implicit namespace packages in RestructuredText files
+          //
+          // That does not have much sense in examples as are snippets of
+          // code, nor files, but flakeheaven pass them to the plugin.
+          "contains(keys(tool.flakeheaven.exceptions.\"docs/**\"), 'flake8-no-pep420')",
+          true,
+        ],
+        [
+          // Allow the usage `print` in documentation blocks because is more readable
+          // than `sys.stdout.write` for the user
+          'contains(tool.flakeheaven.exceptions."docs/**"."flake8-no-pep420", \'-INP001\')',
           true,
         ],
       ],
