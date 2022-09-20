@@ -6,6 +6,17 @@
         ["null", ["pyproject.toml?text", "[0]"], "[1]", "[tool.poetry]"],
       ],
       JMESPathsMatch: [
+        // specify poetry as the build system
+        // ```toml
+        // [build-system]
+        // requires = ["poetry-core>=1.1.0b2"]
+        // build-backend = "poetry.core.masonry.api"
+        // ```
+        ['type("build-system")', "object"],
+        ['type("build-system".requires)', "array"],
+        ['"build-system".requires[0]', "poetry-core>=1.1.0b2"],
+        ['"build-system"."build-backend"', "poetry.core.masonry.api"],
+
         // 'tool' object must exist
         ["contains(keys(@), 'tool')", true],
 
