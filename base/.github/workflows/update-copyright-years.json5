@@ -22,10 +22,7 @@
         ["name", "Update copyright years"],
 
         // permissions
-        ["contains(keys(@), 'permissions')", true],
-        ["contains(keys(permissions), 'contents')", true],
-        ["permissions.contents", "write"],
-        ["contains(keys(permissions), 'pull-requests')", true],
+        ["type(permissions)", "object"],
         ['permissions."pull-requests"', "write"],
 
         // on

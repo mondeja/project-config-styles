@@ -7,6 +7,10 @@
         ["contains(keys(@), 'name')", true],
         ["name", "pre-commit"],
 
+        // permissions
+        ["type(permissions)", "object"],
+        ["permissions.contents", "read"],
+
         // on
         ["contains(keys(@), 'on')", true],
         ["contains(keys(on), 'workflow_dispatch')", true],

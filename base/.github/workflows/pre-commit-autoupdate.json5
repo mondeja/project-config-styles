@@ -7,6 +7,10 @@
         ["contains(keys(@), 'name')", true],
         ["name", "pre-commit autoupdate"],
 
+        // permissions
+        ["type(permissions)", "object"],
+        ['permissions."pull-requests"', "write"],
+
         // on
         ["contains(keys(@), 'on')", true],
         ["contains(keys(on), 'workflow_dispatch')", true],
