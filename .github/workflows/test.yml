@@ -19,6 +19,6 @@ jobs:
         name: Set up Python
         with:
           python-version: 3.x
-      - run: pip install pre-commit
+      - run: pip install pre-commit pyyaml
       - name: Run tests
         run: ./test

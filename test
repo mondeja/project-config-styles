@@ -7,11 +7,30 @@
 
 TEMPDIR="/tmp/project-config-styles-tests"
 
+setExitcode() {
+  printf '%s' "$1" > "$TEMPDIR/exitcode.txt"
+}
+
 prepareTempdir() {
   if ! [ -d "$TEMPDIR" ]; then
     mkdir "$TEMPDIR"
   fi
   printf '0' > "$TEMPDIR/exitcode.txt"
+}
+
+createPreCommitConfForProjectConfig() {
+  python3 -c "
+import sys,yaml,json
+print(json.dumps(yaml.safe_load(sys.stdin)))" < ".pre-commit-config.yaml" \
+  | jq -c '
+{repos: [.repos[] | select(.repo=="https://github.com/mondeja/project-config")]}' \
+  | python3 -c "
+import sys,yaml,json
+jc=sys.stdin.read()
+o=json.loads(jc)
+with open('.pre-commit-config-for-project-config.yaml', 'w') as f:
+  yaml.dump(o, f)
+"
 }
 
 check() {
@@ -33,12 +52,16 @@ check() {
     set +e
     project_config_fix_cmd="$(< .pre-commit-config.yaml grep project-config-fix)"
     if [ -n "$project_config_fix_cmd" ]; then
-      hook_id="project-config-fix"
+      hook_id=""  # run all hooks
+      config_file=".pre-commit-config.yaml"
     else
       hook_id="project-config"
+      config_file=".pre-commit-config-for-project-config.yaml"
+      createPreCommitConfForProjectConfig || setExitcode 1
     fi
-    if ! pre-commit run -a "$hook_id"; then
-      printf '%s' "1" > "$TEMPDIR/exitcode.txt"
+    printf "Configuration file: %s\n" "$config_file"
+    if ! pre-commit run -v -c "$config_file" -a "$hook_id"; then
+      setExitcode 1
     fi
     printf "\n"
   done;
