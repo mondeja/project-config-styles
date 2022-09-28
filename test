@@ -24,17 +24,12 @@ _prepareTempdir() {
 # execution, specially in CI environments.
 createPreCommitConfForProjectConfig() {
   python3 -c "
-import sys,yaml,json
-print(json.dumps(yaml.safe_load(sys.stdin)))" < ".pre-commit-config.yaml" \
-  | jq -c '
-{repos: [.repos[] | select(.repo=="https://github.com/mondeja/project-config")]}' \
-  | python3 -c "
-import sys,yaml,json
-jc=sys.stdin.read()
-o=json.loads(jc)
+import sys,yaml
+o = yaml.safe_load(sys.stdin)
+c = {'repos': list(filter(lambda r: r['repo'] == 'https://github.com/mondeja/project-config', o['repos']))}
 with open('.pre-commit-config-for-project-config.yaml', 'w') as f:
-  yaml.dump(o, f)
-"
+  yaml.dump(c, f)
+" < ".pre-commit-config.yaml"
 }
 
 # Clones the repositories listed in the documentation
