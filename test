@@ -47,7 +47,8 @@ check() {
 main() {
   prepareTempdir
   check
-  exit "$(cat "$TEMPDIR/exitcode.txt")"
+  exitcode="$(cat "$TEMPDIR/exitcode.txt")"
+  exit "$exitcode"
 }
 
 main
