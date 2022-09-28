@@ -25,7 +25,7 @@ check() {
       cd "$dirpath"
       git pull > /dev/null
     else
-      git clone --depth=1 "$repo" "$dirpath"
+      git clone -c protocol.version=2 --depth=1 "$repo" "$dirpath"
     fi
     cd "$TEMPDIR/$dirname"
     pre-commit install > /dev/null
