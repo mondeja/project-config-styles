@@ -1,0 +1,102 @@
+#!/bin/sh
+
+TEMPDIR="/tmp/project-config-styles-tests"
+
+setExitcode() {
+  printf '%s' "$1" > "$TEMPDIR/exitcode.txt"
+}
+
+_prepareTempdir() {
+  if ! [ -d "$TEMPDIR" ]; then
+    mkdir "$TEMPDIR"
+  fi
+  printf '0' > "$TEMPDIR/exitcode.txt"
+}
+
+# Create a pre-commit configuration file named
+# '.pre-commit-config-for-project-config.yaml' in the current
+# working directory filtering the repositories configured at
+# '.pre-commit-config.yaml'.
+#
+# This is necessary because the first time that we run
+# 'pre-commit run', pre-commit initializes all repositories
+# defined at '.pre-commit-config.yaml', which ralentizes the
+# execution, specially in CI environments.
+createPreCommitConfForProjectConfig() {
+  python3 -c "
+import sys,yaml,json
+print(json.dumps(yaml.safe_load(sys.stdin)))" < ".pre-commit-config.yaml" \
+  | jq -c '
+{repos: [.repos[] | select(.repo=="https://github.com/mondeja/project-config")]}' \
+  | python3 -c "
+import sys,yaml,json
+jc=sys.stdin.read()
+o=json.loads(jc)
+with open('.pre-commit-config-for-project-config.yaml', 'w') as f:
+  yaml.dump(o, f)
+"
+}
+
+# Clones the repositories listed in the documentation
+# of this function (see below) and executes the project-config
+# pre-commit hook inside each one of them.
+#
+# Note that we're using 'grep' here to get all lines of this
+# script that start with '#:test-check'. This pattern allow us
+# to use other https urls in documentation and in other tests,
+# just use a unique :identifier for those.
+#
+# Repositories to check:
+#
+#:test-check https://github.com/mondeja/project-config
+#:test-check https://github.com/mondeja/mdpo
+#
+checkRepositoriesUsingTheStyles() {
+  grep '^#:test-check https://' "$0" | while read -r line; do
+    set -e
+    repo="$(printf %s "$line" | cut -d' ' -f2)"
+    dirname="$(basename "$repo")"
+    printf "%s\n" "--- $dirname ---"
+    dirpath="$TEMPDIR/$dirname"
+    if [ -d "$dirpath" ]; then
+      cd "$dirpath"
+      git pull > /dev/null
+    else
+      git clone -c protocol.version=2 --depth=1 "$repo" "$dirpath"
+    fi
+    cd "$TEMPDIR/$dirname"
+    pre-commit install > /dev/null
+
+    set +e
+
+    # If in the hooks of the project we've configured the project-config-fix
+    # hook, we'll use it to fix the project configuration executing all
+    # hooks, but if the hook is project-config, we'll only execute that hook
+    # filtering the original configuration to only initialize the project-config
+    # hook environment. See the function 'createPreCommitConfForProjectConfig'.
+    project_config_fix_cmd="$(< .pre-commit-config.yaml grep project-config-fix)"
+    if [ -n "$project_config_fix_cmd" ]; then
+      hook_id=""  # run all hooks
+      config_file=".pre-commit-config.yaml"
+    else
+      hook_id="project-config"
+      config_file=".pre-commit-config-for-project-config.yaml"
+      createPreCommitConfForProjectConfig || setExitcode 1
+    fi
+    printf "Configuration file: %s\n" "$config_file"
+
+    if ! pre-commit run -v -c "$config_file" -a "$hook_id"; then
+      setExitcode 1
+    fi
+    printf "\n"
+  done;
+}
+
+main() {
+  _prepareTempdir
+  checkRepositoriesUsingTheStyles
+  exitcode="$(cat "$TEMPDIR/exitcode.txt")"
+  exit "$exitcode"
+}
+
+main

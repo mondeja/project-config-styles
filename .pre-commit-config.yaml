@@ -23,3 +23,9 @@ repos:
     rev: v0.7.5
     hooks:
       - id: project-config
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: shellcheck
+        name: shellcheck
+        files: test
