@@ -22,12 +22,12 @@ check() {
     printf "%s\n" "--- $dirname ---"
     dirpath="$TEMPDIR/$dirname"
     if [ -d "$dirpath" ]; then
-      cd "$dirpath" || exit 1
+      cd "$dirpath"
       git pull > /dev/null
     else
       git clone --depth=1 "$repo" "$dirpath"
     fi
-    cd "$TEMPDIR/$dirname" || exit 1
+    cd "$TEMPDIR/$dirname"
     pre-commit install > /dev/null
 
     set +e
