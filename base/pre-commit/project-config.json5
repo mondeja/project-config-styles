@@ -2,6 +2,16 @@
   rules: [
     {
       files: [".pre-commit-config.yaml"],
+      hint: "The project-config pre-commit hook is not configured. Run 'pre-commit autoupdate' to fix this",
+      JMESPathsMatch: [
+        [
+          "op(repos[?repo=='https://github.com/mondeja/project-config'] | rev, '==', gh_tags('mondeja', 'project-config')[0])",
+          true,
+        ],
+      ],
+    },
+    {
+      files: [".pre-commit-config.yaml"],
       JMESPathsMatch: [
         [
           "length(repos[?repo=='https://github.com/mondeja/project-config'])",

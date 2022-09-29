@@ -32,8 +32,6 @@
         ['rules.indentation."check-multi-line-strings"', true],
         ['rules.indentation."indent-sequences"', true],
         ["rules.indentation.spaces", "consistent"],
-        // TODO: add this if .github folder exists:
-        //   ["contains(rules.indentation.ignore, '.github')", true],
 
         ['rules."line-length"."allow-non-breakable-words"', true],
         ['rules."line-length".max', 180],
