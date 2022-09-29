@@ -18,7 +18,7 @@
         ["type(on.release)", "object"],
         ["type(on.release.types)", "array"],
         [
-          "contains(on.release.types, 'created')",
+          "contains(on.release.types, 'released')",
           true,
           "deepmerge(@, {on: {release: {types: ['created']}}})",
         ],
