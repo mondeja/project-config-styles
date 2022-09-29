@@ -186,6 +186,8 @@
        * Rationale: using a CLI utility, which must declare a version in
        *   the CLI, wich must be lazily evaluated (see the library for a
        *   detailed explanation).
+       *
+       * Also, the classifiers must contain "Environment :: Console"
        **/
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
@@ -198,6 +200,7 @@
           "contains(keys(tool.poetry.dependencies), 'importlib-metadata-argparse-version')",
           true,
         ],
+        ["contains(tool.poetry.classifiers, 'Environment :: Console')", true],
       ],
     },
     {

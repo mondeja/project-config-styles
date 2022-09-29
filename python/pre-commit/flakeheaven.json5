@@ -17,78 +17,10 @@
           "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[*].id, 'flakeheaven')",
           true,
         ],
-
         [
           "op(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, '>=', ['flake8-builtins', 'flake8-comprehensions', 'flake8-docstrings', 'flake8-executable', 'flake8-implicit-str-concat', 'flake8-print', 'flake8-printf-formatting', 'flake8-pytest-style', 'flake8-bugbear', 'flake8-encodings', 'flake8-no-pep420', 'flake8-absolute-import', 'flake8-slots', 'flake8-unused-arguments', 'dlint', 'pysetenv'])",
           true,
         ],
-
-        /*
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-builtins')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-comprehensions')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-docstrings')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-executable')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-implicit-str-concat')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-print')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-printf-formatting')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-pytest-style')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-bugbear')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-encodings')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-no-pep420')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-absolute-import')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-slots')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'flake8-unused-arguments')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'dlint')",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].additional_dependencies, 'pysetenv')",
-          true,
-        ],
-        */
         [
           // Ensure that the output is consistent by disabling cache
           "repos[?repo=='https://github.com/flakeheaven/flakeheaven'] | [0].hooks[?id=='flakeheaven'] | [0].entry",
