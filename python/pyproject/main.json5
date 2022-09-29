@@ -49,7 +49,6 @@
         ["contains(keys(tool.poetry), 'license')", true],
         ["type(tool.poetry.license)", "string"],
         //   authors
-        //     TODO: regular expression for authors
         ["contains(keys(tool.poetry), 'authors')", true],
         ["type(tool.poetry.authors)", "array"],
         ["op(length(tool.poetry.authors), '>', `0`)", true],
@@ -83,8 +82,6 @@
          *     - A classifier starting with "Programming Language :: Python ::"
          *       poetry adds it based on the version defined in
          *       `tool.poetry.dependencies.python`.
-         * TODO: if `tool.poetry.scripts` has items, add 'Environment:: Console'
-         *   classifier
          **/
         ["contains(keys(tool.poetry), 'classifiers')", true],
         ["op(length(tool.poetry.classifiers), '>=', `4`)", true],
@@ -189,6 +186,8 @@
        * Rationale: using a CLI utility, which must declare a version in
        *   the CLI, wich must be lazily evaluated (see the library for a
        *   detailed explanation).
+       *
+       * Also, the classifiers must contain "Environment :: Console"
        **/
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
@@ -201,6 +200,7 @@
           "contains(keys(tool.poetry.dependencies), 'importlib-metadata-argparse-version')",
           true,
         ],
+        ["contains(tool.poetry.classifiers, 'Environment :: Console')", true],
       ],
     },
     {

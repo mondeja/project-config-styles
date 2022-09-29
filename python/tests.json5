@@ -41,24 +41,11 @@
          * configuration file, we are taking control of the entire
          * list of regexes for lines to be excluded, see
          * https://coverage.rtfd.io/en/latest/excluding.html#advanced-exclusion
+         *
+         * Ignore also other common patters as `__repr__` and so on...
          **/
         [
-          "contains(tool.coverage.report.exclude_lines, 'pragma: no cover')",
-          true,
-        ],
-        /**
-         * Ignore other common patterns:
-         **/
-        [
-          "contains(tool.coverage.report.exclude_lines, 'def __repr__\\(')",
-          true,
-        ],
-        [
-          "contains(tool.coverage.report.exclude_lines, 'raise NotImplementedError')",
-          true,
-        ],
-        [
-          "contains(tool.coverage.report.exclude_lines, '@(abc\\.)?abstractmethod')",
+          "op(tool.coverage.report.exclude_lines, '>=', ['pragma: no cover', 'def __repr__\\(', 'raise NotImplementedError', '@(abc\\.)?abstractmethod'])",
           true,
         ],
       ],
