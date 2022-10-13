@@ -2,7 +2,7 @@
   rules: [
     // Basic files must exist
     {
-      files: [".gitignore", "README.md", "LICENSE"],
+      files: [".gitignore", "README.md", "LICENSE", "setup.py"],
     },
   ],
 }
