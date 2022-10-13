@@ -138,6 +138,12 @@
           true,
         ],
 
+        //   Allow a message as setup.py docstring
+        [
+          'contains(tool.flakeheaven.exceptions."setup.py"."flake8-docstrings", \'-D205\')',
+          true,
+        ],
+
         // flake8-no-pep4020
         [
           "contains(keys(tool.flakeheaven.exceptions.\"tests/**\"), 'flake8-no-pep420')",
@@ -146,6 +152,11 @@
         //   Tests have implicit namespace packages
         [
           'contains(tool.flakeheaven.exceptions."tests/**"."flake8-no-pep420", \'-INP001\')',
+          true,
+        ],
+        //   setup.py is part of an implicit namespace
+        [
+          'contains(tool.flakeheaven.exceptions."setup.py"."flake8-no-pep420", \'-INP001\')',
           true,
         ],
       ],

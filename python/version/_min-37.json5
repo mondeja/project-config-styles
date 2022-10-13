@@ -94,6 +94,10 @@
           "contains(project.classifiers, 'Programming Language :: Python :: 3.7')",
           true,
         ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.6')",
+          false,
+        ],
       ],
     },
   ],

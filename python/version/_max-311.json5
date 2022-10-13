@@ -23,6 +23,10 @@
           "contains(project.classifiers, 'Programming Language :: Python :: 3.11')",
           true,
         ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.12')",
+          false,
+        ],
       ],
     },
   ],
