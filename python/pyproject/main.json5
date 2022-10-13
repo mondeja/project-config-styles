@@ -218,8 +218,8 @@
      **/
     {
       files: ["pyproject.toml"],
-      hint: "Explicitly declare the maximum Python version supported with the '<=' operator",
-      JMESPathsMatch: [["contains(project.\"requires-python\", '<=')", true]],
+      hint: "Explicitly declare the maximum Python version supported with the '<' operator",
+      JMESPathsMatch: [["contains(project.\"requires-python\", '<')", true]],
     },
     {
       files: ["pyproject.toml"],
