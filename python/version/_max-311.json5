@@ -1,0 +1,29 @@
+{
+  rules: [
+    {
+      /**
+       * project.classifiers
+       *
+       * Depending on the maximum and minimum Python versions supported,
+       * the classfiers must contain the correspondent
+       * "Programming Language :: Python ::" version classifiers.
+       **/
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["ends_with(project.\"requires-python\", '<=3.11')", true],
+        ],
+      },
+      JMESPathsMatch: [
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.10')",
+          true,
+        ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.11')",
+          true,
+        ],
+      ],
+    },
+  ],
+}

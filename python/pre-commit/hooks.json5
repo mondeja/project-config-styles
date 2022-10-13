@@ -6,7 +6,7 @@
       ifFilesExist: [".pre-commit-hooks.yaml"],
       crossJMESPathsMatch: [
         [
-          "keys(tool.poetry.scripts)",
+          "keys(project.scripts)",
           [
             ".pre-commit-hooks.yaml",
             "[?language == 'python'].entry[].[shlex_split(@)[0]][]",
@@ -15,7 +15,7 @@
           true,
         ],
       ],
-      hint: "Pre-commit hooks scripts must be defined inside 'tool.poetry.scripts'",
+      hint: "Pre-commit hooks scripts must be defined inside 'project.scripts'",
     },
   ],
 }

@@ -2,10 +2,13 @@
   rules: [
     {
       files: ["pyproject.toml"],
-      hint: "The field 'tool.poetry.documentation' must point to a website hosted at Github Pages with the URL 'https://<username>.github.io/<project-dirname>'",
+      hint: "The field 'project.urls.Documentation' must point to a website hosted at Github Pages with the URL 'https://<username>.github.io/<project-dirname>'",
       JMESPathsMatch: [
+        ["contains(keys(@), 'project')", true],
+        ["contains(keys(project), 'urls')", true],
+        ["contains(keys(project.urls), 'Documentation')", true],
         [
-          "regex_match(op('https://([a-z-]+)\\.github\\.io/', '+', rootdir_name()), tool.poetry.documentation)",
+          "regex_match(op('https://([a-z-]+)\\.github\\.io/', '+', rootdir_name()), project.urls.Documentation)",
           true,
         ],
       ],

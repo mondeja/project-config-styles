@@ -4,8 +4,10 @@
       files: ["pyproject.toml"],
       JMESPathsMatch: [
         // Add sphinx-rtd-theme to documentation dependencies
+        ["contains(keys(tool.hatch.envs), 'docs')", true],
+        ["type(tool.hatch.envs.docs.dependencies)", "array"],
         [
-          "contains(keys(tool.poetry.group.doc.dependencies), 'sphinx-rtd-theme')",
+          "regex_match('sphinx-rtd-theme~=\\d+\\.\\d+$', tool.hatch.envs.docs.dependencies[1])",
           true,
         ],
       ],

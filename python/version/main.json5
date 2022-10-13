@@ -1,0 +1,46 @@
+{
+  extends: [
+    "_min-36.json5",
+    "_min-37.json5",
+    "_max-310.json5",
+    "_max-311.json5",
+    "_max-312.json5",
+  ],
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        [
+          "contains(keys(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0]), 'args')",
+          true,
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        ["type(tool.isort)", "object"],
+        [
+          "op(keys(tool.isort), '>', ['py_version', 'extra_standard_library'])",
+          true,
+        ],
+      ],
+    },
+    {
+      /**
+       * project.classifiers
+       **/
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.8')",
+          true,
+        ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.9')",
+          true,
+        ],
+      ],
+    },
+  ],
+}
