@@ -1,0 +1,11 @@
+{
+  rules: [
+    {
+      files: {
+        not: {
+          ".github/workflows/pre-commit.yml": "Move the pre-commit workflow to the main testing workflow",
+        },
+      },
+    },
+  ],
+}

@@ -24,50 +24,70 @@
     },
     {
       files: ["pyproject.toml"],
+      hint: "Remove 'docs' or 'documentation' scripts from default environment",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["contains(keys(tool.hatch.envs.default), 'scripts')", true],
+        ],
+      },
       JMESPathsMatch: [
-        ["contains(keys(@), 'tool')", true],
-        ["contains(keys(tool), 'poetry-exec-plugin')", true],
-        ["contains(keys(tool.\"poetry-exec-plugin\"), 'commands')", true],
-
-        // rename 'docs' or 'documentation' commands by 'doc'
-        ["contains(keys(tool.\"poetry-exec-plugin\".commands), 'docs')", false],
+        ["contains(keys(tool.hatch.envs.default.scripts), 'doc')", false],
+        ["contains(keys(tool.hatch.envs.default.scripts), 'doc:show')", false],
+        ["contains(keys(tool.hatch.envs.default.scripts), 'doc:serve')", false],
+        ["contains(keys(tool.hatch.envs.default.scripts), 'docs')", false],
+        ["contains(keys(tool.hatch.envs.default.scripts), 'docs:show')", false],
         [
-          "contains(keys(tool.\"poetry-exec-plugin\".commands), 'docs:show')",
+          "contains(keys(tool.hatch.envs.default.scripts), 'docs:serve')",
           false,
         ],
         [
-          "contains(keys(tool.\"poetry-exec-plugin\".commands), 'documentation')",
+          "contains(keys(tool.hatch.envs.default.scripts), 'documentation')",
           false,
         ],
         [
-          "contains(keys(tool.\"poetry-exec-plugin\".commands), 'documentation:show')",
+          "contains(keys(tool.hatch.envs.default.scripts), 'documentation:show')",
           false,
         ],
-
-        // add documentation commands to poetry-exec-plugin
         [
-          'tool."poetry-exec-plugin".commands.doc',
+          "contains(keys(tool.hatch.envs.default.scripts), 'documentation:serve')",
+          false,
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Define the docs environment",
+      JMESPathsMatch: [["contains(keys(tool.hatch.envs), 'docs')", true]],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Add documentation scripts to the docs environment",
+      JMESPathsMatch: [
+        ["contains(keys(tool.hatch.envs.docs), 'scripts')", true],
+        [
+          "tool.hatch.envs.docs.scripts.build",
           "python -m sphinx -n -T -E -W docs docs/_build/html",
         ],
         [
-          'tool."poetry-exec-plugin".commands."doc:show"',
+          "tool.hatch.envs.docs.scripts.serve",
           "python -m sphinx -n -T -E -W docs docs/_build/html &&\npython -c 'import webbrowser as w;w.open(\"http://127.0.0.1:8089\")' &&\npython -m http.server 8089 -b localhost -d docs/_build/html",
         ],
-
-        // add documentation dependencies group
-        ["contains(keys(tool.poetry.group), 'doc')", true],
-        ["contains(keys(tool.poetry.group), 'docs')", false],
-        ["contains(keys(tool.poetry.group), 'documentation')", false],
-        ["contains(keys(tool.poetry.group.doc), 'dependencies')", true],
-        //   add Sphinx to documentation dependencies
-        ["contains(keys(tool.poetry.group.doc.dependencies), 'Sphinx')", true],
-        //     pin using major version only
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Add Sphinx documentation dependency to the docs environment pinning major version only",
+      JMESPathsMatch: [
+        ["type(tool.hatch.envs.docs.dependencies)", "array"],
         [
-          "regex_match('^\\^\\d+$', tool.poetry.group.doc.dependencies.Sphinx)",
+          "regex_match('Sphinx~=\\d+\\.\\d+$', tool.hatch.envs.docs.dependencies[0])",
           true,
-          "deepmerge(@, {tool: {poetry: {group: {doc: {dependencies: {Sphinx: op('^', '+', gh_tags('sphinx-org', 'sphinx')[0])}}}}}})",
         ],
-
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
         // Flake8 exceptions in documentation pages (flakeheaven lints code blocks there)
         [
           'type(tool.flakeheaven.exceptions."docs/**"."flake8-docstrings")',
@@ -130,6 +150,8 @@
        * Keep in mind that this will only take effect at checkout,
        * but when the file is created with `sphinx-quickstart` the
        * original crlf line endings are still there, even in Linux.
+       *
+       * This problem is solved with a pre-commit hook (see below).
        **/
       files: [".gitattributes"],
       includeLines: ["*.bat text eol=lf"],
@@ -215,11 +237,11 @@
     // docs/conf.py metadata must match with pyproject.toml metadata
     {
       files: ["docs/conf.py"],
-      hint: "pyproject.toml[tool.poetry.name] must be equal to docs/conf.py::project",
+      hint: "pyproject.toml[project.name] must be equal to docs/conf.py::project",
       crossJMESPathsMatch: [
         [
           "project",
-          ["pyproject.toml", "tool.poetry.name"],
+          ["pyproject.toml", "project.name"],
           "op([0], '==', [1])",
           true,
         ],
@@ -227,23 +249,11 @@
     },
     {
       files: ["docs/conf.py"],
-      hint: "The name of the first author at pyproject.toml[tool.poetry.authors] must be equal to docs/conf.py::author",
-      crossJMESPathsMatch: [
-        [
-          "author",
-          ["pyproject.toml", "strip(split(tool.poetry.authors[0], '<')[0])"],
-          "op([0], '==', [1])",
-          true,
-        ],
-      ],
-    },
-    {
-      files: ["docs/conf.py"],
-      hint: "The minor version at pyproject.toml[tool.poetry.name] must be equal to docs/conf.py::version",
+      hint: "The minor version at pyproject.toml[project.name] must be equal to docs/conf.py::version",
       crossJMESPathsMatch: [
         [
           "version",
-          ["pyproject.toml", "join('.', split(tool.poetry.version, '.')[0:2])"],
+          ["pyproject.toml", "join('.', split(project.version, '.')[0:2])"],
           "op([0], '==', [1])",
           true,
         ],

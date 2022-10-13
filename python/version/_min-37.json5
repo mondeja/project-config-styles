@@ -2,10 +2,14 @@
  * Version 3.7 as the minimum Python version for a project.
  **/
 {
-  extends: ["base.json5"],
   rules: [
     {
       files: [".pre-commit-config.yaml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+        ],
+      },
       JMESPathsMatch: [
         // pyupgrade pre-commit hook must use correct argument
         [
@@ -16,10 +20,12 @@
     },
     {
       files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+        ],
+      },
       JMESPathsMatch: [
-        // strict minimum Python version required to install in pyproject.toml
-        ["tool.poetry.dependencies.python", "^3.7"],
-
         /**
          * isort
          *
@@ -50,7 +56,10 @@
         // if pyproject.toml is specifying double quotes for flake8,
         // the formatting is black so we must specify the target version
         // in his configuration
-        "pyproject.toml": [['tool.flakeheaven."inline-quotes"', "double"]],
+        "pyproject.toml": [
+          ['tool.flakeheaven."inline-quotes"', "double"],
+          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+        ],
       },
       JMESPathsMatch: [
         ["type(tool.black)", "object"],
@@ -63,9 +72,33 @@
       files: ["pyproject.toml"],
       // configure mypy
       ifJMESPathsMatch: {
-        "pyproject.toml": [["type(tool.mypy)", "object"]],
+        "pyproject.toml": [
+          ["type(tool.mypy)", "object"],
+          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+        ],
       },
       JMESPathsMatch: [["tool.mypy.python_version", "3.7"]],
+    },
+    {
+      /**
+       * project.classifiers
+       **/
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+        ],
+      },
+      JMESPathsMatch: [
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.7')",
+          true,
+        ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.6')",
+          false,
+        ],
+      ],
     },
   ],
 }

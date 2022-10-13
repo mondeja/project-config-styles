@@ -2,69 +2,94 @@
   rules: [
     {
       files: ["pyproject.toml"],
+      hint: "Don't use Poetry, use Hatch instead",
+      ifJMESPathsMatch: { "pyproject.toml": [["type(tool)", "object"]] },
+      JMESPathsMatch: [["contains(keys(tool), 'poetry')", false]],
+    },
+    {
+      files: ["pyproject.toml"],
       crossJMESPathsMatch: [
-        ["null", ["pyproject.toml?text", "[0]"], "[1]", "[tool.poetry]"],
+        ["null", ["pyproject.toml?text", "[0]"], "[1]", "[project]"],
       ],
       JMESPathsMatch: [
-        // specify poetry as the build system
-        // ```toml
-        // [build-system]
-        // requires = ["poetry-core>=1.1.0b2"]
-        // build-backend = "poetry.core.masonry.api"
-        // ```
+        /**
+         * Define hatchling as the build system:
+         *
+         * ```toml
+         * [build-system]
+         * requires = ["hatchling"]
+         * build-backend = "hatchling.build"
+         * ```
+         **/
         ['type("build-system")', "object"],
         ['type("build-system".requires)', "array"],
-        ['"build-system".requires[0]', "poetry-core>=1.1.0b2"],
-        ['"build-system"."build-backend"', "poetry.core.masonry.api"],
+        ['"build-system".requires[0]', "hatchling"],
+        ['"build-system"."build-backend"', "hatchling.build"],
 
-        // 'tool' object must exist
-        ["contains(keys(@), 'tool')", true],
+        /**
+         * Building table for the project:
+         *
+         * ```toml
+         * [tool.hatch.build]
+         * include = ["/src"]
+         * ```
+         **/
+        ["contains(keys(tool), 'hatch')", true],
+        ["contains(keys(tool.hatch), 'build')", true],
+        ["contains(keys(tool.hatch.build), 'include')", true],
+        ["type(tool.hatch.build.include)", "array"],
+        ["tool.hatch.build.include[0]", "/src"],
+        /**
+         * ```toml
+         * [tool.hatch.build.targets.wheel]
+         * packages = ["src/<package_name>"]
+         **/
+        ["contains(keys(tool.hatch.build.targets), 'wheel')", true],
+        ["type(tool.hatch.build.targets.wheel.packages)", "array"],
+        ["op(length(tool.hatch.build.targets.wheel.packages), '>', `0`)", true],
 
-        // poetry metadata
-        //   'poetry' object must exist inside 'tool'
-        ["contains(keys(tool), 'poetry')", true],
+        // PEP 621 metadata
         /**
          *  name
          *
          * Must be a valid regex for a project, the same that the project
          *   root directory name.
+         *
+         *   NOTE: this is indirectly ensuring that the root directory
+         *         name is valid against a regular expression.
          **/
-        ["contains(keys(tool.poetry), 'name')", true],
-        ["type(tool.poetry.name)", "string"],
-        ["regex_match('[a-z0-9-]+$', tool.poetry.name)", true],
-        ["op(tool.poetry.name, '==', rootdir_name())", true],
+        ["contains(keys(project), 'name')", true],
+        ["type(project.name)", "string"],
+        ["regex_match('[a-z0-9-]+$', project.name)", true],
+        ["op(project.name, '==', rootdir_name())", true],
         //   version
-        ["contains(keys(tool.poetry), 'version')", true],
-        ["type(tool.poetry.version)", "string"],
-        ["regex_match('^\\d+\\.\\d+\\.\\d+$', tool.poetry.version)", true],
+        ["contains(keys(project), 'version')", true],
+        ["type(project.version)", "string"],
+        ["regex_match('^\\d+\\.\\d+\\.\\d+$', project.version)", true],
         //   description
-        ["contains(keys(tool.poetry), 'description')", true],
-        ["type(tool.poetry.description)", "string"],
-        //     must end in point
-        ["regex_match('.+\\.$', tool.poetry.description)", true],
+        ["contains(keys(project), 'description')", true],
+        ["type(project.description)", "string"],
         //   readme
-        ["contains(keys(tool.poetry), 'readme')", true],
-        ["tool.poetry.readme", "README.md"],
+        ["project.readme", "README.md"],
         //   license
-        ["contains(keys(tool.poetry), 'license')", true],
-        ["type(tool.poetry.license)", "string"],
+        ["contains(keys(project), 'license')", true],
+        ["type(project.license)", "string"],
         //   authors
-        ["contains(keys(tool.poetry), 'authors')", true],
-        ["type(tool.poetry.authors)", "array"],
-        ["op(length(tool.poetry.authors), '>', `0`)", true],
-        //   repository
-        ["contains(keys(tool.poetry), 'repository')", true],
-        ["type(tool.poetry.repository)", "string"],
-        ["regex_match('^https://', tool.poetry.repository)", true],
-        //   documentation
-        ["contains(keys(tool.poetry), 'documentation')", true],
-        ["type(tool.poetry.documentation)", "string"],
-        ["regex_match('^https://', tool.poetry.documentation)", true],
+        ["contains(keys(project), 'authors')", true],
+        ["type(project.authors)", "array"],
+        ["op(length(project.authors), '>', `0`)", true],
+        //   keywords
+        ["contains(keys(project), 'keywords')", true],
+        ["type(project.keywords)", "array"],
+        ["op(length(project.keywords), '>', `0`)", true],
+        //   requires-python
+        ["contains(keys(project), 'requires-python')", true],
+        ['type(project."requires-python")', "string"],
 
         /**
          * classifiers
          *
-         * `tool.poetry.classifiers` must:        https://pypi.org/classifiers/
+         * `project.classifiers` must:        https://pypi.org/classifiers/
          *   - contain:
          *     - One of the next classifiers:
          *       - "Development Status :: 2 - Pre-Alpha"
@@ -75,111 +100,71 @@
          *     - A classifier starting with "Operating System :: "
          *     - A classifier starting with "Topic :: "
          *     - A classifier starting with "Intended Audience :: "
-         *   - not contain:
-         *     - A classifier starting with "License" because
-         *       poetry adds it based on the `license` field when building.
-         *       See `dist/*.tar.gz/PKG-INFO`.
-         *     - A classifier starting with "Programming Language :: Python ::"
-         *       poetry adds it based on the version defined in
-         *       `tool.poetry.dependencies.python`.
+         *     - A classifier starting with "License :: OSI Approved ::"
          **/
-        ["contains(keys(tool.poetry), 'classifiers')", true],
-        ["op(length(tool.poetry.classifiers), '>=', `4`)", true],
+        ["contains(keys(project), 'classifiers')", true],
+        ["op(length(project.classifiers), '>=', `4`)", true],
         [
-          'contains(`["Development Status :: 2 - Pre-Alpha", "Development Status :: 3 - Alpha", "Development Status :: 4 - Beta", "Development Status :: 5 - Production/Stable", "Development Status :: 6 - Mature"]`, tool.poetry.classifiers[0])',
+          'contains(`["Development Status :: 2 - Pre-Alpha", "Development Status :: 3 - Alpha", "Development Status :: 4 - Beta", "Development Status :: 5 - Production/Stable", "Development Status :: 6 - Mature"]`, project.classifiers[0])',
           true,
         ],
+        ["regex_match('^Operating System :: ', project.classifiers[1])", true],
         [
-          "regex_match('^Operating System :: ', tool.poetry.classifiers[1])",
+          "regex_match('^License :: OSI Approved ::', project.classifiers[2])",
           true,
         ],
-        [
-          "regex_match('^Intended Audience :: ', tool.poetry.classifiers[2])",
-          true,
-        ],
-        ["regex_match('^Topic :: ', tool.poetry.classifiers[3])", true],
-        [
-          "tool.poetry.classifiers | length([?regex_match('^[Ll]icense', @)])",
-          0,
-        ],
-        [
-          "tool.poetry.classifiers | length([?regex_match('^Programming Language :: Python', @)])",
-          0,
-        ],
+        ["regex_match('^Intended Audience :: ', project.classifiers[3])", true],
+        ["regex_match('^Topic :: ', project.classifiers[4])", true],
 
         /**
          * urls
          *
-         * - Must not allow "Documentation", "Docs", "Repository",
-         *   "Repo" or other variants, these must be moved to
-         *   `tool.poetry.documentation` and `tool.poetry.repository`.
-         * - A "Bug tracker"  url pointing to GH issues is mandatory.
-         * - A "Changelog" url pointing to GH releases is mandatory.
+         * - A "Source" url pointing to a Github repository.
+         * - A "Bug tracker"  url pointing to Github issues is mandatory.
+         * - A "Changelog" url pointing to Github releases is mandatory.
          **/
-        ["type(tool.poetry.urls)", "object"],
-        ['type(tool.poetry.urls."Bug tracker")', "string"],
+        ["type(project.urls)", "object"],
+        ['type(project.urls."Source")', "string"],
         [
-          "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/issues', tool.poetry.urls.\"Bug tracker\")",
+          "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+', project.urls.\"Source\")",
           true,
         ],
-        ["type(tool.poetry.urls.Changelog)", "string"],
+        ['type(project.urls."Bug tracker")', "string"],
         [
-          "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/releases', tool.poetry.urls.Changelog)",
+          "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/issues', project.urls.\"Bug tracker\")",
+          true,
+        ],
+        ["type(project.urls.Changelog)", "string"],
+        [
+          "regex_match('https://github\\.com/[a-z0-9-]+/[a-z0-9-]+/releases', project.urls.Changelog)",
           true,
         ],
         [
-          "length(op(keys(tool.poetry.urls), '&', ['Documentation', 'documentation', 'Docs', 'docs', 'Doc', 'doc', 'Repository', 'repository', 'Repo', 'repo']))",
+          "length(op(keys(project.urls), '&', ['documentation', 'Docs', 'docs', 'Doc', 'doc', 'Repository', 'repository', 'Repo', 'repo', 'changelog', 'Bug Tracker', 'bug tracker', 'Issues', 'issues']))",
           0,
         ],
 
-        //   dependencies
         /**
-         * - Forbid the definition of a dependencies group
-         *   named `docs`, must be named `doc` instead.
-         *   The same applies to the testing one: `tests`
-         *   must be renamed by `test`.
-         * - The development dependencies group (`dev`) is
-         *   mandatory.
+         * Environments
          **/
-        ["contains(keys(tool.poetry), 'dependencies')", true],
-        //     specify python version
-        ["contains(keys(tool.poetry.dependencies), 'python')", true],
-        //   dependencies groups
-        ["contains(keys(tool.poetry), 'group')", true],
-        ["contains(keys(tool.poetry.group), 'dev')", true],
-        ["contains(keys(tool.poetry.group.dev), 'dependencies')", true],
-        ["contains(keys(tool.poetry.group), 'docs')", false],
-        ["contains(keys(tool.poetry.group), 'tests')", false],
+        ["type(tool.hatch.envs)", "object"],
 
-        // packages
-        ["type(tool.poetry.packages)", "array"],
-        ["op(length(tool.poetry.packages), '>', `0`)", true],
-        ["tool.poetry.packages[0].from", "src"],
+        // default
+        ["type(tool.hatch.envs.default)", "object"],
+        ["type(tool.hatch.envs.default.python)", "string"],
+        ["regex_match('\\d+\\.\\d+$', tool.hatch.envs.default.python)", true],
 
-        // bump version tool
-        //   'mondeja-bump' must be a development dependency
-        [
-          "contains(keys(tool.poetry.group.dev.dependencies), 'mondeja-bump')",
-          true,
-        ],
-        //   whatever version, we don't care
-        ['tool.poetry.group.dev.dependencies."mondeja-bump"', "*"],
-
-        /**
-         * poetry-exec-plugin
-         *
-         * A linting command must be added to
-         * `tool.poetry-exec-plugin.commands` named `lint` that
-         * will execute pre-commit.
-         **/
-        ["contains(keys(tool), 'poetry-exec-plugin')", true],
-        ["contains(keys(tool.\"poetry-exec-plugin\"), 'commands')", true],
-        ['tool."poetry-exec-plugin".commands.lint', "pre-commit run -a"],
+        // style
+        ["type(tool.hatch.envs.style)", "object"],
+        ["type(tool.hatch.envs.style.python)", "string"],
+        ["regex_match('\\d+\\.\\d+$', tool.hatch.envs.style.python)", true],
+        ["type(tool.hatch.envs.style.scripts)", "object"],
+        ["tool.hatch.envs.style.scripts.lint", "pre-commit run -a"],
       ],
     },
     {
       /**
-       * If tool.poetry.scripts contains properties (means that the package
+       * If project.scripts contains properties (means that the package
        * have CLI scripts), dependencies must include
        * `importlib-metadata-argparse-version` as a dependency.
        *
@@ -192,28 +177,32 @@
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
         "pyproject.toml": [
-          ["op(length(keys(tool.poetry.scripts)), '>', `0`)", true],
+          ["op(length(keys(project.scripts)), '>', `0`)", true],
         ],
       },
       JMESPathsMatch: [
+        ["type(project.dependencies)", "array"],
         [
-          "contains(keys(tool.poetry.dependencies), 'importlib-metadata-argparse-version')",
+          "contains(project.dependencies, 'importlib-metadata-argparse-version')",
           true,
         ],
-        ["contains(tool.poetry.classifiers, 'Environment :: Console')", true],
+        ["contains(project.classifiers, 'Environment :: Console')", true],
       ],
     },
     {
+      /**
+       * license
+       *
+       *   - Must be a valid OSI approved SPDX license identifier.
+       **/
       files: ["pyproject.toml"],
-      hint: "'tool.poetry.license' must be a valid OSI approved SPDX license",
+      hint: "'project.license' must be a valid OSI approved SPDX license",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["type(project.license)", "string"]],
+      },
       crossJMESPathsMatch: [
-        /**
-         * license
-         *
-         *   - Must be a valid OSI approved SPDX license identifier.
-         **/
         [
-          "tool.poetry.license",
+          "project.license",
           [
             "gh://spdx/license-list-data@v3.17/json/licenses.json",
             "licenses[?isOsiApproved] | [?!isDeprecatedLicenseId].licenseId",
@@ -222,6 +211,20 @@
           true,
         ],
       ],
+    },
+
+    /**
+     * project.requires-python
+     **/
+    {
+      files: ["pyproject.toml"],
+      hint: "Explicitly declare the maximum Python version supported with the '<=' operator",
+      JMESPathsMatch: [["contains(project.\"requires-python\", '<=')", true]],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Explicitly declare the minimum Python version supported with the '>=' operator",
+      JMESPathsMatch: [["contains(project.\"requires-python\", '>=')", true]],
     },
   ],
 }

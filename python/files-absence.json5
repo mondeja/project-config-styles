@@ -4,10 +4,13 @@
       files: {
         not: {
           // The next files must not exist in Python projects
-          "requirements.txt": "Use pyproject.toml or setup.cfg to define dependencies",
+          "requirements.txt": "Use pyproject.toml to define dependencies",
+          "dev-requirements.txt": "Use pyproject.toml to define dependencies",
           ".isort.cfg": "Move values to pyproject.toml (section [tool.isort]) or setup.cfg (section [isort])",
           Pipfile: "Use pyproject.toml instead",
           "Pipfile.lock": "Use pyproject.toml instead",
+          ".flake8": "Use flakeheaven with pyproject.toml instead of flake8 with .flake8 configuration file",
+          "setup.cfg": "Move to a pyproject.toml file",
         },
       },
     },

@@ -44,59 +44,49 @@
         ],
 
         // jobs[0].steps[1]
-        ['jobs."deploy-version-docs".steps[1].name', "Install poetry"],
+        ['jobs."deploy-version-docs".steps[1].name', "Set up Python v3"],
         [
-          'jobs."deploy-version-docs".steps[1].run',
-          "curl -sSL https://install.python-poetry.org | python - --preview\npoetry self add poetry-exec-plugin\npoetry self show plugins\n",
-        ],
-
-        // jobs[0].steps[2]
-        ['jobs."deploy-version-docs".steps[2].name', "Set up Python v3"],
-        [
-          "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-version-docs\".steps[2].uses)",
+          "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-version-docs\".steps[1].uses)",
           true,
         ],
         [
-          'jobs."deploy-version-docs".steps[2].with',
+          'jobs."deploy-version-docs".steps[1].with',
           { "python-version": "3.x" },
         ],
 
+        // jobs[0].steps[2]
+        ['jobs."deploy-version-docs".steps[2].name', "Install dependencies"],
+        ['jobs."deploy-version-docs".steps[2].run', "pip install -U hatch"],
+
         // jobs[0].steps[3]
-        ['jobs."deploy-version-docs".steps[3].name', "Install dependencies"],
-        [
-          'jobs."deploy-version-docs".steps[3].run',
-          "poetry install --with doc\npoetry show\n",
-        ],
+        ['jobs."deploy-version-docs".steps[3].name', "Build documentation"],
+        ['jobs."deploy-version-docs".steps[3].run', "hatch run docs:build"],
 
         // jobs[0].steps[4]
-        ['jobs."deploy-version-docs".steps[4].name', "Build documentation"],
-        ['jobs."deploy-version-docs".steps[4].run', "poetry exec doc"],
-
-        // jobs[0].steps[5]
-        ['jobs."deploy-version-docs".steps[5].name', "Get version"],
-        ['jobs."deploy-version-docs".steps[5].id', "get-version"],
+        ['jobs."deploy-version-docs".steps[4].name', "Get version"],
+        ['jobs."deploy-version-docs".steps[4].id', "get-version"],
         [
-          'jobs."deploy-version-docs".steps[5].run',
+          'jobs."deploy-version-docs".steps[4].run',
           'echo "::set-output name=version::$(cat pyproject.toml | grep "version = " -m 1 | cut -d\' \' -f3 | cut -c 2- | rev | cut -c 2- | rev)"',
         ],
 
-        // jobs[0].steps[6]
-        ['jobs."deploy-version-docs".steps[6].name', "Deploy documentation"],
+        // jobs[0].steps[5]
+        ['jobs."deploy-version-docs".steps[5].name', "Deploy documentation"],
         [
-          "regex_match('peaceiris/actions-gh-pages@v\\d+', jobs.\"deploy-version-docs\".steps[6].uses)",
+          "regex_match('peaceiris/actions-gh-pages@v\\d+', jobs.\"deploy-version-docs\".steps[5].uses)",
           true,
         ],
-        ['type(jobs."deploy-version-docs".steps[6].with)', "object"],
+        ['type(jobs."deploy-version-docs".steps[5].with)', "object"],
         [
-          'jobs."deploy-version-docs".steps[6].with.github_token',
+          'jobs."deploy-version-docs".steps[5].with.github_token',
           "${{ secrets.GITHUB_TOKEN }}",
         ],
         [
-          'jobs."deploy-version-docs".steps[6].with.publish_dir',
+          'jobs."deploy-version-docs".steps[5].with.publish_dir',
           "./docs/_build/html",
         ],
         [
-          'jobs."deploy-version-docs".steps[6].with.destination_dir',
+          'jobs."deploy-version-docs".steps[5].with.destination_dir',
           "${{ steps.get-version.outputs.version }}",
         ],
 
@@ -118,50 +108,40 @@
         ],
 
         // jobs[1].steps[1]
-        ['jobs."deploy-latest-docs".steps[1].name', "Install poetry"],
+        ['jobs."deploy-latest-docs".steps[1].name', "Set up Python v3"],
         [
-          'jobs."deploy-latest-docs".steps[1].run',
-          "curl -sSL https://install.python-poetry.org | python - --preview\npoetry self add poetry-exec-plugin\npoetry self show plugins\n",
-        ],
-
-        // jobs[1].steps[2]
-        ['jobs."deploy-latest-docs".steps[2].name', "Set up Python v3"],
-        [
-          "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-latest-docs\".steps[2].uses)",
+          "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-latest-docs\".steps[1].uses)",
           true,
         ],
         [
-          'jobs."deploy-latest-docs".steps[2].with',
+          'jobs."deploy-latest-docs".steps[1].with',
           { "python-version": "3.x" },
         ],
 
+        // jobs[1].steps[2]
+        ['jobs."deploy-latest-docs".steps[2].name', "Install dependencies"],
+        ['jobs."deploy-latest-docs".steps[2].run', "pip install -U hatch"],
+
         // jobs[1].steps[3]
-        ['jobs."deploy-latest-docs".steps[3].name', "Install dependencies"],
-        [
-          'jobs."deploy-latest-docs".steps[3].run',
-          "poetry install --with doc\npoetry show\n",
-        ],
+        ['jobs."deploy-latest-docs".steps[3].name', "Build documentation"],
+        ['jobs."deploy-latest-docs".steps[3].run', "hatch run docs:build"],
 
         // jobs[1].steps[4]
-        ['jobs."deploy-latest-docs".steps[4].name', "Build documentation"],
-        ['jobs."deploy-latest-docs".steps[4].run', "poetry exec doc"],
-
-        // jobs[1].steps[5]
-        ['jobs."deploy-latest-docs".steps[5].name', "Deploy documentation"],
+        ['jobs."deploy-latest-docs".steps[4].name', "Deploy documentation"],
         [
-          "regex_match('peaceiris/actions-gh-pages@v\\d+', jobs.\"deploy-latest-docs\".steps[5].uses)",
+          "regex_match('peaceiris/actions-gh-pages@v\\d+', jobs.\"deploy-latest-docs\".steps[4].uses)",
           true,
         ],
-        ['type(jobs."deploy-latest-docs".steps[5].with)', "object"],
+        ['type(jobs."deploy-latest-docs".steps[4].with)', "object"],
         [
-          'jobs."deploy-latest-docs".steps[5].with.github_token',
+          'jobs."deploy-latest-docs".steps[4].with.github_token',
           "${{ secrets.GITHUB_TOKEN }}",
         ],
         [
-          'jobs."deploy-latest-docs".steps[5].with.publish_dir',
+          'jobs."deploy-latest-docs".steps[4].with.publish_dir',
           "./docs/_build/html",
         ],
-        ['jobs."deploy-latest-docs".steps[5].with.destination_dir', "latest"],
+        ['jobs."deploy-latest-docs".steps[4].with.destination_dir', "latest"],
       ],
     },
   ],
