@@ -11,7 +11,7 @@
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
         "pyproject.toml": [
-          ["ends_with(project.\"requires-python\", '<=3.10')", true],
+          ["ends_with(project.\"requires-python\", '<3.11')", true],
         ],
       },
       JMESPathsMatch: [
