@@ -1,5 +1,10 @@
 # My own [project-config] styles
 
+## Base styles (`base/`)
+
+- `project-config.json5`: Configuration for [project-config] using a `pyproject.toml` file and [pre-commit] to run it.
+- `pre-commit/md2po2md.json5`: [md2po2md] configuration for [pre-commit] to convert Markdown to PO and back.
+
 ## Python (`python/`)
 
 - `base.json5`: Base styles for Python. Include it at start.
@@ -25,3 +30,5 @@
 [pytest]: https://docs.pytest.org/en/latest/
 [mdpo]: https://mondeja.github.io/mdpo/
 [mypy]: https://mypy.readthedocs.io/en/latest/
+[pre-commit]: https://pre-commit.com
+[md2po2md]: https://mondeja.github.io/mdpo/latest/pre-commit-hooks.html#md2po2md
