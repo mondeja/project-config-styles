@@ -9,7 +9,7 @@ repos:
       - id: check-added-large-files
         name: check-added-large-files
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.7.1
+    rev: v3.0.0-alpha.1
     hooks:
       - id: prettier
         types_or:
@@ -20,7 +20,7 @@ repos:
           - prettier
           - prettier-plugin-toml
   - repo: https://github.com/mondeja/project-config
-    rev: v0.7.5
+    rev: v0.7.7
     hooks:
       - id: project-config
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
