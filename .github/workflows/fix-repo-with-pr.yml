@@ -13,6 +13,7 @@ on:
 jobs:
   fix-repo:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python v3
@@ -21,8 +22,13 @@ jobs:
           python-version: 3.x
       - name: Install dependencies
         run: pip install pre-commit pyyaml pyjson5
+      - name: Configure GIT
+        run: |
+          git config --global user.email "mondejar1994@gmail.com"
+          git config --global user.name "Álvaro Mondéjar Rubio"
       - name: Run project-config fix
         run: ./_scripts/fix-repo "$REPOSITORY" "$VERSION"
         env:
           REPOSITORY: ${{ github.event.inputs.repository }}
           VERSION: ${{ github.event.inputs.version }}
+          GH_TOKEN: ${{ secrets.FIX_REPO_GITHUB_TOKEN }}

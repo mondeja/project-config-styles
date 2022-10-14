@@ -119,7 +119,13 @@ fixRepositoryUsingTheStyles() {
     printf "\n"
     PAGER= git log -n 1
     remote_origin_url="$(git config --get remote.origin.url)"
-    printf "Pushing to %s...\n" "$remote_origin_url"
+    printf "Opening pull to %s...\n" "$remote_origin_url"
+
+    if [ -n "$GH_TOKEN" ]; then
+      origin_url="https://${GH_TOKEN}@$(echo "$REPOSITORY"| cut -d'/' -f3-)"
+      git remote set-url origin "$origin_url"
+    fi;
+
     git push -fu origin "$branch_name"
     default_branch_name="$(gitGetDefaultBranchName "$REPOSITORY")"
     gh pr create \

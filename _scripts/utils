@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+export LC_ALL=0
+
 PRE_COMMIT_FOR_PROJECT_CONFIG_FILE=".pre-commit-config-for-project-config.yaml"
 TEMPDIR="/tmp/project-config-styles-tests"
 
@@ -32,7 +34,7 @@ gitFastClone() {
 }
 
 gitGetDefaultBranchName() {
-  LC_ALL=0 git remote show "$1" | grep 'HEAD branch' | cut -d' ' -f5
+  git remote show "$1" | grep 'HEAD branch' | cut -d' ' -f5
 }
 
 getProjectConfigVersion() {
