@@ -1,36 +1,4 @@
-#!/bin/sh
-
-TEMPDIR="/tmp/project-config-styles-tests"
-
-setExitcode() {
-  printf '%s' "$1" > "$TEMPDIR/exitcode.txt"
-}
-
-_prepareTempdir() {
-  if ! [ -d "$TEMPDIR" ]; then
-    mkdir "$TEMPDIR"
-  fi
-  printf '0' > "$TEMPDIR/exitcode.txt"
-}
-
-# Create a pre-commit configuration file named
-# '.pre-commit-config-for-project-config.yaml' in the current
-# working directory filtering the repositories configured at
-# '.pre-commit-config.yaml'.
-#
-# This is necessary because the first time that we run
-# 'pre-commit run', pre-commit initializes all repositories
-# defined at '.pre-commit-config.yaml', which ralentizes the
-# execution, specially in CI environments.
-createPreCommitConfForProjectConfig() {
-  python3 -c "
-import sys,yaml
-o = yaml.safe_load(sys.stdin)
-c = {'repos': list(filter(lambda r: r['repo'] == 'https://github.com/mondeja/project-config', o['repos']))}
-with open('.pre-commit-config-for-project-config.yaml', 'w') as f:
-  yaml.dump(c, f)
-" < ".pre-commit-config.yaml"
-}
+#!/usr/bin/env sh
 
 # Clones the repositories listed in the documentation
 # of this function (see below) and executes the project-config
@@ -57,7 +25,7 @@ checkRepositoriesUsingTheStyles() {
       cd "$dirpath"
       git pull > /dev/null
     else
-      git clone -c protocol.version=2 --depth=1 "$repo" "$dirpath"
+      gitFastClone "$repo" "$dirpath"
     fi
     cd "$TEMPDIR/$dirname"
     pre-commit install > /dev/null
@@ -75,7 +43,7 @@ checkRepositoriesUsingTheStyles() {
       config_file=".pre-commit-config.yaml"
     else
       hook_id="project-config"
-      config_file=".pre-commit-config-for-project-config.yaml"
+      config_file="$PRE_COMMIT_FOR_PROJECT_CONFIG_FILE"
       createPreCommitConfForProjectConfig || setExitcode 1
     fi
     printf "Configuration file: %s\n" "$config_file"
@@ -88,10 +56,10 @@ checkRepositoriesUsingTheStyles() {
 }
 
 main() {
+  . _scripts/utils
   _prepareTempdir
   checkRepositoriesUsingTheStyles
-  exitcode="$(cat "$TEMPDIR/exitcode.txt")"
-  exit "$exitcode"
+  exit "$(getExitcode)"
 }
 
 main

@@ -1,0 +1,28 @@
+name: Fix repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        required: true
+        description: Github repository to fix
+      version:
+        required: false
+        description: project-config-styles version used to run project-config fix
+
+jobs:
+  fix-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python v3
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: pip install pre-commit pyyaml pyjson5
+      - name: Run project-config fix
+        run: ./_scripts/fix-repo "$REPOSITORY" "$VERSION"
+        env:
+          REPOSITORY: ${{ github.event.inputs.repository }}
+          VERSION: ${{ github.event.inputs.version }}

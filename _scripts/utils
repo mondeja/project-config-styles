@@ -1,0 +1,62 @@
+#!/usr/bin/env sh
+
+PRE_COMMIT_FOR_PROJECT_CONFIG_FILE=".pre-commit-config-for-project-config.yaml"
+TEMPDIR="/tmp/project-config-styles-tests"
+
+setExitcode() {
+  printf '%s' "$1" > "$TEMPDIR/exitcode.txt"
+}
+
+getExitcode() {
+  cat "$TEMPDIR/exitcode.txt"
+}
+
+_prepareTempdir() {
+  if ! [ -d "$TEMPDIR" ]; then
+    mkdir "$TEMPDIR"
+  fi
+  printf '0' > "$TEMPDIR/exitcode.txt"
+}
+
+sedEscape() {
+  echo "$1" | sed 's/\//\\\//g'
+}
+
+gitFastClone() {
+  if [ -z "$3" ]; then
+    depth=1
+  else
+    depth="$3"
+  fi
+  git clone -q -c protocol.version=2 --depth=$depth "$1" "$2"
+}
+
+gitGetDefaultBranchName() {
+  LC_ALL=0 git remote show "$1" | grep 'HEAD branch' | cut -d' ' -f5
+}
+
+getProjectConfigVersion() {
+  python3 -c "import sys,yaml
+o = yaml.safe_load(sys.stdin)
+repo = list(filter(lambda r: r['repo'] == 'https://github.com/mondeja/project-config', o['repos']))[0]
+print(repo['rev'])
+" < .pre-commit-config.yaml
+}
+
+# Create a pre-commit configuration file named
+# '.pre-commit-config-for-project-config.yaml' in the current
+# working directory filtering the repositories configured at
+# '.pre-commit-config.yaml'.
+#
+# This is necessary because the first time that we run
+# 'pre-commit run', pre-commit initializes all repositories
+# defined at '.pre-commit-config.yaml', which ralentizes the
+# execution, specially in CI environments.
+createPreCommitConfForProjectConfig() {
+  python3 -c "import sys,yaml
+o = yaml.safe_load(sys.stdin)
+c = {'repos': list(filter(lambda r: r['repo'] == 'https://github.com/mondeja/project-config', o['repos']))}
+with open('$PRE_COMMIT_FOR_PROJECT_CONFIG_FILE', 'w') as f:
+  yaml.dump(c, f)
+" < ".pre-commit-config.yaml"
+}

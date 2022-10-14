@@ -12,3 +12,6 @@ trim_trailing_whitespace = false
 
 [*.{json5,sh}]
 indent_size = 2
+
+[_scripts/*]
+indent_size = 2
