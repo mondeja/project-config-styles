@@ -56,7 +56,7 @@
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
         "pyproject.toml": [
-          ["op(length(keys(project.scripts)), '>', `0`)", true],
+          ["op(length(keys(project.scripts || `{}`)), '>', `0`)", true],
         ],
       },
       JMESPathsMatch: [
