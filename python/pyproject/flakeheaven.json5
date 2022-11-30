@@ -138,12 +138,6 @@
           true,
         ],
 
-        //   Allow a message as setup.py docstring
-        [
-          'contains(tool.flakeheaven.exceptions."setup.py"."flake8-docstrings", \'-D205\')',
-          true,
-        ],
-
         // flake8-no-pep4020
         [
           "contains(keys(tool.flakeheaven.exceptions.\"tests/**\"), 'flake8-no-pep420')",

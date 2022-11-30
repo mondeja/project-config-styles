@@ -1,0 +1,19 @@
+{
+  rules: [
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        //   Allow a message as setup.py docstring
+        [
+          'contains(tool.flakeheaven.exceptions."setup.py"."flake8-docstrings", \'-D205\')',
+          true,
+        ],
+        //   setup.py is part of an implicit namespace
+        [
+          'contains(tool.flakeheaven.exceptions."setup.py"."flake8-no-pep420", \'-INP001\')',
+          true,
+        ],
+      ],
+    },
+  ],
+}

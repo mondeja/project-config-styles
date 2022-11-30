@@ -1,0 +1,74 @@
+{
+  extends: ["pyproject/flakeheaven-setup-py.json5"],
+  rules: [
+    {
+      files: ["setup.py"],
+      hint: "The setup.py file does not have the correct docstring.",
+      crossJMESPathsMatch: [
+        [
+          "`null`",
+          ["setup.py?text", "[0]"],
+          "[1]",
+          '"""Installation using setup.py is no longer supported.',
+        ],
+        [
+          "`null`",
+          ["setup.py?text", "[1]"],
+          "[1]",
+          "Use `pip install .` instead.",
+        ],
+        ["`null`", ["setup.py?text", "[2]"], "[1]", '"""'],
+      ],
+    },
+    {
+      files: ["setup.py"],
+      hint: "The setup.py file does not have the correct import statements.",
+      crossJMESPathsMatch: [
+        ["`null`", ["setup.py?text", "[4]"], "[1]", "import sys"],
+        [
+          "`null`",
+          ["setup.py?text", "[6]"],
+          "[1]",
+          "from setuptools import setup",
+        ],
+      ],
+    },
+    {
+      files: ["setup.py"],
+      hint: "The setup.py file does not contain the correct function calls.",
+      crossJMESPathsMatch: [
+        [
+          "`null`",
+          ["setup.py?text", "@"],
+          "contains([1], 'sys.exit(__doc__)')",
+          true,
+        ],
+        ["`null`", ["setup.py?text", "@"], "contains([1], 'setup(')", true],
+        [
+          "`null`",
+          ["setup.py?text", "@"],
+          "length([1][?regex_match(op(op(' {4}name=[\\'\"]', '+', rootdir_name()), '+', '[\\'\"],?'), @)])",
+          1,
+        ],
+      ],
+    },
+    {
+      files: ["setup.py"],
+      hint: "The setup.py file does not contain the correct comment.",
+      crossJMESPathsMatch: [
+        [
+          "`null`",
+          ["setup.py?text", "@"],
+          "contains([1], '# Fake reference so GitHub still considers it a real package')",
+          true,
+        ],
+        [
+          "`null`",
+          ["setup.py?text", "@"],
+          "contains([1], '# for statistics purposes:')",
+          true,
+        ],
+      ],
+    },
+  ],
+}
