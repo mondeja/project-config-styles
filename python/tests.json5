@@ -178,7 +178,7 @@
       hint: "The script \"all\" must end with 'coverage run -m pytest'",
       JMESPathsMatch: [
         [
-          "ends_with(tool.hatch.envs.tests.scripts.all, 'coverage run -m pytest')",
+          "ends_with(tool.hatch.envs.tests.scripts.all || `''`, 'coverage run -m pytest')",
           true,
         ],
       ],
@@ -217,7 +217,7 @@
       files: ["pyproject.toml"],
       JMESPathsMatch: [
         [
-          "contains(tool.hatch.envs.tests.scripts.integration, 'coverage run -m pytest tests/test_integration')",
+          "contains(tool.hatch.envs.tests.scripts.integration || `''`, 'coverage run -m pytest tests/test_integration')",
           true,
         ],
       ],
@@ -231,7 +231,7 @@
         ["type(tool.hatch.envs.tests.scripts.cov)", "array"],
         ["length(tool.hatch.envs.tests.scripts.cov)", 4],
         [
-          "regex_match('^hatch run \\+py=py\\d+ tests:all$', tool.hatch.envs.tests.scripts.cov[0])",
+          "regex_match('^hatch run \\+py=py\\d+ tests:all$', tool.hatch.envs.tests.scripts.cov[0] || `''`)",
           true,
         ],
         ["tool.hatch.envs.tests.scripts.cov[1]", "coverage html"],
