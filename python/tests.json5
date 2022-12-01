@@ -117,18 +117,26 @@
     },
     {
       files: ["pyproject.toml"],
+      hint: "tool.coverage.report.omit must be an array",
       ifJMESPathsMatch: {
         "pyproject.toml": [
           ["op(tool.coverage.report.omit, '!=', `null`)", true],
         ],
       },
       JMESPathsMatch: [
-        /**
-         * If the `tool.coverage.report.omit` option is present, it must
-         * be a list of strings
-         **/
         ["type(tool.coverage.report.omit)", "array"],
         ["op(length(tool.coverage.report.omit), '>', `0`)", true],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "tool.coverage.run.omit must be an array",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["op(tool.coverage.run.omit, '!=', `null`)", true]],
+      },
+      JMESPathsMatch: [
+        ["type(tool.coverage.run.omit)", "array"],
+        ["op(length(tool.coverage.run.omit), '>', `0`)", true],
       ],
     },
     {
