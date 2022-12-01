@@ -1,0 +1,11 @@
+{
+  rules: [
+    {
+      files: [".gitignore"],
+      hint: ".gitignore must contain VSCode specific files",
+      JMESPathsMatch: [
+        ["contains(@, '.vscode')", true, "insert(@, `-1`, '.vscode')"],
+      ],
+    },
+  ],
+}

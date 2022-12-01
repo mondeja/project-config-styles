@@ -4,6 +4,7 @@
  * See https://mondeja.github.io/mdpo/latest/pre-commit-hooks.html#md2po2md
  **/
 {
+  extends: ["../gitignore/pot-mo-files.json5"],
   rules: [
     {
       files: [".pre-commit-config.yaml"],

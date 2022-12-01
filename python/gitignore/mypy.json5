@@ -1,0 +1,14 @@
+{
+  rules: [
+    {
+      files: [".gitignore"],
+      JMESPathsMatch: [
+        [
+          "contains(@, '.mypy_cache/')",
+          true,
+          "insert(@, `-1`, '.mypy_cache/')",
+        ],
+      ],
+    },
+  ],
+}

@@ -2,10 +2,12 @@
   extends: [
     "../base/main.json5",
     "../base/project-config.json5",
+    "setup-py.json5",
     "version/main.json5",
     "editorconfig.json5",
     "pyproject/main.json5",
     "pre-commit/main.json5",
+    "gitignore/main.json5",
     "../base/pre-commit/editorconfig.json5",
     "../base/pre-commit/prettier-toml.json5",
     "../base/pre-commit/yamllint.json5",

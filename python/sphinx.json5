@@ -1,7 +1,8 @@
 {
   extends: [
-    ".github/workflows/deploy-docs.json5",
+    "gitignore/sphinx.json5",
     "pyproject/docs-gh-pages.json5",
+    ".github/workflows/deploy-docs.json5",
   ],
   rules: [
     {

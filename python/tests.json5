@@ -6,6 +6,10 @@
       files: { not: { "test/": "Rename the test/ folder to tests/" } },
     },
     {
+      files: ["tests/"],
+      hint: "The directory for tests must exist at 'tests/'",
+    },
+    {
       files: ["pyproject.toml"],
       JMESPathsMatch: [
         // Tests dependencies group must exist
@@ -25,26 +29,9 @@
         ],
 
         /**
-         * Since we are testing, we should be coveraging the code, so
-         * the coverage tool must be present
+         * The commands for testing must be defined in 'tool.hatch.envs.tests.scripts'.
          **/
-        ["contains(keys(tool), 'coverage')", true],
-        ["contains(keys(tool.coverage), 'report')", true],
-        /**
-         * Always include the `tool.coverage.report` object with
-         * a string "pragma: no cover" as the first argument of
-         * `exclude_lines` configuration. The rationale behind this
-         * is that when using the `exclude_lines` option in a
-         * configuration file, we are taking control of the entire
-         * list of regexes for lines to be excluded, see
-         * https://coverage.rtfd.io/en/latest/excluding.html#advanced-exclusion
-         *
-         * Ignore also other common patters as `__repr__` and so on...
-         **/
-        [
-          "op(tool.coverage.report.exclude_lines, '>=', ['pragma: no cover', 'def __repr__\\(', 'raise NotImplementedError', '@(abc\\.)?abstractmethod'])",
-          true,
-        ],
+        ["type(tool.hatch.envs.tests.scripts)", "object"],
       ],
     },
     {
@@ -79,6 +66,195 @@
         [
           "contains(tool.coverage.report.exclude_lines, 'class .*\\bProtocol\\):')",
           true,
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: 'All values in tool.hatch.envs.tests.matrix[*].python must start with "py".',
+      JMESPathsMatch: [
+        [
+          "op(length(tool.hatch.envs.tests.matrix[*].python[] || `[]` | [?starts_with(@, 'py')]), '==', length(tool.hatch.envs.tests.matrix[*].python[] || `[]`))",
+          true,
+        ],
+      ],
+    },
+    {
+      /**
+       * Code coverage configuration
+       **/
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        /**
+         * Since we are testing, we should be coveraging the code, so
+         * the coverage tool must be present
+         **/
+        ["type(tool.coverage)", "object"],
+        ["type(tool.coverage.report)", "object"],
+
+        /**
+         * Always include the `tool.coverage.report` object with
+         * a string "pragma: no cover" as the first argument of
+         * `exclude_lines` configuration. The rationale behind this
+         * is that when using the `exclude_lines` option in a
+         * configuration file, we are taking control of the entire
+         * list of regexes for lines to be excluded, see
+         * https://coverage.rtfd.io/en/latest/excluding.html#advanced-exclusion
+         *
+         * Ignore also other common patters as `__repr__` and so on...
+         **/
+        ["type(tool.coverage.report.exclude_lines)", "array"],
+        ["tool.coverage.report.exclude_lines[0]", "pragma: no cover"],
+        [
+          "op(tool.coverage.report.exclude_lines, '>=', ['pragma: no cover', 'def __repr__\\(', 'raise NotImplementedError', '@(abc\\.)?abstractmethod'])",
+          true,
+        ],
+
+        ["type(tool.coverage.run)", "object"],
+        ["type(tool.coverage.run.source)", "array"],
+        ["tool.coverage.run.source[0]", "src"],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "tool.coverage.report.omit must be an array",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["op(tool.coverage.report.omit, '!=', `null`)", true],
+        ],
+      },
+      JMESPathsMatch: [
+        ["type(tool.coverage.report.omit)", "array"],
+        ["op(length(tool.coverage.report.omit), '>', `0`)", true],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "tool.coverage.run.omit must be an array",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["op(tool.coverage.run.omit, '!=', `null`)", true]],
+      },
+      JMESPathsMatch: [
+        ["type(tool.coverage.run.omit)", "array"],
+        ["op(length(tool.coverage.run.omit), '>', `0`)", true],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Minimum and maximum versions supported by the package (project.requires-python) must be added to the first and latest indexes to tool.hatch.envs.tests.matrix[*].python array",
+      JMESPathsMatch: [
+        [
+          "op(tool.hatch.envs.tests.matrix[0].python[0], '==', op('py', '+', replace(regex_search('^>=(\\d+\\.\\d+)', project.\"requires-python\")[0], '.', '')))",
+          true,
+        ],
+        [
+          "op(tool.hatch.envs.tests.matrix[0].python[-1], '==', op(op('py', '+', regex_search(',<(\\d+)\\.', project.\"requires-python\")[0]), '+', to_string(op(to_number(regex_search(',<\\d+\\.(\\d+)$', project.\"requires-python\")[0]), '-', `1`))))",
+          true,
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Use coverage.py for code coverage reports as the second dependency in tool.hatch.envs.tests.dependencies",
+      JMESPathsMatch: [
+        [
+          "regex_match('coverage~=\\d+\\.\\d+$', tool.hatch.envs.tests.dependencies[1])",
+          true,
+        ],
+      ],
+    },
+
+    /**
+     * all script
+     **/
+    {
+      files: ["pyproject.toml"],
+      hint: 'The script "e2e" of tool.hatch.envs.tests.scripts must be renamed to "all"',
+      JMESPathsMatch: [
+        ["contains(keys(tool.hatch.envs.tests.scripts), 'e2e')", false],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: 'The script "all" must exist in tool.hatch.envs.tests.scripts',
+      JMESPathsMatch: [
+        ["contains(keys(tool.hatch.envs.tests.scripts), 'all')", true],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "The script \"all\" must end with 'coverage run -m pytest'",
+      JMESPathsMatch: [
+        [
+          "ends_with(tool.hatch.envs.tests.scripts.all || `''`, 'coverage run -m pytest')",
+          true,
+        ],
+      ],
+    },
+
+    /**
+     * unit script
+     **/
+    {
+      files: ["tests/test_unit/"],
+      hint: "The directory for unit tests 'tests/test_unit/' must exist",
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "The script \"unit\" must execute the command 'coverage run -m pytest tests/test_unit'",
+      JMESPathsMatch: [
+        [
+          "tool.hatch.envs.tests.scripts.unit",
+          "coverage run -m pytest tests/test_unit",
+        ],
+      ],
+    },
+
+    /**
+     * integration script
+     **/
+    {
+      files: ["pyproject.toml"],
+      hint: "As the directory 'tests/test_integration/' exists, the script \"integration\" must be defined in pyproject.toml:tool.hatch.envs.tests.scripts",
+      ifFilesExist: ["tests/test_integration/"],
+      JMESPathsMatch: [
+        ["type(tool.hatch.envs.tests.scripts.integration)", "string"],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["type(tool.hatch.envs.tests.scripts.integration)", "string"],
+        ],
+      },
+      JMESPathsMatch: [
+        [
+          "contains(tool.hatch.envs.tests.scripts.integration, 'pytest tests/test_integration')",
+          true,
+        ],
+      ],
+    },
+    {
+      /**
+       * cov script
+       **/
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
+        ["type(tool.hatch.envs.tests.scripts.cov)", "array"],
+        ["length(tool.hatch.envs.tests.scripts.cov)", 4],
+        [
+          "regex_match('^hatch run \\+py=py\\d+ tests:all$', tool.hatch.envs.tests.scripts.cov[0] || `''`)",
+          true,
+        ],
+        ["tool.hatch.envs.tests.scripts.cov[1]", "coverage html"],
+        [
+          "tool.hatch.envs.tests.scripts.cov[2]",
+          "python -c 'import webbrowser as w;w.open(\"http://127.0.0.1:8088\")'",
+        ],
+        [
+          "tool.hatch.envs.tests.scripts.cov[3]",
+          "python -m http.server 8088 -b localhost -d htmlcov",
         ],
       ],
     },

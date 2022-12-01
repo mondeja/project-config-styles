@@ -9,7 +9,7 @@
     {
       files: ["pyproject.toml"],
       crossJMESPathsMatch: [
-        ["null", ["pyproject.toml?text", "[0]"], "[1]", "[project]"],
+        ["`null`", ["pyproject.toml?text", "[0]"], "[1]", "[project]"],
       ],
       JMESPathsMatch: [
         /**

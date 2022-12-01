@@ -1,3 +1,7 @@
 {
-  extends: ["pre-commit/mypy.json5", "pyproject/mypy.json5"],
+  extends: [
+    "gitignore/mypy.json5",
+    "pre-commit/mypy.json5",
+    "pyproject/mypy.json5",
+  ],
 }
