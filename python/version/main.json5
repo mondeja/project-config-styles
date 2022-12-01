@@ -9,10 +9,10 @@
   rules: [
     {
       files: ["pyproject.toml"],
-      hint: "The value of project.requires-python must match the regular expression '^>=\\d+\\.\\d+,<=\\d+\\.\\d+$'",
+      hint: "The value of project.requires-python must match the regular expression '^>=\\d+\\.\\d+,<\\d+\\.\\d+$'",
       JMESPathsMatch: [
         [
-          "regex_match('^>=\\d+\\.\\d+,<=\\d+\\.\\d+$', project.\"requires-python\")",
+          "regex_match('^>=\\d+\\.\\d+,<\\d+\\.\\d+$', project.\"requires-python\")",
           true,
         ],
       ],

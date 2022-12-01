@@ -148,7 +148,7 @@
           true,
         ],
         [
-          "op(tool.hatch.envs.tests.matrix[0].python[-1], '==', op('py', '+', replace(regex_search(',<=(\\d+\\.\\d+)$', project.\"requires-python\")[0], '.', '')))",
+          "op(tool.hatch.envs.tests.matrix[0].python[-1], '==', op(op('py', '+', regex_search(',<(\\d+)\\.', project.\"requires-python\")[0]), '+', to_string(op(to_number(regex_search(',<\\d+\\.(\\d+)$', project.\"requires-python\")[0]), '-', `1`))))",
           true,
         ],
       ],
