@@ -223,9 +223,14 @@
     },
     {
       files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["type(tool.hatch.envs.tests.scripts.integration)", "string"],
+        ],
+      },
       JMESPathsMatch: [
         [
-          "contains(tool.hatch.envs.tests.scripts.integration || `''`, 'pytest tests/test_integration')",
+          "contains(tool.hatch.envs.tests.scripts.integration, 'pytest tests/test_integration')",
           true,
         ],
       ],
