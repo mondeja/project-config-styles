@@ -225,7 +225,7 @@
       files: ["pyproject.toml"],
       JMESPathsMatch: [
         [
-          "contains(tool.hatch.envs.tests.scripts.integration || `''`, 'coverage run -m pytest tests/test_integration')",
+          "contains(tool.hatch.envs.tests.scripts.integration || `''`, 'pytest tests/test_integration')",
           true,
         ],
       ],
