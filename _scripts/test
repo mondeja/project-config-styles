@@ -13,6 +13,7 @@
 #
 #:test-check https://github.com/mondeja/project-config
 #:test-check https://github.com/mondeja/mdpo
+#:test-check https://github.com/mondeja/mkdocs-include-markdown-plugin
 #
 checkRepositoriesUsingTheStyles() {
   grep '^#:test-check https://' "$0" | while read -r line; do

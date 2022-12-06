@@ -49,7 +49,6 @@
           "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-version-docs\".steps[1].uses)",
           true,
         ],
-        ['jobs."deploy-version-docs".steps[1].with."python-version"', "3.10"],
 
         // jobs[0].steps[2]
         ['jobs."deploy-version-docs".steps[2].name', "Install dependencies"],
@@ -136,6 +135,30 @@
           "./docs/_build/html",
         ],
         ['jobs."deploy-latest-docs".steps[4].with.destination_dir', "latest"],
+      ],
+    },
+    {
+      files: [".github/workflows/deploy-docs.yml"],
+      hint: "Use penultimate supported version obtained from pyproject.toml to deploy documentation on CI",
+      crossJMESPathsMatch: [
+        [
+          "replace(jobs.\"deploy-version-docs\".steps[1].with.\"python-version\", '.', '')",
+          [
+            "pyproject.toml",
+            "replace(tool.hatch.envs.tests.matrix[0].python[-2], 'py', '')",
+          ],
+          "op([0], '==', [1])",
+          true,
+        ],
+        [
+          "replace(jobs.\"deploy-latest-docs\".steps[1].with.\"python-version\", '.', '')",
+          [
+            "pyproject.toml",
+            "replace(tool.hatch.envs.tests.matrix[0].python[-2], 'py', '')",
+          ],
+          "op([0], '==', [1])",
+          true,
+        ],
       ],
     },
   ],
