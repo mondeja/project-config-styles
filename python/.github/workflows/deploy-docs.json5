@@ -49,10 +49,7 @@
           "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-version-docs\".steps[1].uses)",
           true,
         ],
-        [
-          'jobs."deploy-version-docs".steps[1].with',
-          { "python-version": "3.x" },
-        ],
+        ['jobs."deploy-version-docs".steps[1].with."python-version"', "3.10"],
 
         // jobs[0].steps[2]
         ['jobs."deploy-version-docs".steps[2].name', "Install dependencies"],
@@ -113,10 +110,7 @@
           "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-latest-docs\".steps[1].uses)",
           true,
         ],
-        [
-          'jobs."deploy-latest-docs".steps[1].with',
-          { "python-version": "3.x" },
-        ],
+        ['jobs."deploy-latest-docs".steps[1].with."python-version"', "3.10"],
 
         // jobs[1].steps[2]
         ['jobs."deploy-latest-docs".steps[2].name', "Install dependencies"],
