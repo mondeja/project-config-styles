@@ -44,7 +44,7 @@
         ],
 
         // jobs[0].steps[1]
-        ['jobs."deploy-version-docs".steps[1].name', "Set up Python v3"],
+        ['jobs."deploy-version-docs".steps[1].name', "Set up Python"],
         [
           "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-version-docs\".steps[1].uses)",
           true,
@@ -105,7 +105,7 @@
         ],
 
         // jobs[1].steps[1]
-        ['jobs."deploy-latest-docs".steps[1].name', "Set up Python v3"],
+        ['jobs."deploy-latest-docs".steps[1].name', "Set up Python"],
         [
           "regex_match('actions/setup-python@v\\d+', jobs.\"deploy-latest-docs\".steps[1].uses)",
           true,
