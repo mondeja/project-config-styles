@@ -44,7 +44,10 @@
           true,
         ],
         ["jobs.autoupdate.steps[1].name", "Set up Python"],
-        ['jobs.autoupdate.steps[1].with."python-version"', "3.x"],
+        [
+          "regex_match('\\d\\.(x)|(\\d+)$', jobs.autoupdate.steps[1].with.\"python-version\")",
+          true,
+        ],
         //     [2]
         ["jobs.autoupdate.steps[2].name", "Install pre-commit"],
         ["jobs.autoupdate.steps[2].run", "pip install pre-commit"],

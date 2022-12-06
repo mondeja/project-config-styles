@@ -43,13 +43,7 @@
           true,
         ],
         ['jobs."pre-commit".steps[1].name', "Set up Python"],
-        [
-          // '3.x' is the default value for 'python-version' input, but
-          // we must define it to avoid a breakage on an hipotetical Python
-          // major version bump
-          'jobs."pre-commit".steps[1].with."python-version"',
-          "3.x",
-        ],
+        ['jobs."pre-commit".steps[1].with."python-version"', "3.x"],
         //     [2]
         ['length(keys(jobs."pre-commit".steps[2]))', 1],
         ['jobs."pre-commit".steps[2].run', "pip install pre-commit"],

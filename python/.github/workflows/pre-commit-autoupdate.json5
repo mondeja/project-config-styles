@@ -1,0 +1,19 @@
+{
+  rules: [
+    {
+      files: [".github/workflows/pre-commit-autoupdate.yml"],
+      hint: "Use penultimate supported version obtained from pyproject.toml to run pre-commit autoupdate on CI",
+      crossJMESPathsMatch: [
+        [
+          "replace(jobs.autoupdate.steps[1].with.\"python-version\", '.', '')",
+          [
+            "pyproject.toml",
+            "replace(tool.hatch.envs.tests.matrix[0].python[-2], 'py', '')",
+          ],
+          "op([0], '==', [1])",
+          true,
+        ],
+      ],
+    },
+  ],
+}
