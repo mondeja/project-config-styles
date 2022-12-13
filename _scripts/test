@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+# Branch of project-config-styles against to run the tests
+BRANCH="$1"
+
 # Clones the repositories listed in the documentation
 # of this function (see below) and executes the project-config
 # pre-commit hook inside each one of them.
@@ -13,6 +16,7 @@
 #
 #:test-check https://github.com/mondeja/project-config
 #:test-check https://github.com/mondeja/mdpo
+#:test-check https://github.com/mondeja/mkdocs-include-markdown-plugin
 #
 checkRepositoriesUsingTheStyles() {
   grep '^#:test-check https://' "$0" | while read -r line; do
@@ -48,7 +52,13 @@ checkRepositoriesUsingTheStyles() {
     fi
     printf "Configuration file: %s\n" "$config_file"
 
-    if ! pre-commit run -v -c "$config_file" -a "$hook_id"; then
+    # If we're testing the project-config-styles against a branch, we'll
+    # replace the styles in pyproject.toml with the branch name
+    if [ -n "$BRANCH" ]; then
+      replaceProjectConfigStylesBranch "$BRANCH"
+    fi
+
+    if ! pre-commit run -v -c "$config_file" --all-files "$hook_id"; then
       setExitcode 1
     fi
     printf "\n"

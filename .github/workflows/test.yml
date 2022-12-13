@@ -5,6 +5,10 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        required: false
+        description: project-config-styles branch used to run tests against it
   pull_request:
   push:
     branches:
@@ -21,4 +25,6 @@ jobs:
           python-version: '3.10'
       - run: pip install pre-commit pyyaml
       - name: Run tests
-        run: ./_scripts/test
+        run: ./_scripts/test "$BRANCH"
+        env:
+          BRANCH: ${{ github.event.inputs.branch }}
