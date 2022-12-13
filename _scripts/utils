@@ -62,3 +62,14 @@ with open('$PRE_COMMIT_FOR_PROJECT_CONFIG_FILE', 'w') as f:
   yaml.dump(c, f)
 " < ".pre-commit-config.yaml"
 }
+
+# Replaces project-config-styles URLs in pyproject.toml:tool.project-config.styles
+# with the given branch name
+replaceProjectConfigStylesBranch() {
+  if [ -f pyproject.toml ]; then
+    filename="pyproject.toml"
+  else
+    filename=".project-config.toml"
+  fi
+  sed -E -i "s/gh:\/\/mondeja\/project-config-styles@([^\/]+)/gh:\/\/mondeja\/project-config-styles@$1/g" "$filename"
+}
