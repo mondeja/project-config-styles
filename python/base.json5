@@ -8,13 +8,9 @@
     "pyproject/main.json5",
     "pre-commit/main.json5",
     "gitignore/main.json5",
-    "../base/pre-commit/editorconfig.json5",
-    "../base/pre-commit/prettier-toml.json5",
-    "../base/pre-commit/yamllint.json5",
     "files-absence.json5",
     "isort.json5",
     "flakeheaven.json5",
-    "../base/pre-commit/markdown-link-check.json5",
     "github-workflows.json5",
   ],
 }

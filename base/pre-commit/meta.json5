@@ -3,7 +3,7 @@
     {
       files: [".pre-commit-config.yaml"],
       JMESPathsMatch: [
-        // All Python projects must use pre-commit meta hooks
+        // Must use pre-commit meta hooks
         ["length(repos[?repo=='meta'])", 1],
         //   'meta' repo must not contain a 'rev' key
         ["contains(keys(repos[?repo=='meta'] | [0]), 'rev')", false],

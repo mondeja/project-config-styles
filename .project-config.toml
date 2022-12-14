@@ -1,5 +1,12 @@
 cache = "2 days"
 style = [
+  "./base/pre-commit/meta.json5",
+  "./base/pre-commit/editorconfig.json5",
+  "./base/pre-commit/project-config.json5",
+  "./base/pre-commit/prettier-toml.json5",
+  "./base/pre-commit/markdownlint.json5",
+  "./base/pre-commit/markdown-link-check.json5",
+  "./base/pre-commit/yamllint.json5",
   "./base/.github/workflows/pre-commit.json5",
   "./base/.github/workflows/pre-commit-autoupdate.json5",
 ]
