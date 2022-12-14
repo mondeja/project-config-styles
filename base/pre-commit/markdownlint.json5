@@ -1,0 +1,26 @@
+{
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      JMESPathsMatch: [
+        [
+          "length(repos[?repo=='https://github.com/DavidAnson/markdownlint-cli2'])",
+          1,
+          "set(@, 'repos', insert(repos, `-1`, {rev: gh_tags('DavidAnson', 'markdownlint-cli2', True)[0], repo: 'https://github.com/DavidAnson/markdownlint-cli2', hooks: [{id: 'markdownlint-cli2'}]}))",
+        ],
+        [
+          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/DavidAnson/markdownlint-cli2'] | [0].rev)",
+          true,
+        ],
+        [
+          "type(repos[?repo=='https://github.com/DavidAnson/markdownlint-cli2'] | [0].hooks)",
+          "array",
+        ],
+        [
+          "contains(repos[?repo=='https://github.com/DavidAnson/markdownlint-cli2'] | [0].hooks[*].id, 'markdownlint-cli2')",
+          true,
+        ],
+      ],
+    },
+  ],
+}

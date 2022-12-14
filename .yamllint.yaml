@@ -1,0 +1,43 @@
+rules:
+  braces:
+    forbid: true
+  brackets:
+    forbid: true
+  colons:
+    max-spaces-after: 1
+    max-spaces-before: 0
+  comments:
+    ignore-shebangs: true
+    min-spaces-from-content: 2
+    require-starting-space: true
+  comments-indentation: enable
+  empty-lines:
+    max: 1
+  hyphens:
+    max-spaces-after: 1
+  indentation:
+    check-multi-line-strings: true
+    ignore: .github
+    indent-sequences: true
+    spaces: consistent
+  key-duplicates: enable
+  key-ordering: disable
+  line-length:
+    allow-non-breakable-words: true
+    ignore: |
+      .pre-commit-config.yaml
+      .pre-commit-hooks.yaml
+      .github
+    max: 180
+  new-lines:
+    type: unix
+  octal-values:
+    forbid-explicit-octal: true
+    forbid-implicit-octal: true
+  quoted-strings:
+    extra-required:
+      - \d\d:\d\d
+    quote-type: single
+    required: only-when-needed
+  trailing-spaces: enable
+  truthy: disable
