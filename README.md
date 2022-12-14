@@ -4,10 +4,15 @@
 
 - `project-config.json5`: Configuration for [project-config] using a
   `pyproject.toml` file and [pre-commit] to run it.
-- `pre-commit/md2po2md.json5`: [md2po2md] configuration for [pre-commit]
+
+### Pre-commit hooks (`base/pre-commit/`)
+
+- `md2po2md.json5`: [md2po2md] configuration for [pre-commit]
   to convert Markdown to PO and back.
-- `pre-commit/markdown-link-check.json5`: [markdown-link-check] configuration
+- `markdown-link-check.json5`: [markdown-link-check] configuration
   for [pre-commit] to check links in Markdown files.
+- `prettier.json5`: minimal [prettier] configuration for [pre-commit] to
+  format files.
 
 ## Python (`python/`)
 
@@ -35,3 +40,4 @@
 [pre-commit]: https://pre-commit.com
 [md2po2md]: https://mondeja.github.io/mdpo/latest/pre-commit-hooks.html#md2po2md
 [markdown-link-check]: https://github.com/tcort/markdown-link-check
+[prettier]: https://prettier.io

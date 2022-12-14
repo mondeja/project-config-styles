@@ -1,17 +1,17 @@
 {
   rules: [
     {
-      // Use prettier to format TOML files
+      // Use prettier to format files
       files: [".pre-commit-config.yaml"],
       JMESPathsMatch: [
         [
-          "repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].id",
-          "prettier",
+          "length(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'])",
+          1,
+          "set(@, 'repos', insert(repos, `-1`, {rev: gh_tags('pre-commit', 'mirrors-prettier', True)[0], repo: 'https://github.com/mondeja/mdpo', hooks: [{id: 'prettier', additional_dependencies: ['prettier']}]}))",
         ],
         [
-          // Format TOML files
-          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].types_or, 'toml')",
-          true,
+          "repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].id",
+          "prettier",
         ],
         [
           // types_or requires pre-commit >= 2.9.0
@@ -22,11 +22,6 @@
           // The prettier dependency must have to be specified explicitly
           // because we are overwriting the 'additional_dependencies' array
           "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].additional_dependencies, 'prettier')",
-          true,
-        ],
-        [
-          // Add 'prettier-plugin-toml' to format TOML files
-          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].additional_dependencies, 'prettier-plugin-toml')",
           true,
         ],
       ],
