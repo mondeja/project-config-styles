@@ -41,3 +41,4 @@
 [md2po2md]: https://mondeja.github.io/mdpo/latest/pre-commit-hooks.html#md2po2md
 [markdown-link-check]: https://github.com/tcort/markdown-link-check
 [prettier]: https://prettier.io
+[hatch]: https://hatch.pypa.io/
