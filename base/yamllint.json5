@@ -48,7 +48,7 @@
           'contains(rules."quoted-strings"."extra-required", \'\\d\\d:\\d\\d\')',
           true,
         ],
-        ['rules."quoted-strings"."quote-type"', "single"],
+        ['rules."quoted-strings"."quote-type"', "double"],
         ['rules."quoted-strings".required', "only-when-needed"],
       ],
     },

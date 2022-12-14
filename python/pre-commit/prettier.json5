@@ -1,0 +1,10 @@
+{
+  extends: [
+    "../../base/pre-commit/prettier.json5",
+    "../../base/pre-commit/prettier/toml.json5",
+    "../../base/pre-commit/prettier/yaml.json5",
+    "../../base/pre-commit/prettier/json.json5",
+    "../../base/pre-commit/prettier/json5.json5",
+    "../../base/pre-commit/prettier/markdown.json5",
+  ],
+}
