@@ -56,15 +56,19 @@
     {
       /**
        * If mypy type checking is configured, exclude classes inherited
-       * from Protocol from coverage reports.
+       * from Protocol and 'if TYPE_CHECKING:' branches from coverage reports.
        **/
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
-        "pyproject.toml": [["contains(keys(tool), 'mypy')", true]],
+        "pyproject.toml": [["type(tool.mypy)", "object"]],
       },
       JMESPathsMatch: [
         [
           "contains(tool.coverage.report.exclude_lines, 'class .*\\bProtocol\\):')",
+          true,
+        ],
+        [
+          "contains(tool.coverage.report.exclude_lines, 'if TYPE_CHECKING:')",
           true,
         ],
       ],
