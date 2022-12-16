@@ -69,17 +69,6 @@
       ],
     },
     {
-      files: ["pyproject.toml"],
-      // configure mypy
-      ifJMESPathsMatch: {
-        "pyproject.toml": [
-          ["type(tool.mypy)", "object"],
-          ["starts_with(project.\"requires-python\", '>=3.7')", true],
-        ],
-      },
-      JMESPathsMatch: [["tool.mypy.python_version", "3.7"]],
-    },
-    {
       /**
        * project.classifiers
        **/

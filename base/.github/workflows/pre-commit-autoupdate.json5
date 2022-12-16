@@ -45,7 +45,7 @@
         ],
         ["jobs.autoupdate.steps[1].name", "Set up Python"],
         [
-          "regex_match('\\d\\.(x)|(\\d+)$', jobs.autoupdate.steps[1].with.\"python-version\")",
+          "regex_match('\\d\\.(x|(\\d+))$', jobs.autoupdate.steps[1].with.\"python-version\")",
           true,
         ],
         //     [2]
