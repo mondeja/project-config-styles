@@ -248,17 +248,5 @@
         ],
       ],
     },
-    {
-      files: ["docs/conf.py"],
-      hint: "The minor version at pyproject.toml[project.name] must be equal to docs/conf.py::version",
-      crossJMESPathsMatch: [
-        [
-          "version",
-          ["pyproject.toml", "join('.', split(project.version, '.')[0:2])"],
-          "op([0], '==', [1])",
-          true,
-        ],
-      ],
-    },
   ],
 }
