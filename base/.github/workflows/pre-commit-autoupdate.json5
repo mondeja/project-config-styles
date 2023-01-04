@@ -10,6 +10,7 @@
         // permissions
         ["type(permissions)", "object"],
         ['permissions."pull-requests"', "write"],
+        ['permissions."contents"', "write"],
 
         // on
         ["contains(keys(@), 'on')", true],
@@ -57,11 +58,8 @@
         //     [4]
         ["jobs.autoupdate.steps[4].name", "Open pull request"],
         ["contains(keys(jobs.autoupdate.steps[4]), 'with')", true],
-        ["length(keys(jobs.autoupdate.steps[4].with))", 7],
-        [
-          "jobs.autoupdate.steps[4].with.token",
-          "${{ secrets.PRECOMMIT_AUTOUPDATE_TOKEN }}",
-        ],
+        ["length(keys(jobs.autoupdate.steps[4].with))", 6],
+        ["contains(keys(jobs.autoupdate.steps[4].with), 'token')", false],
         ["jobs.autoupdate.steps[4].with.branch", "pre-commit-autoupdate"],
         [
           "jobs.autoupdate.steps[4].with.title",
