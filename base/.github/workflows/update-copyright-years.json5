@@ -4,7 +4,7 @@
       files: {
         not: {
           // Use the correct file name. This is included here
-          // because I've used an unoptimal file name in old projects:
+          // because I've used an very long file name in old projects:
           ".github/workflows/update-copyright-years-in-license-file.yml": "Rename to .github/workflows/update-copyright-years.yml",
         },
       },
@@ -24,7 +24,7 @@
         // permissions
         ["type(permissions)", "object"],
         ['permissions."pull-requests"', "write"],
-        ['permissions."contents"', "write"],
+        ["permissions.contents", "write"],
 
         // on
         ["contains(keys(@), 'on')", true],
