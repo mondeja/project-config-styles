@@ -13,4 +13,5 @@ style = [
   "base/pre-commit/yamllint.json5",
   "base/.github/workflows/pre-commit.json5",
   "base/.github/workflows/pre-commit-autoupdate.json5",
+  "base/.github/workflows/update-copyright-years.json5",
 ]
