@@ -24,6 +24,7 @@
         // permissions
         ["type(permissions)", "object"],
         ['permissions."pull-requests"', "write"],
+        ['permissions."contents"', "write"],
 
         // on
         ["contains(keys(@), 'on')", true],
