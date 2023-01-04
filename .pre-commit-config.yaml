@@ -6,7 +6,7 @@ repos:
       - id: check-useless-excludes
         name: check-useless-excludes
   - repo: https://github.com/mondeja/project-config
-    rev: v0.7.9
+    rev: v0.8.0
     hooks:
       - id: project-config
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -51,7 +51,7 @@ repos:
         id: shellcheck
         name: shellcheck
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.5.1
+    rev: v0.6.0
     hooks:
       - id: markdownlint-cli2
   - repo: https://github.com/tcort/markdown-link-check
