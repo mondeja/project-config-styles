@@ -1,0 +1,36 @@
+/*
+Style to ensure a `codecov.yml` file with the next content:
+
+```yaml
+coverage:
+  status:
+    project:
+      default:
+        target: 100%
+        threshold: 2%
+        informational: true
+comment: false
+```
+*/
+
+{
+  rules: [
+    {
+      files: ["codecov.yml"],
+      JMESPathsMatch: [
+        ["type(coverage)", "object"],
+        ["type(coverage.status)", "object"],
+        ["type(coverage.status.project)", "object"],
+        ["type(coverage.status.project.default)", "object"],
+        ["coverage.status.project.default.target", "100%"],
+        ["coverage.status.project.default.threshold", "2%"],
+
+        // don't block CI if target not reached
+        ["coverage.status.project.default.informational", true],
+
+        // disable comments on pull requests
+        ["comment", false],
+      ],
+    },
+  ],
+}
