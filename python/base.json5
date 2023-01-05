@@ -2,6 +2,7 @@
   extends: [
     "../base/main.json5",
     "../base/project-config.json5",
+    "line-length-80.json5",
     "setup-py.json5",
     "version/main.json5",
     "editorconfig.json5",
