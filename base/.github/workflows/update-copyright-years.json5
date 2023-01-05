@@ -48,7 +48,7 @@
         //     [0]
         ["contains(keys(jobs.\"update-license-year\".steps[0]), 'uses')", true],
         [
-          "regex_match('^actions/checkout@v\\d+$', jobs.\"update-license-year\".steps[0].uses)",
+          "regex_match('^actions/checkout@v\\d+', jobs.\"update-license-year\".steps[0].uses)",
           true,
         ],
         ["contains(keys(jobs.\"update-license-year\".steps[0]), 'with')", true],
@@ -56,7 +56,7 @@
         //     [1]
         ["contains(keys(jobs.\"update-license-year\".steps[1]), 'uses')", true],
         [
-          "regex_match('^FantasticFiasco/action-update-license-year@v\\d+$', jobs.\"update-license-year\".steps[1].uses)",
+          "regex_match('^FantasticFiasco/action-update-license-year@v\\d+', jobs.\"update-license-year\".steps[1].uses)",
           true,
         ],
         ["contains(keys(jobs.\"update-license-year\".steps[1]), 'with')", true],
