@@ -7,4 +7,13 @@
     "../../base/pre-commit/prettier/json5.json5",
     "../../base/pre-commit/prettier/markdown.json5",
   ],
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      hint: "The prettier hook must be placed first. Defined after linters, these raise positives solved by Prettier",
+      JMESPathsMatch: [
+        ["repos[0].repo", "https://github.com/pre-commit/mirrors-prettier"],
+      ],
+    },
+  ],
 }
