@@ -1,4 +1,7 @@
 {
+  // Code coverage on the cloud with codecov
+  extends: ["codecov.json5"],
+
   // Python tests with pytest
   rules: [
     {
