@@ -35,21 +35,13 @@
       ],
     },
     {
-      /**
-       * If there are scripts in `project.scripts`, it means that the package
-       * has a CLI, so exclude `if __name__ == '__main__':` branches from coverage
-       * reports.
-       **/
       files: ["pyproject.toml"],
-      ifJMESPathsMatch: {
-        "pyproject.toml": [
-          ["op(length(keys(project.scripts || `{}`)), '>', `0`)", true],
-        ],
-      },
       JMESPathsMatch: [
         [
+          // added by covdefaults
+          // TODO: remove this on version 6 of styles
           "contains(tool.coverage.report.exclude_lines, 'if __name__ == [\"\\']__main__[\"\\']:')",
-          true,
+          false,
         ],
       ],
     },
@@ -63,13 +55,15 @@
         "pyproject.toml": [["type(tool.mypy)", "object"]],
       },
       JMESPathsMatch: [
+        // added by covdefaults
+        // TODO: remove this on version 6 of styles
         [
           "contains(tool.coverage.report.exclude_lines, 'class .*\\bProtocol\\):')",
-          true,
+          false,
         ],
         [
           "contains(tool.coverage.report.exclude_lines, 'if TYPE_CHECKING:')",
-          true,
+          false,
         ],
       ],
     },
@@ -89,34 +83,34 @@
        **/
       files: ["pyproject.toml"],
       JMESPathsMatch: [
-        /**
-         * Since we are testing, we should be coveraging the code, so
-         * the coverage tool must be present
-         **/
         ["type(tool.coverage)", "object"],
         ["type(tool.coverage.report)", "object"],
 
-        /**
-         * Always include the `tool.coverage.report` object with
-         * a string "pragma: no cover" as the first argument of
-         * `exclude_lines` configuration. The rationale behind this
-         * is that when using the `exclude_lines` option in a
-         * configuration file, we are taking control of the entire
-         * list of regexes for lines to be excluded, see
-         * https://coverage.rtfd.io/en/latest/excluding.html#advanced-exclusion
-         *
-         * Ignore also other common patters as `__repr__` and so on...
-         **/
+        // Override the fail_under = 100 setting of covdefaults
+        ["tool.coverage.report.fail_under", 1],
+
+        // Add some additional exclusions
         ["type(tool.coverage.report.exclude_lines)", "array"],
-        ["tool.coverage.report.exclude_lines[0]", "pragma: no cover"],
         [
-          "op(tool.coverage.report.exclude_lines, '>=', ['pragma: no cover', 'def __repr__\\(', 'raise NotImplementedError', '@(abc\\.)?abstractmethod'])",
+          "op(tool.coverage.report.exclude_lines, '>=', ['def __repr__\\(', '@(abc\\.)?abstractmethod'])",
           true,
+        ],
+        // added by covdefaults
+        // TODO: remove this on version 6 of styles
+        [
+          "contains(tool.coverage.report.exclude_lines, 'pragma: no cover')",
+          false,
+        ],
+        [
+          "contains(tool.coverage.report.exclude_lines, 'raise NotImplementedError')",
+          false,
         ],
 
         ["type(tool.coverage.run)", "object"],
         ["type(tool.coverage.run.source)", "array"],
         ["tool.coverage.run.source[0]", "src"],
+        ["type(tool.coverage.run.plugins)", "array"],
+        ["tool.coverage.run.plugins[0]", "covdefaults"],
       ],
     },
     {
@@ -167,6 +161,13 @@
         ],
       ],
     },
+    {
+      files: ["pyproject.toml"],
+      hint: "Include covdefaults as the third dependency in tool.hatch.envs.tests.dependencies",
+      JMESPathsMatch: [
+        ["tool.hatch.envs.tests.dependencies[2]", "covdefaults"],
+      ],
+    },
 
     /**
      * all script
@@ -190,7 +191,7 @@
       hint: "The script \"all\" must end with 'coverage run -m pytest'",
       JMESPathsMatch: [
         [
-          "ends_with(tool.hatch.envs.tests.scripts.all || `''`, 'coverage run -m pytest')",
+          "ends_with(tool.hatch.envs.tests.scripts.all || '', 'coverage run -m pytest')",
           true,
         ],
       ],
@@ -248,17 +249,16 @@
         ["type(tool.hatch.envs.tests.scripts.cov)", "array"],
         ["length(tool.hatch.envs.tests.scripts.cov)", 4],
         [
-          "regex_match('^hatch run \\+py=py\\d+ tests:all$', tool.hatch.envs.tests.scripts.cov[0] || `''`)",
+          "regex_match('^hatch run \\+py=py\\d+ tests:all$', tool.hatch.envs.tests.scripts.cov[0] || '')",
           true,
         ],
-        ["tool.hatch.envs.tests.scripts.cov[1]", "coverage html"],
         [
-          "tool.hatch.envs.tests.scripts.cov[2]",
-          "python -c 'import webbrowser as w;w.open(\"http://127.0.0.1:8088\")'",
-        ],
-        [
-          "tool.hatch.envs.tests.scripts.cov[3]",
-          "python -m http.server 8088 -b localhost -d htmlcov",
+          "tool.hatch.envs.tests.scripts.cov[1:]",
+          [
+            "coverage html",
+            "python -c 'import webbrowser as w;w.open(\"http://127.0.0.1:8088\")'",
+            "python -m http.server 8088 -b localhost -d htmlcov",
+          ],
         ],
       ],
     },
