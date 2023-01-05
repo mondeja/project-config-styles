@@ -24,5 +24,16 @@
         ['tool.black."line-length"', 80],
       ],
     },
+    {
+      // TODO: remove this at version 6 of styles
+      files: ["pyproject.toml"],
+      hint: "The style 'python/line-length-80.json5' has become default in v5 of mondeja/project-config-styles",
+      JMESPathsMatch: [
+        [
+          "length(tool.\"project-config\".style[?ends_with(@, 'python/line-length-80.json5')])",
+          0,
+        ],
+      ],
+    },
   ],
 }
