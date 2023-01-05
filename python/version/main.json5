@@ -1,7 +1,7 @@
 {
   extends: [
-    "_min-36.json5",
     "_min-37.json5",
+    "_min-38.json5",
     "_max-310.json5",
     "_max-311.json5",
     "_max-312.json5",
@@ -45,12 +45,16 @@
       files: ["pyproject.toml"],
       JMESPathsMatch: [
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.8')",
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.10')",
           true,
         ],
         [
           "contains(project.classifiers, 'Programming Language :: Python :: 3.9')",
           true,
+        ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.6')",
+          false,
         ],
       ],
     },

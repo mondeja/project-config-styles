@@ -1,5 +1,5 @@
 /**
- * Version 3.7 as the minimum Python version for a project.
+ * Version 3.8 as the minimum Python version for a project.
  **/
 {
   rules: [
@@ -7,12 +7,12 @@
       files: [".pre-commit-config.yaml"],
       ifJMESPathsMatch: {
         "pyproject.toml": [
-          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+          ["starts_with(project.\"requires-python\", '>=3.8')", true],
         ],
       },
       JMESPathsMatch: [
         [
-          "contains(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0].args, '--py37-plus')",
+          "contains(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0].args, '--py38-plus')",
           true,
         ],
       ],
@@ -21,20 +21,15 @@
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
         "pyproject.toml": [
-          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+          ["starts_with(project.\"requires-python\", '>=3.8')", true],
         ],
       },
       JMESPathsMatch: [
         /**
          * isort
          **/
-        ["tool.isort.py_version", 37],
+        ["tool.isort.py_version", 38],
 
-        // https://docs.python.org/3/whatsnew/3.8.html#new-modules
-        [
-          "contains(tool.isort.extra_standard_library, 'importlib.metadata')",
-          true,
-        ],
         // https://docs.python.org/3/whatsnew/3.9.html#new-modules
         [
           "op(tool.isort.extra_standard_library, '>', ['zoneinfo', 'graphlib'])",
@@ -56,14 +51,14 @@
         // in his configuration
         "pyproject.toml": [
           ['tool.flakeheaven."inline-quotes"', "double"],
-          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+          ["starts_with(project.\"requires-python\", '>=3.8')", true],
         ],
       },
       JMESPathsMatch: [
         ["type(tool.black)", "object"],
         ['type(tool.black."target-version")', "array"],
         ['length(tool.black."target-version")', 1],
-        ['tool.black."target-version"[0]', "py37"],
+        ['tool.black."target-version"[0]', "py38"],
       ],
     },
     {
@@ -73,13 +68,17 @@
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
         "pyproject.toml": [
-          ["starts_with(project.\"requires-python\", '>=3.7')", true],
+          ["starts_with(project.\"requires-python\", '>=3.8')", true],
         ],
       },
       JMESPathsMatch: [
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.7')",
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.8')",
           true,
+        ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.7')",
+          false,
         ],
       ],
     },
