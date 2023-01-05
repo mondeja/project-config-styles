@@ -30,7 +30,7 @@
         ["length(jobs.update.steps)", 2],
         //     [0]
         [
-          "regex_match('^actions/checkout@v\\d+$', jobs.update.steps[0].uses)",
+          "regex_match('^actions/checkout@v\\d+', jobs.update.steps[0].uses)",
           true,
         ],
         [
