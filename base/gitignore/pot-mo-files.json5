@@ -2,10 +2,7 @@
   rules: [
     {
       files: [".gitignore"],
-      JMESPathsMatch: [
-        ["contains(@, '*.mo')", true, "insert(@, `-1`, '*.mo')"],
-        ["contains(@, '*.pot')", true, "insert(@, `-1`, '*.pot')"],
-      ],
+      includeLines: ["*.mo", "*.pot"],
     },
   ],
 }

@@ -2,13 +2,7 @@
   rules: [
     {
       files: [".gitignore"],
-      JMESPathsMatch: [
-        [
-          "contains(@, 'docs/_build/')",
-          true,
-          "insert(@, `-1`, 'docs/_build/')",
-        ],
-      ],
+      includeLines: ["docs/_build/"],
     },
   ],
 }
