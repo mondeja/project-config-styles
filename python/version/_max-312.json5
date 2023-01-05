@@ -1,3 +1,6 @@
+/**
+ * Version 3.12 as the maximum Python version for a project.
+ **/
 {
   rules: [
     {
