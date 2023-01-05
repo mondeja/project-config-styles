@@ -13,5 +13,6 @@
     "isort.json5",
     "flakeheaven.json5",
     "github-workflows.json5",
+    "readme.json5",
   ],
 }

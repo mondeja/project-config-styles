@@ -1,0 +1,92 @@
+{
+  rules: [
+    // PyPI badge
+    {
+      files: ["README.md"],
+      hint: "Include a PyPI badge with a link to the package on PyPI",
+      JMESPathsMatch: [
+        [
+          "length([?regex_match(op('.*https://img\\.shields\\.io/pypi/v/', '+', rootdir_name(), '+', '\\?logo=pypi&logoColor=white'), @)])",
+          1,
+        ],
+        [
+          "op(length([?regex_match(op('.*https://pypi\\.org/project/', '+', rootdir_name()), @)]), '>', `0`)",
+          true,
+        ],
+      ],
+    },
+
+    // License link
+    {
+      files: ["README.md"],
+      hint: "Include a link to the LICENSE file wrapping the license badge",
+      JMESPathsMatch: [
+        [
+          "length([?regex_match(op('.*https://github\\.com/[a-z0-9A-Z-]+/', '+', rootdir_name(), '+', '/blob/master/LICENSE'), @)])",
+          1,
+        ],
+      ],
+    },
+    /**
+     * License badge
+     **/
+    {
+      files: ["README.md"],
+      hint: "Include a BSD-3-Clause license badge with the proper icon",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["project.license", "BSD-3-Clause"]],
+      },
+      JMESPathsMatch: [
+        [
+          "length([?regex_match(op('.*https://img\\.shields\\.io/pypi/l/', '+', rootdir_name(), '+', '\\?color=light-green&logo=freebsd&logoColor=white'), @)])",
+          1,
+        ],
+      ],
+    },
+    {
+      files: ["README.md"],
+      hint: "Include an Apache license badge with the proper icon",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["starts_with(project.license, 'Apache')", true]],
+      },
+      JMESPathsMatch: [
+        [
+          "length([?regex_match(op('.*https://img\\.shields\\.io/pypi/l/', '+', rootdir_name(), '+', '\\?color=light-green&logo=apache&logoColor=white'), @)])",
+          1,
+        ],
+      ],
+    },
+
+    // Tests status badge
+    {
+      files: ["README.md"],
+      hint: "Include a badge to show the status of the CI",
+      JMESPathsMatch: [
+        [
+          "length([?regex_match(op('.*https://img.shields.io/github/actions/workflow/status/[a-zA-Z0-9-]+/', '+', rootdir_name(), '+', '/ci\\.yml\\?logo=github&label=tests&branch=master'), @)])",
+          1,
+        ],
+        [
+          "length([?regex_match(op('.*https://github.com/[a-zA-Z0-9-]+/', '+', rootdir_name(), '+', '/actions\\?query=workflow%3ACI'), @)])",
+          1,
+        ],
+      ],
+    },
+
+    // Coverage status badge
+    {
+      files: ["README.md"],
+      hint: "Include a badge to show the coverage status of the project",
+      JMESPathsMatch: [
+        [
+          "length([?regex_match(op('.*https://img.shields.io/codecov/c/github/[a-zA-Z0-9-]+/', '+', rootdir_name(), '+', '\\?logo=codecov&logoColor=white'), @)])",
+          1,
+        ],
+        [
+          "length([?regex_match(op('.*https://app.codecov.io/gh/[a-zA-Z0-9-]+/', '+', rootdir_name()), @)])",
+          1,
+        ],
+      ],
+    },
+  ],
+}
