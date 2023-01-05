@@ -263,7 +263,7 @@
       files: ["docs/dev/contributing.rst"],
       JMESPathsMatch: [
         [
-          "length([?regex_match(op('   git clone https://[a-z]+\\.[a-z]+/[a-zA-Z-_]+/', '+', rootdir_name()), @)])",
+          "length([?regex_match(op('   git clone https://[a-z]+\\.[a-z]+/[a-zA-Z0-9-]+/', '+', rootdir_name()), @)])",
           1,
         ],
         ["length([?op('   cd ', '+', rootdir_name()) == @])", 1],
