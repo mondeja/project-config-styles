@@ -63,7 +63,7 @@
         ['jobs."deploy-version-docs".steps[4].id', "get-version"],
         [
           'jobs."deploy-version-docs".steps[4].run',
-          'echo "::set-output name=version::$(cat pyproject.toml | grep "version = " -m 1 | cut -d\' \' -f3 | cut -c 2- | rev | cut -c 2- | rev)"',
+          'echo "version=$(cat pyproject.toml | grep "version = " -m 1 | cut -d\' \' -f3 | cut -c 2- | rev | cut -c 2- | rev)" >> $GITHUB_OUTPUT',
         ],
 
         // jobs[0].steps[5]
