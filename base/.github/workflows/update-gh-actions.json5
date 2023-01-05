@@ -1,0 +1,54 @@
+{
+  rules: [
+    {
+      files: [".github/workflows/update-gh-actions.yml"],
+      hint: "Don't forgive to add the UPDATE_GH_ACTIONS_TOKEN secret to the repository with 'workflow' and 'repo' scopes",
+      JMESPathsMatch: [
+        // name
+        ["contains(keys(@), 'name')", true],
+        ["name", "Update GitHub Actions versions"],
+
+        // on
+        ["contains(keys(@), 'on')", true],
+        ["contains(keys(on), 'workflow_dispatch')", true],
+        ["on.workflow_dispatch", null],
+        ["contains(keys(on), 'schedule')", true],
+        ["type(on.schedule)", "array"],
+        ["length(on.schedule)", 1],
+        ["length(keys(on.schedule[0]))", 1],
+        ["contains(keys(on.schedule[0]), 'cron')", true],
+        ["on.schedule[0].cron", "0 3 1 1/6 *"],
+
+        // jobs
+        ["contains(keys(@), 'jobs')", true],
+        ["length(keys(jobs))", 1],
+        ["contains(keys(jobs), 'update')", true],
+        ["contains(keys(jobs.update), 'runs-on')", true],
+        ['jobs.update."runs-on"', "ubuntu-latest"],
+        ["contains(keys(jobs.update), 'steps')", true],
+        //   steps
+        ["length(jobs.update.steps)", 2],
+        //     [0]
+        [
+          "regex_match('^actions/checkout@v\\d+$', jobs.update.steps[0].uses)",
+          true,
+        ],
+        [
+          "jobs.update.steps[0].with.token",
+          "${{ secrets.UPDATE_GH_ACTIONS_TOKEN }}",
+        ],
+
+        //     [1]
+        [
+          "regex_match('^saadmk11/github-actions-version-updater', jobs.update.steps[1].uses)",
+          true,
+        ],
+        ["jobs.update.steps[1].name", "Run GitHub Actions Version Updater"],
+        [
+          "jobs.update.steps[1].with.token",
+          "${{ secrets.UPDATE_GH_ACTIONS_TOKEN }}",
+        ],
+      ],
+    },
+  ],
+}
