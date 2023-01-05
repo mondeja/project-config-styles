@@ -20,8 +20,8 @@
   for building, versioning, environments and publishing.
 - `single-quotes.json5`: Single quotes for strings. Use [autopep8] and
   [add-trailing-comma] for formatting.
-- `double-quotes.json5`: Double quotes for strings. Use [black] and
-  [add-trailing-comma] for formatting.
+- `double-quotes.json5`: Double quotes for strings. Use [black] for
+  formatting.
 - `line-length-80.json5`: 80 characters as maximum line length.
 - `tests.json5`: The project has tests. Use [pytest].
 - `google-docstrings.json5`: Google docstrings convention.
