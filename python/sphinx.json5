@@ -71,7 +71,11 @@
         ],
         [
           "tool.hatch.envs.docs.scripts.serve",
-          "python -m sphinx -n -T -E -W docs docs/_build/html &&\npython -c 'import webbrowser as w;w.open(\"http://127.0.0.1:8089\")' &&\npython -m http.server 8089 -b localhost -d docs/_build/html",
+          [
+            "python -m sphinx -n -T -E -W docs docs/_build/html",
+            "python -c 'import webbrowser as w;w.open(\"http://127.0.0.1:8089\")'",
+            "python -m http.server 8089 -b localhost -d docs/_build/html",
+          ],
         ],
       ],
     },
