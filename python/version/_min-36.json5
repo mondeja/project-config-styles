@@ -16,7 +16,22 @@
           "contains(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0].args, '--py36-plus')",
           true,
         ],
-
+      ],
+    },
+    {
+      files: [".pre-commit-config.yaml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          ["starts_with(project.\"requires-python\", '>=3.6')", true],
+        ],
+        ".pre-commit-config.yaml": [
+          [
+            "length(repos[?repo=='https://github.com/asottile/add-trailing-comma'])",
+            1,
+          ],
+        ],
+      },
+      JMESPathsMatch: [
         // add-trailing-comma pre-commit hook must use correct argument
         [
           "contains(keys(repos[?repo=='https://github.com/asottile/add-trailing-comma'] | [0].hooks[0]), 'args')",

@@ -17,7 +17,7 @@
     },
     {
       files: [".pre-commit-config.yaml"],
-      hint: "Drop add-trailing-comma pre-commit hook as black is being used for formatting",
+      hint: "Drop add-trailing-comma pre-commit hook as Black is being used for formatting",
       JMESPathsMatch: [
         [
           "length(repos[?repo=='https://github.com/asottile/add-trailing-comma'])",
