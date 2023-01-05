@@ -1,3 +1,6 @@
+/**
+ * Version 3.11 as the maximum Python version for a project.
+ **/
 {
   rules: [
     {
@@ -16,10 +19,6 @@
       },
       JMESPathsMatch: [
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.10')",
-          true,
-        ],
-        [
           "contains(project.classifiers, 'Programming Language :: Python :: 3.11')",
           true,
         ],
@@ -31,7 +30,6 @@
     },
     {
       files: ["pyproject.toml"],
-      // configure mypy
       ifJMESPathsMatch: {
         "pyproject.toml": [
           ["ends_with(project.\"requires-python\", '<3.12')", true],
