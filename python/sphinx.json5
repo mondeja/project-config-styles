@@ -252,5 +252,44 @@
         ],
       ],
     },
+
+    /**
+     * Contributing file for Sphinx projects
+     *
+     * The contributing file must include the commands used
+     * while developing.
+     **/
+    {
+      files: ["docs/dev/contributing.rst"],
+      JMESPathsMatch: [
+        [
+          "length([?regex_match(op('   git clone https://[a-z]+\\.[a-z]+/[a-zA-Z-_]+/', '+', rootdir_name()), @)])",
+          1,
+        ],
+        ["length([?op('   cd ', '+', rootdir_name()) == @])", 1],
+      ],
+      includeLines: [
+        "Contributing",
+        "Development install",
+        "   pip install hatch",
+        "Run tests",
+        "   hatch run tests:unit",
+        "   # hatch run tests:all",
+        "   # hatch run tests:cov",
+        "Linting and formatting",
+        "   hatch run style:lint",
+        "Build documentation",
+        "   hatch run docs:build",
+        "   # hatch run docs:serve",
+        "Release",
+        '   version="$(hatch run bump <major/minor/patch>)"',
+        "   git add .",
+        '   git commit -m "Bump version"',
+        "   git push origin master",
+        '   git tag -a "v$version"',
+        '   git push origin "v$version"',
+      ],
+      excludeLines: ["   # hatch run tests:integration"],
+    },
   ],
 }
