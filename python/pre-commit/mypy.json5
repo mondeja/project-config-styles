@@ -10,7 +10,7 @@
         ],
         [
           // the 'rev' key must match the vX.Y regex pattern
-          "regex_match('^v\\d+\\.\\d+$', repos[?repo=='https://github.com/pre-commit/mirrors-mypy'] | [0].rev)",
+          "regex_match('^v\\d+\\.\\d+', repos[?repo=='https://github.com/pre-commit/mirrors-mypy'] | [0].rev)",
           true,
         ],
         [
