@@ -1,5 +1,5 @@
 /**
- * Version 3.8 as the minimum Python version for a project.
+ * Version 3.9 as the minimum Python version for a project.
  **/
 {
   rules: [
@@ -9,7 +9,7 @@
         "pyproject.toml": [
           [
             "sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [0]",
-            8,
+            9,
           ],
         ],
       },
@@ -18,7 +18,7 @@
          * pyupgrade
          **/
         [
-          "contains(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0].args, '--py38-plus')",
+          "contains(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0].args, '--py39-plus')",
           true,
         ],
       ],
@@ -33,7 +33,7 @@
           ['tool.flakeheaven."inline-quotes"', "double"],
           [
             "sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [0]",
-            8,
+            9,
           ],
         ],
       },
@@ -41,7 +41,7 @@
         ["type(tool.black)", "object"],
         ['type(tool.black."target-version")', "array"],
         ['length(tool.black."target-version")', 1],
-        ['tool.black."target-version"[0]', "py38"],
+        ['tool.black."target-version"[0]', "py39"],
       ],
     },
     {
@@ -50,7 +50,7 @@
         "pyproject.toml": [
           [
             "sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [0]",
-            8,
+            9,
           ],
         ],
       },
@@ -58,13 +58,8 @@
         /**
          * isort
          **/
-        ["tool.isort.py_version", 38],
+        ["tool.isort.py_version", 39],
 
-        // https://docs.python.org/3/whatsnew/3.9.html#new-modules
-        [
-          "op(tool.isort.extra_standard_library, '>', ['zoneinfo', 'graphlib'])",
-          true,
-        ],
         // 3.10 does not add new modules
         // https://docs.python.org/3.11/whatsnew/3.11.html#new-modules
         [
@@ -76,11 +71,11 @@
          * project.classifiers
          **/
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.8')",
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.9')",
           true,
         ],
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.7')",
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.8')",
           false,
         ],
       ],
