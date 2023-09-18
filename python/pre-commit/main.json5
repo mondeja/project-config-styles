@@ -7,9 +7,7 @@
     "../../base/pre-commit/yamllint.json5",
     "../../base/pre-commit/markdown-link-check.json5",
     "prettier.json5",
-    "pyupgrade.json5",
     "pre-commit-hooks.json5",
-    "autoflake.json5",
     "hooks.json5",
   ],
 }

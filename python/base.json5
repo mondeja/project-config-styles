@@ -2,7 +2,6 @@
   extends: [
     "../base/main.json5",
     "../base/project-config.json5",
-    "line-length-80.json5",
     "setup-py.json5",
     "version/main.json5",
     "editorconfig.json5",
@@ -10,8 +9,7 @@
     "pre-commit/main.json5",
     "gitignore/main.json5",
     "files-absence.json5",
-    "isort.json5",
-    "flakeheaven.json5",
+    "ruff.json5",
     "github-workflows.json5",
     "readme.json5",
   ],

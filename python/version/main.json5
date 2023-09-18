@@ -18,27 +18,6 @@
       ],
     },
     {
-      files: [".pre-commit-config.yaml"],
-      hint: "pyupgrade pre-commit hook must contain command line arguments",
-      JMESPathsMatch: [
-        [
-          "contains(keys(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0]), 'args')",
-          true,
-        ],
-      ],
-    },
-    {
-      files: ["pyproject.toml"],
-      hint: 'tool.isort object must contain "py_version" and "extra_standard_library" keys',
-      JMESPathsMatch: [
-        ["type(tool.isort)", "object"],
-        [
-          "op(keys(tool.isort), '>', ['py_version', 'extra_standard_library'])",
-          true,
-        ],
-      ],
-    },
-    {
       /**
        * project.classifiers
        **/

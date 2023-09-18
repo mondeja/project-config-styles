@@ -35,17 +35,6 @@
           "repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='end-of-file-fixer'] | [0].name",
           "end-of-file-fixer",
         ],
-
-        // Python projects must use the debug statements hook:
-        // https://github.com/pre-commit/pre-commit-hooks#debug-statements
-        [
-          "contains(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[*].id, 'debug-statements')",
-          true,
-        ],
-        [
-          "repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='debug-statements'] | [0].name",
-          "debug-statements",
-        ],
       ],
     },
   ],

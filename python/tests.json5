@@ -173,7 +173,7 @@
     },
 
     /**
-     * all script
+     * 'all' script
      **/
     {
       files: ["pyproject.toml"],
@@ -201,7 +201,7 @@
     },
 
     /**
-     * unit script
+     * 'unit' script
      **/
     {
       files: ["tests/test_unit/"],
@@ -219,7 +219,7 @@
     },
 
     /**
-     * integration script
+     * 'integration' script
      **/
     {
       files: ["pyproject.toml"],
@@ -245,7 +245,7 @@
     },
     {
       /**
-       * cov script
+       * 'cov' script
        **/
       files: ["pyproject.toml"],
       JMESPathsMatch: [

@@ -4,47 +4,6 @@
 {
   rules: [
     {
-      files: [".pre-commit-config.yaml"],
-      ifJMESPathsMatch: {
-        "pyproject.toml": [
-          [
-            "sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [0]",
-            9,
-          ],
-        ],
-      },
-      JMESPathsMatch: [
-        /**
-         * pyupgrade
-         **/
-        [
-          "contains(repos[?repo=='https://github.com/asottile/pyupgrade'] | [0].hooks[0].args, '--py39-plus')",
-          true,
-        ],
-      ],
-    },
-    {
-      files: ["pyproject.toml"],
-      ifJMESPathsMatch: {
-        // if pyproject.toml is specifying double quotes for flake8,
-        // the formatting is black so we must specify the target version
-        // in his configuration
-        "pyproject.toml": [
-          ['tool.flakeheaven."inline-quotes"', "double"],
-          [
-            "sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [0]",
-            9,
-          ],
-        ],
-      },
-      JMESPathsMatch: [
-        ["type(tool.black)", "object"],
-        ['type(tool.black."target-version")', "array"],
-        ['length(tool.black."target-version")', 1],
-        ['tool.black."target-version"[0]', "py39"],
-      ],
-    },
-    {
       files: ["pyproject.toml"],
       ifJMESPathsMatch: {
         "pyproject.toml": [
@@ -58,12 +17,10 @@
         /**
          * isort
          **/
-        ["tool.isort.py_version", 39],
-
         // 3.10 does not add new modules
         // https://docs.python.org/3.11/whatsnew/3.11.html#new-modules
         [
-          "op(tool.isort.extra_standard_library, '>', ['tomllib', 'wsgiref.types'])",
+          "op(tool.ruff.isort.\"extra-standard-library\", '>', ['tomllib', 'wsgiref.types'])",
           true,
         ],
 

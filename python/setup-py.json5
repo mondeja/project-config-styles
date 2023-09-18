@@ -1,5 +1,5 @@
 {
-  extends: ["pyproject/flakeheaven-setup-py.json5"],
+  extends: ["pyproject/ruff-setup-py.json5"],
   rules: [
     {
       files: ["setup.py"],

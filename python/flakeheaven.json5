@@ -1,3 +1,0 @@
-{
-  extends: ["pyproject/flakeheaven.json5", "pre-commit/flakeheaven.json5"],
-}
