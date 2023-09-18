@@ -9,7 +9,7 @@
   rules: [
     {
       files: ["pyproject.toml"],
-      hint: "project.classifiers must not contain a classifier for Python 4. Not supported by styles",
+      hint: "project.classifiers must not contain a classifier for Python 4",
       JMESPathsMatch: [
         [
           "length(project.classifiers[?starts_with(@, 'Programming Language :: Python :: 4')])",
