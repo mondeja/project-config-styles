@@ -10,6 +10,7 @@
     "gitignore/main.json5",
     "files-absence.json5",
     "ruff.json5",
+    "tests.json5",
     "github-workflows.json5",
     "readme.json5",
   ],

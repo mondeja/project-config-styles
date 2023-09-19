@@ -93,23 +93,6 @@
       ],
     },
 
-    {
-      // if mypy is configured, add type annotations with isort plugin of ruff
-      files: ["pyproject.toml"],
-      ifJMESPathsMatch: {
-        "pyproject.toml": [["contains(keys(tool), 'mypy')", true]],
-      },
-      JMESPathsMatch: [
-        ['type(tool.ruff.isort."required-imports")', "array"],
-        [
-          "contains(tool.ruff.isort.\"required-imports\", 'from __future__ import annotations')",
-          true,
-        ],
-        //   not for tests
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'I002\')', true],
-      ],
-    },
-
     // TODO: in the future, ruff should be able to autoformat the code
     // See https://github.com/astral-sh/ruff/issues/1904
 
