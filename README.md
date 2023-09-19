@@ -22,7 +22,6 @@
 - `base.json5`: Base styles for Python. Include it at start. Use [hatch]
   for building, versioning, environments and publishing. Use [pre-commit]
   for linting and formatting.
-- `tests.json5`: The project has tests. Use [pytest] and [coverage.py].
 - `sphinx.json5`: Documentation using Sphinx.
 - `readthedocs.json5`: Documentation using ReadTheDocs theme for Sphinx.
 - `mdpo.json5`: Documentation with Markdown files, translations using
@@ -32,8 +31,6 @@
 <!-- External links: -->
 
 [project-config]: https://github.com/mondeja/project-config
-[pytest]: https://docs.pytest.org/en/latest/
-[coverage.py]: https://coverage.readthedocs.io
 [mdpo]: https://mondeja.github.io/mdpo/
 [mypy]: https://mypy.readthedocs.io/en/latest/
 [pre-commit]: https://pre-commit.com

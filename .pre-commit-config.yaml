@@ -19,7 +19,7 @@ repos:
       - id: check-added-large-files
         name: check-added-large-files
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0
+    rev: v3.0.3
     hooks:
       - id: prettier
         minimum_pre_commit_version: 2.9.0
@@ -49,7 +49,7 @@ repos:
         id: shellcheck
         name: shellcheck
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.8.1
+    rev: v0.10.0
     hooks:
       - id: markdownlint-cli2
   - repo: https://github.com/tcort/markdown-link-check
