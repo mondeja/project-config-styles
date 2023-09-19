@@ -27,10 +27,7 @@
          * differently for 'tests/' and for 'src/'.
          *
          * In 'src/' we must add `from __future__ import annotations` to all
-         * files, but not in 'tests/' nor 'setup.py'. This is not currently possible in a
-         * single run with default isort options, so the run must be executed
-         * twice, one for 'src/' and 'tests/'. See:
-         * https://github.com/PyCQA/isort/issues/1951
+         * files, but not in 'tests/' nor 'setup.py'.
          **/
         ["contains(keys(tool.ruff.isort), 'required-imports')", true],
         ['type(tool.ruff.isort."required-imports")', "array"],
