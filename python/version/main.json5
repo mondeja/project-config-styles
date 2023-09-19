@@ -24,15 +24,15 @@
       files: ["pyproject.toml"],
       JMESPathsMatch: [
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.10')",
-          true,
-        ],
-        [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.7')",
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.6')",
           false,
         ],
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.6')",
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.5')",
+          false,
+        ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3')",
           false,
         ],
       ],

@@ -9,7 +9,7 @@
       hint: 'tool.ruff."target-version" must be set to py3X where X is the minor version of the minimum supported Python version by the project defined at project."requires-python"',
       JMESPathsMatch: [
         [
-          "op(op('py', '+', replace(split(project.\"requires-python\", '=')[1], '.', '')), '==', tool.ruff.\"target-version\")",
+          "op(op('py', '+', replace(split(split(project.\"requires-python\", ',')[0], '=')[1], '.', '')), '==', tool.ruff.\"target-version\")",
           true,
         ],
       ],
@@ -126,7 +126,7 @@
       },
       JMESPathsMatch: [
         [
-          "op(op('py', '+', replace(split(project.\"requires-python\", '=')[1], '.', '')), '==', tool.black.\"target-version\")",
+          "op(op('py', '+', replace(split(split(split(project.\"requires-python\", ',')[0], ',')[0], '=')[1], '.', '')), '==', tool.black.\"target-version\")",
           true,
         ],
       ],
@@ -167,6 +167,19 @@
         [
           "repos[?repo=='https://github.com/pre-commit/mirrors-autopep8'] | [0].hooks[0].id",
           "autopep8",
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "As mypy is not configured, remove 'from __future__ import annotations' from tool.ruff.isort.\"required-imports\"",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["contains(keys(tool), 'mypy')", false]],
+      },
+      JMESPathsMatch: [
+        [
+          "contains(op(tool.ruff.isort.\"required-imports\" || `[]`, 'from __future__ import annotations')",
+          false,
         ],
       ],
     },

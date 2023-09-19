@@ -91,6 +91,35 @@
       ],
     },
     {
+      files: ["pyproject.toml"],
+      hint: "Add exclusions for Sphinx documentation configuration file to ruff",
+      JMESPathsMatch: [
+        [
+          "contains(keys(tool.ruff.\"per-file-ignores\"), 'docs/conf.py')",
+          true,
+        ],
+        // docs/conf.py is part of an implicit namespace
+        [
+          'contains(tool.ruff."per-file-ignores"."docs/conf.py", \'INP001\')',
+          true,
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Add mypy exclusions for Sphinx documentation configuration file to ruff",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["contains(keys(tool), 'mypy')", true]],
+      },
+      JMESPathsMatch: [
+        // docs/conf.py is part of an implicit namespace
+        [
+          'contains(tool.ruff."per-file-ignores"."docs/conf.py"), \'I002\')',
+          true,
+        ],
+      ],
+    },
+    {
       files: [".editorconfig"],
       JMESPathsMatch: [
         // With documentation, the project will include CSS files, so
