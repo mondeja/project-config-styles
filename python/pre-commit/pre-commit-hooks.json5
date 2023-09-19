@@ -35,6 +35,18 @@
           "repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='end-of-file-fixer'] | [0].name",
           "end-of-file-fixer",
         ],
+
+        // Don't add debug-statements hook (handled by Ruff)
+        [
+          "length(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='debug-statements'])",
+          0,
+        ],
+
+        // Don't add double-quote-string-fixer hook (handled by Ruff)
+        [
+          "length(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='double-quote-string-fixer'])",
+          0,
+        ],
       ],
     },
   ],

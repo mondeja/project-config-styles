@@ -178,7 +178,7 @@
       },
       JMESPathsMatch: [
         [
-          "contains(op(tool.ruff.isort.\"required-imports\" || `[]`, 'from __future__ import annotations')",
+          "contains(tool.ruff.isort.\"required-imports\" || `[]`, 'from __future__ import annotations')",
           false,
         ],
       ],
