@@ -7,9 +7,33 @@
     "../../base/pre-commit/yamllint.json5",
     "../../base/pre-commit/markdown-link-check.json5",
     "prettier.json5",
-    "pyupgrade.json5",
     "pre-commit-hooks.json5",
-    "autoflake.json5",
     "hooks.json5",
+  ],
+  rules: [
+    {
+      files: [".pre-commit-config.yaml"],
+      hint: "Remove add-trailing-comma pre-commit hook as the funcionality is provided by Ruff",
+      JMESPathsMatch: [
+        [
+          "length(repos[?repo=='https://github.com/asottile/add-trailing-comma'])",
+          0,
+        ],
+      ],
+    },
+    {
+      files: [".pre-commit-config.yaml"],
+      hint: "Remove isort pre-commit hook as the funcionality is provided by Ruff",
+      JMESPathsMatch: [
+        ["length(repos[?repo=='https://github.com/PyCQA/isort'])", 0],
+      ],
+    },
+    {
+      files: [".pre-commit-config.yaml"],
+      hint: "Remove autoflake pre-commit hook as the funcionality is provided by Ruff",
+      JMESPathsMatch: [
+        ["length(repos[?repo=='https://github.com/myint/autoflake'])", 0],
+      ],
+    },
   ],
 }

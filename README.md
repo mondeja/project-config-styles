@@ -22,12 +22,6 @@
 - `base.json5`: Base styles for Python. Include it at start. Use [hatch]
   for building, versioning, environments and publishing. Use [pre-commit]
   for linting and formatting.
-- `single-quotes.json5`: Single quotes for strings. Use [autopep8] and
-  [add-trailing-comma] for formatting with [pre-commit].
-- `double-quotes.json5`: Double quotes for strings. Use [black] for
-  formatting with [pre-commit].
-- `tests.json5`: The project has tests. Use [pytest] and [coverage.py].
-- `google-docstrings.json5`: Google docstrings convention.
 - `sphinx.json5`: Documentation using Sphinx.
 - `readthedocs.json5`: Documentation using ReadTheDocs theme for Sphinx.
 - `mdpo.json5`: Documentation with Markdown files, translations using
@@ -37,11 +31,6 @@
 <!-- External links: -->
 
 [project-config]: https://github.com/mondeja/project-config
-[autopep8]: https://pypi.org/project/autopep8/
-[add-trailing-comma]: https://pypi.org/project/add-trailing-comma/
-[black]: https://pypi.org/project/black/
-[pytest]: https://docs.pytest.org/en/latest/
-[coverage.py]: https://coverage.readthedocs.io
 [mdpo]: https://mondeja.github.io/mdpo/
 [mypy]: https://mypy.readthedocs.io/en/latest/
 [pre-commit]: https://pre-commit.com

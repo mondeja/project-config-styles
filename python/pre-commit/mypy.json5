@@ -17,48 +17,32 @@
           "repos[?repo=='https://github.com/pre-commit/mirrors-mypy'] | [0].hooks[0].id",
           "mypy",
         ],
-
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      JMESPathsMatch: [
         /**
          * When we are writing types, we must ensure that isort is executed
          * differently for 'tests/' and for 'src/'.
          *
          * In 'src/' we must add `from __future__ import annotations` to all
-         * files, but not in 'tests/'. This is not currently possible in a
-         * single run with default isort options, so the run must be executed
-         * twice, one for 'src/' and 'tests/'. See:
-         * https://github.com/PyCQA/isort/issues/1951
+         * files, but not in 'tests/' nor 'setup.py'.
          **/
-        // isort-src
+        ["contains(keys(tool.ruff.isort), 'required-imports')", true],
+        ['type(tool.ruff.isort."required-imports")', "array"],
+
+        // Include __future__ annotations imports
         [
-          "contains(repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[*].name, 'isort-src')",
+          "contains(tool.ruff.isort.\"required-imports\", 'from __future__ import annotations')",
           true,
-        ],
-        [
-          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-src'] | [0].alias",
-          "isort-src",
-        ],
-        [
-          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-src'] | [0].files",
-          "^src",
-        ],
-        [
-          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-src'] | [0].args[:2]",
-          ["--add-import", "from __future__ import annotations"],
         ],
 
-        // isort-meta
-        [
-          "contains(repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[*].name, 'isort-meta')",
-          true,
-        ],
-        [
-          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-meta'] | [0].alias",
-          "isort-meta",
-        ],
-        [
-          "repos[?repo=='https://github.com/PyCQA/isort'] | [0].hooks[?name == 'isort-meta'] | [0].files",
-          "^(docs|tests)",
-        ],
+        // Don't include __future__ annotations imports in tests nor setup.py
+        ["contains(keys(tool.ruff.\"per-file-ignores\"), 'tests/**')", true],
+        ['contains(tool.ruff."per-file-ignores"."tests/**", \'I002\')', true],
+        ["contains(keys(tool.ruff.\"per-file-ignores\"), 'setup.py')", true],
+        ['contains(tool.ruff."per-file-ignores"."setup.py", \'I002\')', true],
       ],
     },
   ],

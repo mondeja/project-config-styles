@@ -36,15 +36,16 @@
           "end-of-file-fixer",
         ],
 
-        // Python projects must use the debug statements hook:
-        // https://github.com/pre-commit/pre-commit-hooks#debug-statements
+        // Don't add debug-statements hook (handled by Ruff)
         [
-          "contains(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[*].id, 'debug-statements')",
-          true,
+          "length(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='debug-statements'])",
+          0,
         ],
+
+        // Don't add double-quote-string-fixer hook (handled by Ruff)
         [
-          "repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='debug-statements'] | [0].name",
-          "debug-statements",
+          "length(repos[?repo=='https://github.com/pre-commit/pre-commit-hooks'] | [0].hooks[?id=='double-quote-string-fixer'])",
+          0,
         ],
       ],
     },

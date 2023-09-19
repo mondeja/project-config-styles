@@ -15,17 +15,6 @@
           "repos[?repo=='https://github.com/adrienverge/yamllint'] | [0].hooks[0].id",
           "yamllint",
         ],
-
-        // add `-c .yamllint.yaml` arguments for specify our custom '.yaml' extension
-        // filename (see extended style)
-        [
-          "repos[?repo=='https://github.com/adrienverge/yamllint'] | [0].hooks[0].args[0]",
-          "-c",
-        ],
-        [
-          "repos[?repo=='https://github.com/adrienverge/yamllint'] | [0].hooks[0].args[1]",
-          ".yamllint.yaml",
-        ],
       ],
     },
   ],

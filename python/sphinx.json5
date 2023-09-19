@@ -92,41 +92,29 @@
     },
     {
       files: ["pyproject.toml"],
+      hint: "Add exclusions for Sphinx documentation configuration file to ruff",
       JMESPathsMatch: [
-        // Flake8 exceptions in documentation pages (flakeheaven lints code blocks there)
         [
-          'type(tool.flakeheaven.exceptions."docs/**"."flake8-docstrings")',
-          "array",
-        ],
-        [
-          // Allow modules without docstrings as are just examples
-          // Allow public classes without docstrings as are just examples
-          // Allow public methods without docstrings as are just examples
-          "op(tool.flakeheaven.exceptions.\"docs/**\".\"flake8-docstrings\", '>=', ['-D100', '-D101', '-D102'])",
+          "contains(keys(tool.ruff.\"per-file-ignores\"), 'docs/conf.py')",
           true,
         ],
-
+        // docs/conf.py is part of an implicit namespace
         [
-          "contains(keys(tool.flakeheaven.exceptions.\"docs/**\"), 'flake8-print')",
+          'contains(tool.ruff."per-file-ignores"."docs/conf.py", \'INP001\')',
           true,
         ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Add mypy exclusions for Sphinx documentation configuration file to ruff",
+      ifJMESPathsMatch: {
+        "pyproject.toml": [["contains(keys(tool), 'mypy')", true]],
+      },
+      JMESPathsMatch: [
+        // docs/conf.py is part of an implicit namespace
         [
-          // Allow the usage `print` in documentation blocks because is more readable
-          // than `sys.stdout.write` for the user
-          'contains(tool.flakeheaven.exceptions."docs/**"."flake8-print", \'-T201\')',
-          true,
-        ],
-
-        [
-          // Allow implicit namespace packages in RestructuredText files
-          //
-          // That does not have much sense in examples as are snippets of
-          // code, nor files, but flakeheaven pass them to the plugin.
-          "contains(keys(tool.flakeheaven.exceptions.\"docs/**\"), 'flake8-no-pep420')",
-          true,
-        ],
-        [
-          'contains(tool.flakeheaven.exceptions."docs/**"."flake8-no-pep420", \'-INP001\')',
+          'contains(tool.ruff."per-file-ignores"."docs/conf.py"), \'I002\')',
           true,
         ],
       ],
@@ -225,18 +213,9 @@
         ["type(html_static_path)", "array"],
         ["length(html_static_path)", 1],
         ["html_static_path[0]", "_static"],
+        //   we use Google docstrings so add the `sphinx.ext.napoleon` extension
+        ["contains(extensions, 'sphinx.ext.napoleon')", true],
       ],
-    },
-
-    {
-      ifJMESPathsMatch: {
-        "pyproject.toml": [
-          ['tool.flakeheaven."docstring-convention"', "google"],
-        ],
-      },
-      files: ["docs/conf.py"],
-      JMESPathsMatch: [["contains(extensions, 'sphinx.ext.napoleon')", true]],
-      hint: "When using Google docstrings convention, the extension 'sphinx.ext.napoleon' must be added to 'extensions'",
     },
 
     // docs/conf.py metadata must match with pyproject.toml metadata

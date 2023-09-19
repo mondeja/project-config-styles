@@ -142,14 +142,20 @@
     },
     {
       files: ["pyproject.toml"],
-      hint: "Minimum and maximum versions supported by the package (project.requires-python) must be added to the first and latest indexes to tool.hatch.envs.tests.matrix[*].python array",
+      hint: 'Minimum version supported by the package (defined by project."requires-python") must be added as the first index to tool.hatch.envs.tests.matrix[*].python array',
       JMESPathsMatch: [
         [
           "op(tool.hatch.envs.tests.matrix[0].python[0], '==', op('py', '+', replace(regex_search('^>=(\\d+\\.\\d+)', project.\"requires-python\")[0], '.', '')))",
           true,
         ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      hint: "Maximum version supported by the package (defined by project.classifiers) must be added as the last index to tool.hatch.envs.tests.matrix[*].python array",
+      JMESPathsMatch: [
         [
-          "op(tool.hatch.envs.tests.matrix[0].python[-1], '==', op(op('py', '+', regex_search(',<(\\d+)\\.', project.\"requires-python\")[0]), '+', to_string(op(to_number(regex_search(',<\\d+\\.(\\d+)$', project.\"requires-python\")[0]), '-', `1`))))",
+          "op(tool.hatch.envs.tests.matrix[0].python[-1], '==', op('py3', '+', to_string(sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [-1])))",
           true,
         ],
       ],
@@ -173,7 +179,7 @@
     },
 
     /**
-     * all script
+     * 'all' script
      **/
     {
       files: ["pyproject.toml"],
@@ -201,7 +207,7 @@
     },
 
     /**
-     * unit script
+     * 'unit' script
      **/
     {
       files: ["tests/test_unit/"],
@@ -219,7 +225,7 @@
     },
 
     /**
-     * integration script
+     * 'integration' script
      **/
     {
       files: ["pyproject.toml"],
@@ -245,7 +251,7 @@
     },
     {
       /**
-       * cov script
+       * 'cov' script
        **/
       files: ["pyproject.toml"],
       JMESPathsMatch: [
