@@ -112,7 +112,8 @@
 
         // whitespaces before ':' are not PEP-8 compliant, see:
         // https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#slices
-        ["contains(tool.ruff, 'ignore')", true],
+        ["contains(keys(tool.ruff), 'ignore')", true],
+        ["type(tool.ruff.ignore)", "array"],
         ["contains(tool.ruff.ignore, 'E203')", true],
       ],
     },
@@ -125,8 +126,9 @@
         ],
       },
       JMESPathsMatch: [
+        ['type(tool.black."target-version")', "array"],
         [
-          "op(op('py', '+', replace(split(split(split(project.\"requires-python\", ',')[0], ',')[0], '=')[1], '.', '')), '==', tool.black.\"target-version\")",
+          "op(op('py', '+', replace(split(split(split(project.\"requires-python\", ',')[0], ',')[0], '=')[1], '.', '')), '==', tool.black.\"target-version\"[0])",
           true,
         ],
       ],
