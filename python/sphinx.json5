@@ -112,9 +112,12 @@
         "pyproject.toml": [["contains(keys(tool), 'mypy')", true]],
       },
       JMESPathsMatch: [
-        // docs/conf.py is part of an implicit namespace
         [
-          'contains(tool.ruff."per-file-ignores"."docs/conf.py"), \'I002\')',
+          "contains(keys(tool.ruff.\"per-file-ignores\"), 'docs/conf.py')",
+          true,
+        ],
+        [
+          'contains(tool.ruff."per-file-ignores"."docs/conf.py", \'I002\')',
           true,
         ],
       ],
