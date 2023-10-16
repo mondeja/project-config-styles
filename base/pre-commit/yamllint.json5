@@ -4,17 +4,9 @@
     {
       // Use yamllint via pre-commit
       files: [".pre-commit-config.yaml"],
-      JMESPathsMatch: [
-        ["length(repos[?repo=='https://github.com/adrienverge/yamllint'])", 1],
-        [
-          // the 'rev' key must match the vX.Y.Z regex pattern
-          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/adrienverge/yamllint'] | [0].rev)",
-          true,
-        ],
-        [
-          "repos[?repo=='https://github.com/adrienverge/yamllint'] | [0].hooks[0].id",
-          "yamllint",
-        ],
+      preCommitHookExists: [
+        "https://github.com/adrienverge/yamllint",
+        "yamllint",
       ],
     },
   ],

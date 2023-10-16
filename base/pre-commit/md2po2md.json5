@@ -8,23 +8,14 @@
   rules: [
     {
       files: [".pre-commit-config.yaml"],
-      JMESPathsMatch: [
+      preCommitHookExists: [
+        "https://github.com/mondeja/mdpo",
         [
-          "length(repos[?repo=='https://github.com/mondeja/mdpo'])",
-          1,
-          "set(@, 'repos', insert(repos, `-1`, {rev: gh_tags('mondeja', 'mdpo', True)[0], repo: 'https://github.com/mondeja/mdpo', hooks: [{id: 'md2po2md', files: '^README\\.md', args: ['-l', 'es', '-o', 'locale/{lang}', '--no-location']}]}))",
-        ],
-        [
-          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/mondeja/mdpo'] | [0].rev)",
-          true,
-        ],
-        [
-          "type(repos[?repo=='https://github.com/mondeja/mdpo'] | [0].hooks)",
-          "array",
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/mondeja/mdpo'] | [0].hooks[*].id, 'md2po2md')",
-          true,
+          {
+            id: "md2po2md",
+            files: "^README\\.md",
+            args: ["-l", "es", "-o", "locale/{lang}", "--no-location"],
+          },
         ],
       ],
     },

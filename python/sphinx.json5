@@ -154,6 +154,11 @@
     },
     {
       files: [".pre-commit-config.yaml"],
+      // BAT files must have lf line endings
+      preCommitHookExists: [
+        "https://github.com/Lucas-C/pre-commit-hooks",
+        [{ id: "remove-crlf", files: "\\.bat$", name: "*.bat end of lines" }],
+      ],
       JMESPathsMatch: [
         // Configure prettier to format CSS files
         [
@@ -163,24 +168,6 @@
         [
           "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].types_or, 'css')",
           true,
-        ],
-
-        // BAT files must have lf line endings
-        [
-          "contains(repos[?repo=='https://github.com/Lucas-C/pre-commit-hooks'] | [0].hooks[*].id, 'remove-crlf')",
-          true,
-        ],
-        [
-          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/Lucas-C/pre-commit-hooks'] | [0].rev)",
-          true,
-        ],
-        [
-          "repos[?repo=='https://github.com/Lucas-C/pre-commit-hooks'] | [0].hooks[?id=='remove-crlf'] | [0].files",
-          "\\.bat$",
-        ],
-        [
-          "repos[?repo=='https://github.com/Lucas-C/pre-commit-hooks'] | [0].hooks[?id=='remove-crlf'] | [0].name",
-          "*.bat end of lines",
         ],
       ],
     },

@@ -3,21 +3,9 @@
     {
       files: [".pre-commit-config.yaml"],
       hint: "Python projects must use ruff via pre-commit",
-      JMESPathsMatch: [
-        [
-          "length(repos[?repo=='https://github.com/astral-sh/ruff-pre-commit'])",
-          1,
-          "set(@, 'repos', insert(repos, `-1`, {rev: gh_tags('astral-sh', 'ruff-pre-commit', True)[0], repo: 'https://github.com/astral-sh/ruff-pre-commit', hooks: [{id: 'ruff'}]}))",
-        ],
-        [
-          // the 'rev' key must match the vX.Y.Z regex pattern
-          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/astral-sh/ruff-pre-commit'] | [0].rev)",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/astral-sh/ruff-pre-commit'] | [0].hooks[*].id, 'ruff')",
-          true,
-        ],
+      preCommitHookExists: [
+        "https://github.com/astral-sh/ruff-pre-commit",
+        "ruff",
       ],
     },
   ],

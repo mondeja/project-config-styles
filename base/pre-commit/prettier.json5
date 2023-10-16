@@ -1,28 +1,35 @@
 {
   rules: [
     {
-      // Use prettier to format files
       files: [".pre-commit-config.yaml"],
+      hint: "The prettier hook must be placed first. Defined after linters, these raise positives solved by Prettier",
       JMESPathsMatch: [
+        ["repos[0].repo", "https://github.com/pre-commit/mirrors-prettier"],
+      ],
+    },
+    {
+      // The 'prettier' dependency must have to be specified explicitly
+      // because we are overwriting the 'additional_dependencies' array
+      files: [".pre-commit-config.yaml"],
+      hint: "The additional_dependencies configuration must contain prettier as dependency",
+      JMESPathsMatch: [
+        ["type(repos[0].hooks[0].additional_dependencies)", "array"],
         [
-          "length(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'])",
-          1,
-          "set(@, 'repos', insert(repos, `-1`, {rev: gh_tags('pre-commit', 'mirrors-prettier', True)[0], repo: 'https://github.com/mondeja/mdpo', hooks: [{id: 'prettier', additional_dependencies: ['prettier']}]}))",
-        ],
-        [
-          "repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].id",
-          "prettier",
-        ],
-        [
-          // types_or requires pre-commit >= 2.9.0
-          "repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].minimum_pre_commit_version",
-          "2.9.0",
-        ],
-        [
-          // The prettier dependency must have to be specified explicitly
-          // because we are overwriting the 'additional_dependencies' array
-          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].additional_dependencies, 'prettier')",
+          "contains(repos[0].hooks[0].additional_dependencies, 'prettier')",
           true,
+        ],
+      ],
+    },
+    {
+      files: [".pre-commit-config.yaml"],
+      preCommitHookExists: [
+        "https://github.com/pre-commit/mirrors-prettier",
+        [
+          {
+            id: "prettier",
+            // types_or requires pre-commit >= 2.9.0
+            minimum_pre_commit_version: "2.9.0",
+          },
         ],
       ],
     },
