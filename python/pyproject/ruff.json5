@@ -119,6 +119,18 @@
     },
     {
       files: ["pyproject.toml"],
+      hint: "All folders in src/ must be included in 'tool.ruff.isort.known-first-party' array",
+      JMESPathsMatch: [
+        ["contains(keys(tool.ruff.isort), 'known-first-party')", true],
+        ['type(tool.ruff.isort."known-first-party")', "array"],
+        [
+          "op(listdir('src') | [?isdir(op('src/', '+', @))], '<=', tool.ruff.isort.\"known-first-party\")",
+          true,
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
       JMESPathsMatch: [
         /**
          * When we are writing types, we must ensure that isort is executed
