@@ -2,20 +2,9 @@
   rules: [
     {
       files: [".pre-commit-config.yaml"],
-      JMESPathsMatch: [
-        [
-          "length(repos[?repo=='https://github.com/mondeja/project-config'])",
-          1,
-          "set(@, 'repos', insert(repos, `-1`, {rev: gh_tags('mondeja', 'project-config', True)[0], repo: 'https://github.com/mondeja/project-config', hooks: [{id: 'project-config'}]}))",
-        ],
-        [
-          "regex_match('^v\\d+\\.\\d+\\.\\d+$', repos[?repo=='https://github.com/mondeja/project-config'] | [0].rev)",
-          true,
-        ],
-        [
-          "contains(repos[?repo=='https://github.com/mondeja/project-config'] | [0].hooks[*].id, 'project-config')",
-          true,
-        ],
+      preCommitHookExists: [
+        "https://github.com/mondeja/project-config",
+        "project-config",
       ],
     },
   ],

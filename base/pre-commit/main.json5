@@ -2,7 +2,7 @@
   rules: [
     {
       files: [".pre-commit-config.yaml"],
-      hint: "Pre-commit hooks must execute shell scripts use the basic Shell. Rewrite your script yo make them POSIX-compatible and execute them using 'sh -c' in pre-commit hook entries",
+      hint: "Pre-commit hooks must execute shell scripts using the basic Shell. Rewrite your script yo make them POSIX-compatible and execute them using 'sh -c' in pre-commit hook entries",
       JMESPathsMatch: [
         [
           "length(repos[*].hooks[*].entry[] | [?starts_with(@, ['bash ', 'zsh ', 'ksh ', 'tcsh'])])",
