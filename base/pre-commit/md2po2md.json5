@@ -14,7 +14,6 @@
           {
             id: "md2po2md",
             files: "^README\\.md",
-            args: ["-l", "es", "-o", "locale/{lang}", "--no-location"],
           },
         ],
       ],
