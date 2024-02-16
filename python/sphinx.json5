@@ -95,12 +95,12 @@
       hint: "Add exclusions for Sphinx documentation configuration file to ruff",
       JMESPathsMatch: [
         [
-          "contains(keys(tool.ruff.\"per-file-ignores\"), 'docs/conf.py')",
+          "contains(keys(tool.ruff.lint.\"per-file-ignores\"), 'docs/conf.py')",
           true,
         ],
         // docs/conf.py is part of an implicit namespace
         [
-          'contains(tool.ruff."per-file-ignores"."docs/conf.py", \'INP001\')',
+          'contains(tool.ruff.lint."per-file-ignores"."docs/conf.py", \'INP001\')',
           true,
         ],
       ],
@@ -113,11 +113,11 @@
       },
       JMESPathsMatch: [
         [
-          "contains(keys(tool.ruff.\"per-file-ignores\"), 'docs/conf.py')",
+          "contains(keys(tool.ruff.lint.\"per-file-ignores\"), 'docs/conf.py')",
           true,
         ],
         [
-          'contains(tool.ruff."per-file-ignores"."docs/conf.py", \'I002\')',
+          'contains(tool.ruff.lint."per-file-ignores"."docs/conf.py", \'I002\')',
           true,
         ],
       ],

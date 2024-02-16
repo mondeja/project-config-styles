@@ -276,15 +276,15 @@
      * If one of the next files exist:
      * - tests/testing_helpers.py
      * - tests/testing_helpers/__init__.py
-     * The string "testing_helpers" must be added to `tool.ruff.isort.known-first-party`.
+     * The string "testing_helpers" must be added to `tool.ruff.lint.isort.known-first-party`.
      **/
     {
       files: ["pyproject.toml"],
       ifFilesExist: ["tests/testing_helpers.py"],
-      hint: "Add 'testing_helpers' to tool.ruff.isort.known-first-party",
+      hint: "Add 'testing_helpers' to tool.ruff.lint.isort.known-first-party",
       JMESPathsMatch: [
         [
-          "contains(tool.ruff.isort.\"known-first-party\", 'testing_helpers')",
+          "contains(tool.ruff.lint.isort.\"known-first-party\", 'testing_helpers')",
           true,
         ],
       ],
@@ -292,10 +292,10 @@
     {
       files: ["pyproject.toml"],
       ifFilesExist: ["tests/testing_helpers/__init__.py"],
-      hint: "Add 'testing_helpers' to tool.ruff.isort.known-first-party",
+      hint: "Add 'testing_helpers' to tool.ruff.lint.isort.known-first-party",
       JMESPathsMatch: [
         [
-          "contains(tool.ruff.isort.\"known-first-party\", 'testing_helpers')",
+          "contains(tool.ruff.lint.isort.\"known-first-party\", 'testing_helpers')",
           true,
         ],
       ],
