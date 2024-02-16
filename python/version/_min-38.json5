@@ -19,13 +19,13 @@
          **/
         // https://docs.python.org/3/whatsnew/3.9.html#new-modules
         [
-          "op(tool.ruff.isort.\"extra-standard-library\", '>', ['zoneinfo', 'graphlib'])",
+          "op(tool.ruff.lint.isort.\"extra-standard-library\", '>', ['zoneinfo', 'graphlib'])",
           true,
         ],
         // 3.10 does not add new modules
         // https://docs.python.org/3.11/whatsnew/3.11.html#new-modules
         [
-          "op(tool.ruff.isort.\"extra-standard-library\", '>', ['tomllib', 'wsgiref.types'])",
+          "op(tool.ruff.lint.isort.\"extra-standard-library\", '>', ['tomllib', 'wsgiref.types'])",
           true,
         ],
 

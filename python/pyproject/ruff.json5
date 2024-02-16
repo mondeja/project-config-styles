@@ -22,72 +22,110 @@
         ['tool.ruff."line-length"', 80],
         //   Use single or double quotes for strings
         [
-          'op(tool.ruff."flake8-quotes"."inline-quotes" == \'single\', \'|\', tool.ruff."flake8-quotes"."inline-quotes" == \'double\')',
+          'op(tool.ruff.lint."flake8-quotes"."inline-quotes" == \'single\', \'|\', tool.ruff.lint."flake8-quotes"."inline-quotes" == \'double\')',
           true,
         ],
 
         // flake8-pytest-style configuration
-        ['tool.ruff."flake8-pytest-style"."parametrize-values-type"', "tuple"],
         [
-          'tool.ruff."flake8-pytest-style"."parametrize-values-row-type"',
+          'tool.ruff.lint."flake8-pytest-style"."parametrize-values-type"',
           "tuple",
         ],
-        ['tool.ruff."flake8-pytest-style"."fixture-parentheses"', false],
+        [
+          'tool.ruff.lint."flake8-pytest-style"."parametrize-values-row-type"',
+          "tuple",
+        ],
+        ['tool.ruff.lint."flake8-pytest-style"."fixture-parentheses"', false],
 
         // pydocstyle configuration
         //   use Google docstrings
-        ['tool.ruff."pydocstyle"."convention"', "google"],
+        ['tool.ruff.lint."pydocstyle"."convention"', "google"],
 
         // isort configuration
-        ['tool.ruff.isort."lines-after-imports"', 2],
-        ['tool.ruff.isort."combine-as-imports"', true],
-        ['tool.ruff.isort."force-wrap-aliases"', true],
-        ['type(tool.ruff.isort."known-local-folder")', "array"],
-        ["contains(tool.ruff.isort.\"known-local-folder\", 'tests')", true],
+        ['tool.ruff.lint.isort."lines-after-imports"', 2],
+        ['tool.ruff.lint.isort."combine-as-imports"', true],
+        ['tool.ruff.lint.isort."force-wrap-aliases"', true],
+        ['type(tool.ruff.lint.isort."known-local-folder")', "array"],
+        [
+          "contains(tool.ruff.lint.isort.\"known-local-folder\", 'tests')",
+          true,
+        ],
 
         // Enable a lot of ruff rules, disabling some per file after that
-        ["contains(tool.ruff.select, 'W')", true],
-        ["contains(tool.ruff.select, 'B')", true],
-        ["contains(tool.ruff.select, 'E')", true],
-        ["contains(tool.ruff.select, 'I')", true],
-        ["contains(tool.ruff.select, 'F')", true],
-        ["contains(tool.ruff.select, 'A')", true],
-        ["contains(tool.ruff.select, 'D')", true],
-        ["contains(tool.ruff.select, 'G')", true],
-        ["contains(tool.ruff.select, 'Q')", true],
-        ["contains(tool.ruff.select, 'PL')", true],
-        ["contains(tool.ruff.select, 'UP')", true],
-        ["contains(tool.ruff.select, 'PT')", true],
-        ["contains(tool.ruff.select, 'C4')", true],
-        ["contains(tool.ruff.select, 'EXE')", true],
-        ["contains(tool.ruff.select, 'ISC')", true],
-        ["contains(tool.ruff.select, 'T20')", true],
-        ["contains(tool.ruff.select, 'INP')", true],
-        ["contains(tool.ruff.select, 'ARG')", true],
-        ["contains(tool.ruff.select, 'SIM')", true],
-        ["contains(tool.ruff.select, 'RET')", true],
-        ["contains(tool.ruff.select, 'FBT')", true],
-        ["contains(tool.ruff.select, 'ERA')", true],
-        ["contains(tool.ruff.select, 'T10')", true],
-        ["contains(tool.ruff.select, 'COM')", true],
-        ["contains(tool.ruff.select, 'SLOT')", true],
+        ["contains(tool.ruff.lint.select, 'W')", true],
+        ["contains(tool.ruff.lint.select, 'B')", true],
+        ["contains(tool.ruff.lint.select, 'E')", true],
+        ["contains(tool.ruff.lint.select, 'I')", true],
+        ["contains(tool.ruff.lint.select, 'F')", true],
+        ["contains(tool.ruff.lint.select, 'A')", true],
+        ["contains(tool.ruff.lint.select, 'D')", true],
+        ["contains(tool.ruff.lint.select, 'G')", true],
+        ["contains(tool.ruff.lint.select, 'Q')", true],
+        ["contains(tool.ruff.lint.select, 'PL')", true],
+        ["contains(tool.ruff.lint.select, 'UP')", true],
+        ["contains(tool.ruff.lint.select, 'PT')", true],
+        ["contains(tool.ruff.lint.select, 'C4')", true],
+        ["contains(tool.ruff.lint.select, 'EXE')", true],
+        ["contains(tool.ruff.lint.select, 'ISC')", true],
+        ["contains(tool.ruff.lint.select, 'T20')", true],
+        ["contains(tool.ruff.lint.select, 'INP')", true],
+        ["contains(tool.ruff.lint.select, 'ARG')", true],
+        ["contains(tool.ruff.lint.select, 'SIM')", true],
+        ["contains(tool.ruff.lint.select, 'RET')", true],
+        ["contains(tool.ruff.lint.select, 'FBT')", true],
+        ["contains(tool.ruff.lint.select, 'ERA')", true],
+        ["contains(tool.ruff.lint.select, 'T10')", true],
+        ["contains(tool.ruff.lint.select, 'COM')", true],
+        ["contains(tool.ruff.lint.select, 'SLOT')", true],
 
-        ["contains(keys(tool.ruff.\"per-file-ignores\"), 'tests/**')", true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'D100\')', true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'D101\')', true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'D102\')', true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'D103\')', true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'D104\')', true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'D107\')', true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'D205\')', true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'D415\')', true],
-        ['contains(tool.ruff."per-file-ignores"."tests/**", \'INP001\')', true],
+        ["contains(tool.ruff.lint.ignore, 'G004')", true],
+
         [
-          'contains(tool.ruff."per-file-ignores"."tests/**", \'PLR0913\')',
+          "contains(keys(tool.ruff.lint.\"per-file-ignores\"), 'tests/**')",
           true,
         ],
         [
-          'contains(tool.ruff."per-file-ignores"."tests/**", \'PLR2004\')',
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'D100\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'D101\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'D102\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'D103\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'D104\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'D107\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'D205\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'D415\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'INP001\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'PLR0913\')',
+          true,
+        ],
+        [
+          'contains(tool.ruff.lint."per-file-ignores"."tests/**", \'PLR2004\')',
           true,
         ],
       ],
@@ -119,12 +157,12 @@
     },
     {
       files: ["pyproject.toml"],
-      hint: "All folders in src/ must be included in 'tool.ruff.isort.known-first-party' array",
+      hint: "All folders in src/ must be included in 'tool.ruff.lint.isort.known-first-party' array",
       JMESPathsMatch: [
-        ["contains(keys(tool.ruff.isort), 'known-first-party')", true],
-        ['type(tool.ruff.isort."known-first-party")', "array"],
+        ["contains(keys(tool.ruff.lint.isort), 'known-first-party')", true],
+        ['type(tool.ruff.lint.isort."known-first-party")', "array"],
         [
-          "op(listdir('src') | [?isdir(op('src/', '+', @))], '<=', tool.ruff.isort.\"known-first-party\")",
+          "op(listdir('src') | [?isdir(op('src/', '+', @))], '<=', tool.ruff.lint.isort.\"known-first-party\")",
           true,
         ],
       ],
@@ -170,13 +208,13 @@
     },
     {
       files: ["pyproject.toml"],
-      hint: "As mypy is not configured, remove 'from __future__ import annotations' from tool.ruff.isort.\"required-imports\"",
+      hint: "As mypy is not configured, remove 'from __future__ import annotations' from tool.ruff.lint.isort.\"required-imports\"",
       ifJMESPathsMatch: {
         "pyproject.toml": [["contains(keys(tool), 'mypy')", false]],
       },
       JMESPathsMatch: [
         [
-          "contains(tool.ruff.isort.\"required-imports\" || `[]`, 'from __future__ import annotations')",
+          "contains(tool.ruff.lint.isort.\"required-imports\" || `[]`, 'from __future__ import annotations')",
           false,
         ],
       ],
