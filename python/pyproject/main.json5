@@ -164,33 +164,6 @@
     },
     {
       /**
-       * If project.scripts contains properties (means that the package
-       * have CLI scripts), dependencies must include
-       * `importlib-metadata-argparse-version` as a dependency.
-       *
-       * Rationale: using a CLI utility, which must declare a version in
-       *   the CLI, wich must be lazily evaluated (see the library for a
-       *   detailed explanation).
-       *
-       * Also, the classifiers must contain "Environment :: Console"
-       **/
-      files: ["pyproject.toml"],
-      ifJMESPathsMatch: {
-        "pyproject.toml": [
-          ["op(length(keys(project.scripts || `{}`)), '>', `0`)", true],
-        ],
-      },
-      JMESPathsMatch: [
-        ["type(project.dependencies)", "array"],
-        [
-          "contains(project.dependencies, 'importlib-metadata-argparse-version')",
-          true,
-        ],
-        ["contains(project.classifiers, 'Environment :: Console')", true],
-      ],
-    },
-    {
-      /**
        * license
        *
        *   - Must be a valid OSI approved SPDX license identifier.
