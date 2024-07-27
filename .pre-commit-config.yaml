@@ -20,7 +20,7 @@ repos:
       - id: check-useless-excludes
         name: check-useless-excludes
   - repo: https://github.com/mondeja/project-config
-    rev: v0.9.3
+    rev: v0.9.5
     hooks:
       - id: project-config
   - repo: https://github.com/pre-commit/pre-commit-hooks
