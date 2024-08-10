@@ -18,11 +18,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.7
-      - uses: actions/setup-python@v5.1.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         name: Set up Python
         with:
-          python-version: "3.10"
+          python-version: 3.x
       - run: pip install pre-commit pyyaml
       - name: Run tests
         run: ./_scripts/test "$BRANCH"

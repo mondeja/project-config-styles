@@ -17,3 +17,4 @@ jobs:
         uses: saadmk11/github-actions-version-updater@v0.8.1
         with:
           token: ${{ secrets.UPDATE_GH_ACTIONS_TOKEN }}
+          release_types: major
