@@ -48,6 +48,7 @@
           "jobs.update.steps[1].with.token",
           "${{ secrets.UPDATE_GH_ACTIONS_TOKEN }}",
         ],
+        ["jobs.update.steps[1].with.release_types", "major"],
       ],
     },
   ],
