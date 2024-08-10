@@ -24,7 +24,7 @@ repos:
     hooks:
       - id: project-config
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: trailing-whitespace
         name: trailing-whitespace
@@ -39,7 +39,7 @@ repos:
         id: editorconfig-checker
         name: editorconfig-checker
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.0
+    rev: v1.35.1
     hooks:
       - id: yamllint
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
@@ -49,11 +49,11 @@ repos:
         id: shellcheck
         name: shellcheck
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.12.1
+    rev: v0.13.0
     hooks:
       - id: markdownlint-cli2
   - repo: https://github.com/tcort/markdown-link-check
-    rev: v3.11.2
+    rev: v3.12.2
     hooks:
       - id: markdown-link-check
         name: markdown-link-check

@@ -1,5 +1,5 @@
 /**
- * Version 3.9 as the minimum Python version for a project.
+ * Version 3.10 as the minimum Python version for a project.
  **/
 {
   rules: [
@@ -9,7 +9,7 @@
         "pyproject.toml": [
           [
             "sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [0]",
-            9,
+            10,
           ],
         ],
       },
@@ -17,23 +17,23 @@
         /**
          * isort
          **/
-        // 3.10 does not add new modules
-        //
         // https://docs.python.org/3.11/whatsnew/3.11.html#new-modules
         [
           "op(tool.ruff.lint.isort.\"extra-standard-library\", '>', ['tomllib', 'wsgiref.types'])",
           true,
         ],
+        //
+        // 3.12 does not add new modules
 
         /**
          * project.classifiers
          **/
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.9')",
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.10')",
           true,
         ],
         [
-          "contains(project.classifiers, 'Programming Language :: Python :: 3.8')",
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.9')",
           false,
         ],
       ],

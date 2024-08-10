@@ -1,0 +1,44 @@
+/**
+ * Version 3.13 as the maximum Python version for a project.
+ **/
+{
+  rules: [
+    {
+      /**
+       * project.classifiers
+       **/
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          [
+            "sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [-1]",
+            13,
+          ],
+        ],
+      },
+      JMESPathsMatch: [
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.12')",
+          true,
+        ],
+        [
+          "contains(project.classifiers, 'Programming Language :: Python :: 3.13')",
+          true,
+        ],
+      ],
+    },
+    {
+      files: ["pyproject.toml"],
+      ifJMESPathsMatch: {
+        "pyproject.toml": [
+          [
+            "sort(project.classifiers[?starts_with(@, 'Programming Language :: Python :: ')] | [].rsplit(@, '.')[1] | [].to_number(@)) | [-1]",
+            13,
+          ],
+          ["type(tool.mypy)", "object"],
+        ],
+      },
+      JMESPathsMatch: [["tool.mypy.python_version", "3.12"]],
+    },
+  ],
+}
