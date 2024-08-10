@@ -2,9 +2,11 @@
   extends: [
     "_min-38.json5",
     "_min-39.json5",
+    "_min-310.json5",
     "_max-310.json5",
     "_max-311.json5",
     "_max-312.json5",
+    "_max-313.json5",
   ],
   rules: [
     {
