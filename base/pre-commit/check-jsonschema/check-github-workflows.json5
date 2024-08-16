@@ -1,0 +1,19 @@
+{
+  rules: [
+    {
+      ifFilesExist: [".github/workflows/"],
+      files: [".pre-commit-config.yaml"],
+      hint: "Add check-jsonschema pre-commit hook to validate GitHub workflows",
+      preCommitHookExists: [
+        "https://github.com/python-jsonschema/check-jsonschema",
+        [
+          {
+            id: "check-github-workflows",
+            name: "check-github-workflows",
+            args: ["--verbose"],
+          },
+        ],
+      ],
+    },
+  ],
+}

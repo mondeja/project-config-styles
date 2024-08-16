@@ -1,7 +1,5 @@
 {
   extends: [
-    "../base/.github/workflows/-pre-commit.json5",
-    "../base/.github/workflows/pre-commit-autoupdate.json5",
     "../base/.github/workflows/update-copyright-years.json5",
     "../base/.github/workflows/update-gh-actions.json5",
     ".github/workflows/pre-commit-autoupdate.json5",
