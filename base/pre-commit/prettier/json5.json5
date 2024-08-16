@@ -5,7 +5,7 @@
       files: [".pre-commit-config.yaml"],
       JMESPathsMatch: [
         [
-          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].types_or, 'json5')",
+          "contains(repos[?repo=='https://github.com/rbubley/mirrors-prettier'] | [0].hooks[0].types_or, 'json5')",
           true,
         ],
       ],
