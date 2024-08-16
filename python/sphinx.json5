@@ -162,11 +162,11 @@
       JMESPathsMatch: [
         // Configure prettier to format CSS files
         [
-          "repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].id",
+          "repos[?repo=='https://github.com/rbubley/mirrors-prettier'] | [0].hooks[0].id",
           "prettier",
         ],
         [
-          "contains(repos[?repo=='https://github.com/pre-commit/mirrors-prettier'] | [0].hooks[0].types_or, 'css')",
+          "contains(repos[?repo=='https://github.com/rbubley/mirrors-prettier'] | [0].hooks[0].types_or, 'css')",
           true,
         ],
       ],

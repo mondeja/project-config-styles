@@ -4,7 +4,7 @@
       files: [".pre-commit-config.yaml"],
       hint: "The prettier hook must be placed first. Defined after linters, these raise positives solved by Prettier",
       JMESPathsMatch: [
-        ["repos[0].repo", "https://github.com/pre-commit/mirrors-prettier"],
+        ["repos[0].repo", "https://github.com/rbubley/mirrors-prettier"],
       ],
     },
     {
@@ -23,7 +23,7 @@
     {
       files: [".pre-commit-config.yaml"],
       preCommitHookExists: [
-        "https://github.com/pre-commit/mirrors-prettier",
+        "https://github.com/rbubley/mirrors-prettier",
         [
           {
             id: "prettier",
