@@ -3,13 +3,6 @@ repos:
     rev: v3.3.3
     hooks:
       - id: prettier
-        minimum_pre_commit_version: 2.9.0
-        types_or:
-          - json
-          - json5
-          - markdown
-          - toml
-          - yaml
         additional_dependencies:
           - prettier
           - prettier-plugin-toml
@@ -17,6 +10,13 @@ repos:
           - --cache
           - --cache-location=.prettier-cache
           - --ignore-path=.gitignore
+        minimum_pre_commit_version: 2.9.0
+        types_or:
+          - json
+          - json5
+          - markdown
+          - toml
+          - yaml
   - repo: meta
     hooks:
       - id: check-hooks-apply
@@ -36,12 +36,19 @@ repos:
         name: end-of-file-fixer
       - id: check-added-large-files
         name: check-added-large-files
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.29.1
+    hooks:
+      - id: check-github-workflows
+        name: check-github-workflows
+        args:
+          - --verbose
   - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
     rev: 2.7.3
     hooks:
-      - alias: ec
-        id: editorconfig-checker
+      - id: editorconfig-checker
         name: editorconfig-checker
+        alias: ec
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
     hooks:
@@ -49,9 +56,9 @@ repos:
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 3.0.0
     hooks:
-      - files: test
-        id: shellcheck
+      - id: shellcheck
         name: shellcheck
+        files: test
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.13.0
     hooks:

@@ -1,4 +1,5 @@
 {
+  extends: ["../../base/.github/workflows/pre-commit-autoupdate.json5"],
   rules: [
     {
       files: [".github/workflows/pre-commit-autoupdate.yml"],
