@@ -1,2 +1,3 @@
 .pre-commit-config-for-project-config.yaml
 venv*/
+.prettier-cache

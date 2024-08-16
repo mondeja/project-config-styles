@@ -1,4 +1,6 @@
 {
+  // extends from gitignore because `--cache` option needs a .gitignore file
+  extends: ["../gitignore/base.json5"],
   rules: [
     {
       files: [".pre-commit-config.yaml"],
@@ -22,6 +24,7 @@
     },
     {
       files: [".pre-commit-config.yaml"],
+      hint: "Prettier pre-commit hook is usually used along with types_or, which requires 2.9.0 as the minimum pre-commit version",
       preCommitHookExists: [
         "https://github.com/rbubley/mirrors-prettier",
         [
@@ -32,6 +35,24 @@
           },
         ],
       ],
+    },
+    {
+      files: [".pre-commit-config.yaml"],
+      hint: "Prettier pre-commit hook must be configured with cache for faster execution",
+      JMESPathsMatch: [
+        ["type(repos[0].hooks[0].args)", "array"],
+        ["contains(repos[0].hooks[0].args, '--cache')", true],
+        [
+          "contains(repos[0].hooks[0].args, '--cache-location=.prettier-cache')",
+          true,
+        ],
+        ["contains(repos[0].hooks[0].args, '--ignore-path=.gitignore')", true],
+      ],
+    },
+    {
+      files: [".gitignore"],
+      hint: "Prettier cache file must be ignored",
+      includeLines: [".prettier-cache"],
     },
   ],
 }
