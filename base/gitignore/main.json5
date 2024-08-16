@@ -1,9 +1,3 @@
 {
-  extends: ["editors.json5"],
-  rules: [
-    {
-      files: [".gitignore"],
-      hint: "A .gitignore file must exist in the root of the project",
-    },
-  ],
+  extends: ["base.json5", "editors.json5"],
 }
