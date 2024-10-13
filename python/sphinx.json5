@@ -80,6 +80,17 @@
       ],
     },
     {
+      /**
+       * Exclude `http://127.0.0.1:8089` to be raised by lychee as a dead link.
+       **/
+      files: ["lychee.toml"],
+      hint: "Add '^http://127\\.0\\.0\\.1:8089/$' to lychee exclusions as has been added to pyproject.toml",
+      JMESPathsMatch: [
+        ["type(exclude)", "array"],
+        ["contains(exclude, '^http://127\\.0\\.0\\.1:8089/$')", true],
+      ],
+    },
+    {
       files: ["pyproject.toml"],
       hint: "Add Sphinx documentation dependency to the docs environment pinning major version only",
       JMESPathsMatch: [
