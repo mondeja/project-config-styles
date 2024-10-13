@@ -9,8 +9,7 @@
 
 - `md2po2md.json5`: [md2po2md] configuration for [pre-commit]
   to convert Markdown to PO and back.
-- `markdown-link-check.json5`: [markdown-link-check] configuration
-  for [pre-commit] to check links in Markdown files.
+- `lychee.json5`: [lychee] configuration for [pre-commit] to check links.
 - `prettier.json5`: minimal [prettier] configuration for [pre-commit] to
   format files. You can add more files to check adding the styles
   `base/pre-commit/pretter/{format}.json5`, see the current
@@ -35,7 +34,7 @@
 [mypy]: https://mypy.readthedocs.io/en/latest/
 [pre-commit]: https://pre-commit.com
 [md2po2md]: https://mondeja.github.io/mdpo/latest/pre-commit-hooks.html#md2po2md
-[markdown-link-check]: https://github.com/tcort/markdown-link-check
+[lychee]: https://github.com/lycheeverse/lychee
 [prettier]: https://prettier.io
 [hatch]: https://hatch.pypa.io/
 

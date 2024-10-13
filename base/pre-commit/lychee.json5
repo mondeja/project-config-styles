@@ -1,0 +1,13 @@
+{
+  rules: [
+    {
+      // Use lychee to check links
+      // https://github.com/lycheeverse/lychee
+      files: [".pre-commit-config.yaml"],
+      preCommitHookExists: [
+        "https://github.com/mondeja/rust-pc-hooks",
+        "lychee",
+      ],
+    },
+  ],
+}

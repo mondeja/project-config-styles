@@ -1,0 +1,6 @@
+exclude = [
+    '^http://127\.0\.0\.1:808[89]/$',
+    '^https://(github)|(pypi)|(img)/$',
+    '^https://img\.shields\.io/github/actions/workflow/status/\[a-zA-Z0-9-\]\+/$',
+    '^https://img\.shields\.io/codecov/c/github/\[a-zA-Z0-9-\]\+/$'
+]

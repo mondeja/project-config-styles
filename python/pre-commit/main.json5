@@ -5,7 +5,7 @@
     "../../base/pre-commit/markdownlint.json5",
     "../../base/pre-commit/editorconfig.json5",
     "../../base/pre-commit/yamllint.json5",
-    "../../base/pre-commit/markdown-link-check.json5",
+    "../../base/pre-commit/lychee.json5",
     "../../base/pre-commit/check-jsonschema/check-github-workflows.json5",
     "../../base/pre-commit/check-jsonschema/check-github-actions.json5",
     "prettier.json5",
