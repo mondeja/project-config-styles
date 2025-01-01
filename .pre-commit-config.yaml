@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.3.3
+    rev: v3.4.2
     hooks:
       - id: prettier
         additional_dependencies:
@@ -24,7 +24,7 @@ repos:
       - id: check-useless-excludes
         name: check-useless-excludes
   - repo: https://github.com/mondeja/project-config
-    rev: v0.9.5
+    rev: v0.9.7
     hooks:
       - id: project-config
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -37,7 +37,7 @@ repos:
       - id: check-added-large-files
         name: check-added-large-files
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.29.4
+    rev: 0.30.0
     hooks:
       - id: check-github-workflows
         name: check-github-workflows
@@ -60,7 +60,7 @@ repos:
         name: shellcheck
         files: test
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.14.0
+    rev: v0.17.1
     hooks:
       - id: markdownlint-cli2
   - repo: https://github.com/mondeja/rust-pc-hooks
