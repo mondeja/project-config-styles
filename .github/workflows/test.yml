@@ -22,9 +22,26 @@ jobs:
       - uses: actions/setup-python@v5
         name: Set up Python
         with:
-          python-version: 3.x
+          python-version: "3.12"
       - run: pip install pre-commit pyyaml
       - name: Run tests
         run: ./_scripts/test "$BRANCH"
         env:
           BRANCH: ${{ github.event.inputs.branch }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lychee:
+    name: Check URLs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+      - name: Run Lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --cache --max-cache-age 1d .
