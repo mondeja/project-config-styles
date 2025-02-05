@@ -48,7 +48,6 @@
         ['length(keys(jobs."pre-commit".steps[2]))', 1],
         ['jobs."pre-commit".steps[2].run', "pip install pre-commit"],
         //     [3]
-        ['length(keys(jobs."pre-commit".steps[3]))', 1],
         ['jobs."pre-commit".steps[3].run', "pre-commit run -a"],
       ],
     },
