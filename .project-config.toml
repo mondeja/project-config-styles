@@ -10,7 +10,6 @@ style = [
   "base/pre-commit/prettier/yaml.json5",
   "base/pre-commit/prettier/markdown.json5",
   "base/pre-commit/markdownlint.json5",
-  "base/pre-commit/lychee.json5",
   "base/pre-commit/yamllint.json5",
   "base/pre-commit/check-jsonschema/check-github-workflows.json5",
   "base/pre-commit/check-jsonschema/check-github-actions.json5",
