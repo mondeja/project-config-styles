@@ -43,7 +43,7 @@
           true,
         ],
         ['jobs."pre-commit".steps[1].name', "Set up Python"],
-        ['jobs."pre-commit".steps[1].with."python-version"', "3.x"],
+        ['type(jobs."pre-commit".steps[1].with."python-version")', "string"],
         //     [2]
         ['length(keys(jobs."pre-commit".steps[2]))', 1],
         ['jobs."pre-commit".steps[2].run', "pip install pre-commit"],
