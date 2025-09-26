@@ -193,20 +193,6 @@
       preCommitHookExists: ["https://github.com/psf/black", "black"],
     },
     {
-      // if pyproject.toml is specifying single quotes for ruff,
-      // the formatting must be autopep8
-      files: [".pre-commit-config.yaml"],
-      ifJMESPathsMatch: {
-        "pyproject.toml": [
-          ['tool.ruff."flake8-quotes"."inline-quotes"', "single"],
-        ],
-      },
-      preCommitHookExists: [
-        "https://github.com/pre-commit/mirrors-autopep8",
-        "autopep8",
-      ],
-    },
-    {
       files: ["pyproject.toml"],
       hint: "As mypy is not configured, remove 'from __future__ import annotations' from tool.ruff.lint.isort.\"required-imports\"",
       ifJMESPathsMatch: {

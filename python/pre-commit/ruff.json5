@@ -2,10 +2,23 @@
   rules: [
     {
       files: [".pre-commit-config.yaml"],
-      hint: "Python projects must use ruff via pre-commit",
+      hint: "Python projects must use Ruff formatting via pre-commit",
       preCommitHookExists: [
         "https://github.com/astral-sh/ruff-pre-commit",
-        "ruff",
+        "ruff-format",
+      ],
+    },
+    {
+      files: [".pre-commit-config.yaml"],
+      hint: "Python projects must use Ruff linting via pre-commit",
+      preCommitHookExists: [
+        "https://github.com/astral-sh/ruff-pre-commit",
+        [
+          {
+            id: "ruff-check",
+            args: ["--fix"],
+          },
+        ],
       ],
     },
   ],
